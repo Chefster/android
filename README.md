@@ -13,7 +13,7 @@ The following **required** functionality is completed:
 * [ ] User can select a category and **view list of meals**.
   * [ ] User can add any meal to the **todays Menu**
 * [ ] User can navigate to a page where user have to input number of persons and number of pans.
-* [ ] User can start cooking and will be navigated **user can view the progress** of cooking.
+* [ ] When user starts cooking, user can **view the progress** of cooking(may be graphical representation).
   * [ ] App will alarm the user on every step of the recipe. 
   * [ ] User can stop the alarm, switch to the next step by **voice recognition**
 * [ ] Improve the user interface and theme of the app.
