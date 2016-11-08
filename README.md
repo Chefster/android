@@ -5,7 +5,11 @@
 ## User Stories
 
 The following **required** functionality is completed:
-
+* [ ] user can **Log in Sign Up**
+  * [ ] user can Sign Up with his Facebook Account or Google or via mail.
+  * [ ] user can log in to his existing account.
+* [ ] User can view the meals categories from their home timeline
+  * [ ] User should be displayed the username, and user profile image.
 * [ ] User can **switch between Meals categories and Favorites using tabs**
   * [ ] User can view meals categories.
   * [ ] User can view favorite list of meals.
