@@ -1,4 +1,4 @@
-package com.example.yoavgray.chefster;
+package com.codepath.chefster;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
