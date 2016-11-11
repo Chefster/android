@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "265724200627",
+    "firebase_url": "https://chefster-92229.firebaseio.com",
+    "project_id": "chefster-92229",
+    "storage_bucket": "chefster-92229.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265724200627:android:a944db2babf748e1",
+        "android_client_info": {
+          "package_name": "com.codepath.chefster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265724200627-9p9lv213sarm8j0nqc4lo90if8af25uf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codepath.chefster",
+            "certificate_hash": "79C8D4AB12E9A90E6BC5CF1D41BFB117476CE3F8"
+          }
+        },
+        {
+          "client_id": "265724200627-n8b6duii1at2gipef6db4mba5l74afqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQciQyQtE1RqwWiWCUzhCqmRWh6bIJcNY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265724200627-n8b6duii1at2gipef6db4mba5l74afqr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
