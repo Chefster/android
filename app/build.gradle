@@ -9,6 +9,8 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.neenbedankt.android-apt'
+
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -44,4 +46,21 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    apt 'org.parceler:parceler:1.1.6'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:percent:25.0.0'
+    compile 'com.github.bumptech.glide:glide:3.5.2'
+    compile 'com.android.support:support-v4:25.0.0'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'org.parceler:parceler-api:1.1.6'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.android.support:customtabs:25.0.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'com.github.danylovolokh:list-visibility-utils:0.2.0'
+    compile 'com.github.danylovolokh:video-player-manager:0.2.0'
 }
