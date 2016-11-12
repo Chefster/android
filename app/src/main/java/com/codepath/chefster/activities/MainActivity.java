@@ -1,14 +1,21 @@
-package com.codepath.chefster;
+package com.codepath.chefster.activities;
 
-import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.codepath.chefster.Recipes;
 import com.codepath.chefster.models.Recipe;
+import com.codepath.chefster.R;
+import com.codepath.chefster.adapters.ViewPagerAdapter;
+import com.codepath.chefster.fragments.FavoritesFragment;
+import com.codepath.chefster.fragments.MainFragment;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,8 +26,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
+        MainFragment.OnMainFragmentInteractionListener, FavoritesFragment.OnFavoritesInteractionListener {
     private static final String ANONYMOUS = "anonymousUser";
+
+    @BindView(R.id.main_viewpager) ViewPager viewPager;
+    @BindView(R.id.main_tab_layout) TabLayout tabLayout;
+    
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -32,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
@@ -40,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         handleUserLogIn();
 
         loadRecipesFromJson();
-
+        setViewPager();
     }
 
     private void loadRecipesFromJson() {
@@ -50,6 +66,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setViewPager() {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(MainFragment.newInstance("", ""), "Categories");
+        adapter.addFragment(FavoritesFragment.newInstance("", ""), "Favorites");
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void handleUserLogIn() {
@@ -93,6 +117,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onFavoritesFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onMainFragmentInteraction(Uri uri) {
 
     }
 }
