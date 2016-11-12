@@ -11,6 +11,7 @@ import org.parceler.Parcel;
 public class Step {
     private int order;
     private String description;
+    private int durationTime;
     @Nullable private String imageUrl;
 
     public int getOrder() {
@@ -26,7 +27,7 @@ public class Step {
         return imageUrl;
     }
 
-    public void setImageUrl(@Nullable String imageUrl) {
-        this.imageUrl = imageUrl;
+    public int getDurationTime() {
+        return durationTime;
     }
 }

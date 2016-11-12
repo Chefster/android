@@ -10,8 +10,8 @@ public class Ingredient {
     private String name;
     private String type;
     private String description;
-    private double amount;
-    private double price;
+    private Double amount;
+    private Double price;
     private String amountType;
     private String thumbnail;
 

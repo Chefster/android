@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.codepath.chefster.Recipes;
 import com.codepath.chefster.R;
+import com.codepath.chefster.Recipes;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
 import com.codepath.chefster.fragments.FavoritesFragment;
 import com.codepath.chefster.fragments.MainFragment;
@@ -22,7 +22,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,14 +35,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @BindView(R.id.main_viewpager) ViewPager viewPager;
     @BindView(R.id.main_tab_layout) TabLayout tabLayout;
-    
+
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private String mUsername;
     private String mPhotoUrl;
     private GoogleApiClient mGoogleApiClient;
-    private ArrayList<Dish> recipes;
+    private ArrayList<Dish> dishes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +56,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .build();
         handleUserLogIn();
 
-//        loadRecipesFromJson();
+        loadRecipesFromJson();
         setViewPager();
     }
 
-//    private void loadRecipesFromJson() {
-//        try {
-//            InputStream inputStream = this.getAssets().open("recipes.json");
-//            recipes = Recipes.fromInputStream(inputStream);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void loadRecipesFromJson() {
+        try {
+            InputStream inputStream = this.getAssets().open("recipes.json");
+            dishes = Recipes.fromInputStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void setViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
