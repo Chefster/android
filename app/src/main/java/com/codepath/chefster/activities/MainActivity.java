@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private String mUsername;
     private String mPhotoUrl;
     private GoogleApiClient mGoogleApiClient;
+    private ArrayList<Recipe> recipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private void loadRecipesFromJson() {
         try {
             InputStream inputStream = this.getAssets().open("recipes.json");
-            ArrayList<Recipe> recipes = Recipes.fromInputStream(inputStream);
+            recipes = Recipes.fromInputStream(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
