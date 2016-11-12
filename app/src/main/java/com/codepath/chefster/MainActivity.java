@@ -8,11 +8,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.codepath.chefster.models.Recipe;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private static final String ANONYMOUS = "anonymousUser";
@@ -33,6 +38,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
         handleUserLogIn();
+
+        loadRecipesFromJson();
+
+    }
+
+    private void loadRecipesFromJson() {
+        try {
+            InputStream inputStream = this.getAssets().open("recipes.json");
+            ArrayList<Recipe> recipes = Recipes.fromInputStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleUserLogIn() {
