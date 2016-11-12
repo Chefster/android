@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
+import com.codepath.chefster.models.Recipe;
+
+import java.util.List;
 
 /**
  * Created by PRAGYA on 11/12/2016.
@@ -15,9 +19,11 @@ import com.codepath.chefster.R;
 public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHolder>{
 
     private Context context;
+    private List<Recipe> recipeList;
 
-    public FavoritesListAdapter(Context context) {
+    public FavoritesListAdapter(Context context, List<Recipe> recipes) {
         this.context = context;
+        this.recipeList = recipes;
     }
 
     public Context getContext() {
@@ -37,12 +43,21 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
 
     @Override
     public void onBindViewHolder(FavoritesViewHolder holder, int position) {
-
-        holder.tvMealTitle.setText("");
+        Recipe recipe = recipeList.get(position);
+        holder.tvMealTitle.setText(recipe.getTitle());
+        holder.tvMealSummary.setText(recipe.getDescription());
+        holder.tvCookingTime.setText(String.valueOf(recipe.getTotalDurationTime()) + " mins");
+        holder.tvMealRating.setText(String.valueOf(recipe.getRating()));
+        if (recipe.getThumbnails() != null && !recipe.getThumbnails().isEmpty()) {
+            Glide.with(context).load(recipe.getThumbnails().get(0)).into(holder.ivMealImage);
+        }
     }
 
     @Override
     public int getItemCount() {
+        if (recipeList != null && !recipeList.isEmpty()) {
+            return recipeList.size();
+        }
         return 0;
     }
 }

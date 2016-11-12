@@ -7,24 +7,24 @@ import android.widget.TextView;
 
 import com.codepath.chefster.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by PRAGYA on 11/12/2016.
  */
 
 public class FavoritesViewHolder extends RecyclerView.ViewHolder{
 
-    public TextView tvMealTitle;
-    public TextView tvMealSummary;
-    public ImageView ivMealImage;
-    public TextView tvCookingTime;
-    public TextView tvMealRating;
+    @BindView(R.id.tvTitle) TextView tvMealTitle;
+    @BindView(R.id.tvSummary) TextView tvMealSummary;
+    @BindView(R.id.tvCookingTime) TextView tvCookingTime;
+    @BindView(R.id.tvMealRating) TextView tvMealRating;
+    @BindView(R.id.ivMealImage) ImageView ivMealImage;
 
     public FavoritesViewHolder(View itemView) {
         super(itemView);
-        tvMealTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-        tvMealSummary = (TextView) itemView.findViewById(R.id.tvSummary);
-        tvCookingTime = (TextView) itemView.findViewById(R.id.tvCookingTime);
-        tvMealRating = (TextView) itemView.findViewById(R.id.tvMealRating);
-        ivMealImage = (ImageView) itemView.findViewById(R.id.ivMealImage);
+
+        ButterKnife.bind(this, itemView);
     }
 }
