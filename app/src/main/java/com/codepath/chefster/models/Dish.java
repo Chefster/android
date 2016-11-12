@@ -9,34 +9,21 @@ import java.util.List;
  */
 @Parcel
 public class Dish {
-    private int id;
+    private Integer uid;
+    private Integer serving; // amount of people.
+    private Integer calories; //  calories
+    private Long timeInMillis;
     private List<Step> steps;
     private List<Ingredient> ingredients;
     private List<Review> reviews;
-    private long timeInMillis;
-    private String imageUrl;
+    private List<Tool> tools;  // pan, pot ...
+    private List<String> thumbnails;
+    private String title; // Meatloaf
+    private String description; // This meatloaf is extremely juicy
+    private String category;  // Israeli, Indian, Italian ...
+    private String subCategory; // breakfast, lunch, dinner
+    private String videoUrl;
+    private Double rating; // 5 stars
 
-    public int getId() {
-        return id;
-    }
 
-    public List<Step> getSteps() {
-        return steps;
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public long getTimeInMillis() {
-        return timeInMillis;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
 }

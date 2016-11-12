@@ -9,8 +9,14 @@ import org.parceler.Parcel;
 public class Ingredient {
     private String name;
     private String type;
+    private String description;
     private double amount;
     private double price;
+    private String amountType;
+    private String thumbnail;
+
+    public Ingredient() {
+    }
 
     public String getName() {
         return name;
@@ -20,6 +26,10 @@ public class Ingredient {
         return type;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public double getAmount() {
         return amount;
     }
@@ -27,4 +37,13 @@ public class Ingredient {
     public double getPrice() {
         return price;
     }
+
+    public String getAmountType() {
+        return amountType;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
 }
+
