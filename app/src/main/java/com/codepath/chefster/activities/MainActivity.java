@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.codepath.chefster.Recipes;
+import com.codepath.chefster.models.Recipe;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
 import com.codepath.chefster.fragments.FavoritesFragment;
@@ -19,6 +21,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private String mUsername;
     private String mPhotoUrl;
     private GoogleApiClient mGoogleApiClient;
+    private ArrayList<Recipe> recipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +55,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
         handleUserLogIn();
+
+        loadRecipesFromJson();
         setViewPager();
+    }
+
+    private void loadRecipesFromJson() {
+        try {
+            InputStream inputStream = this.getAssets().open("recipes.json");
+            recipes = Recipes.fromInputStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setViewPager() {
