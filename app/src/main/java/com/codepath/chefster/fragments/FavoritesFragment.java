@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.codepath.chefster.R;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.adapters.FavoritesListAdapter;
-import com.codepath.chefster.models.Recipe;
+import com.codepath.chefster.models.Dish;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class FavoritesFragment extends BaseFragment {
 
-    private List<Recipe> recipeList;
+    private List<Dish> recipeList;
 
     private FavoritesListAdapter adapter;
     @BindView(R.id.rvFavorites) RecyclerView rvFavorites;

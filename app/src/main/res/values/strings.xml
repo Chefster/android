@@ -3,4 +3,8 @@
     <string name="settings">settings</string>
     <string name="sign_out">Sign Out</string>
     <string name="sign_in">Login</string>
+    <string name="client_id">265724200627-n8b6duii1at2gipef6db4mba5l74afqr.apps.googleusercontent.com</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="auth_failed">Authenticaiton Failed</string>
 </resources>

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
-import com.codepath.chefster.models.Recipe;
+import com.codepath.chefster.models.Dish;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ import java.util.List;
 public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHolder>{
 
     private Context context;
-    private List<Recipe> recipeList;
+    private List<Dish> dishesList;
 
-    public FavoritesListAdapter(Context context, List<Recipe> recipes) {
+    public FavoritesListAdapter(Context context, List<Dish> recipes) {
         this.context = context;
-        this.recipeList = recipes;
+        this.dishesList = recipes;
     }
 
     public Context getContext() {
@@ -43,20 +43,20 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
 
     @Override
     public void onBindViewHolder(FavoritesViewHolder holder, int position) {
-        Recipe recipe = recipeList.get(position);
-        holder.tvMealTitle.setText(recipe.getTitle());
-        holder.tvMealSummary.setText(recipe.getDescription());
-        holder.tvCookingTime.setText(String.valueOf(recipe.getTotalDurationTime()) + " mins");
-        holder.tvMealRating.setText(String.valueOf(recipe.getRating()));
-        if (recipe.getThumbnails() != null && !recipe.getThumbnails().isEmpty()) {
-            Glide.with(context).load(recipe.getThumbnails().get(0)).into(holder.ivMealImage);
+        Dish dish = dishesList.get(position);
+        holder.tvMealTitle.setText(dish.getTitle());
+        holder.tvMealSummary.setText(dish.getDescription());
+        holder.tvCookingTime.setText("Est." + String.valueOf(dish.getPrep_time() + dish.getCooking_time()) + " mins");
+        holder.tvMealRating.setText(String.valueOf(dish.getRating()));
+        if (dish.getThumbnails() != null && !dish.getThumbnails().isEmpty()) {
+            Glide.with(context).load(dish.getThumbnails().get(0)).into(holder.ivMealImage);
         }
     }
 
     @Override
     public int getItemCount() {
-        if (recipeList != null && !recipeList.isEmpty()) {
-            return recipeList.size();
+        if (dishesList != null && !dishesList.isEmpty()) {
+            return dishesList.size();
         }
         return 0;
     }
