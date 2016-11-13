@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivItem"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center_vertical"
+        android:src="@android:drawable/picture_frame"
+        />
+
+    <TextView
+        android:id="@+id/tvItemTitle"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:textColor="@android:color/black"
+        android:textAlignment="textStart"
+        android:gravity="start|center_vertical"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:alpha="0.5"
+        android:layout_marginRight="16dp"
+        android:layout_toRightOf="@+id/ivItem"
+        />
+
+    <com.dd.CircularProgressButton
+        android:id="@+id/circularButton1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/white"
+        android:background="@color/colorAccent"
+        android:layout_toRightOf="@+id/tvItemTitle"
+        android:textSize="16sp"
+        app:cpb_cornerRadius="48dp"
+        app:cpb_textComplete="Done"
+        app:cpb_textError="NotDone"
+        app:cpb_textIdle="Start" />
+
+</RelativeLayout>
