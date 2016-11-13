@@ -3,11 +3,19 @@ package com.codepath.chefster.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.chefster.R;
+import com.codepath.chefster.adapters.CategoryAdapter;
+import com.codepath.chefster.utils.SpacesItemDecoration;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class MainFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -52,11 +60,32 @@ public class MainFragment extends BaseFragment {
         }
     }
 
+    @BindView(R.id.rvCategoryGrid)
+    RecyclerView rvCategories;
+    private CategoryAdapter categoryAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        final View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        ButterKnife.bind(this, view);
+        initializeRecyclerView();
+        return view;
+    }
+
+    private void initializeRecyclerView(){
+        StaggeredGridLayoutManager manager  = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
+        rvCategories.setLayoutManager(manager);
+        rvCategories.setItemAnimator(new SlideInUpAnimator());
+        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
+        rvCategories.addItemDecoration(decoration);
+        categoryAdapter = new CategoryAdapter(getActivity());
+        rvCategories.setAdapter(categoryAdapter);
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
