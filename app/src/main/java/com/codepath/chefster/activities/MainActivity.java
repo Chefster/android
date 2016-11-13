@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this *//* FragmentActivity *//*, this /* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
-        handleUserLogIn();*/
+                */
+        handleUserLogIn();
 
         loadRecipesFromJson();
         setViewPager();
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         switch (item.getItemId()) {
             case R.id.sign_out:
                 firebaseAuth.signOut();
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 mUsername = ANONYMOUS;
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
