@@ -103,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mUsername = ANONYMOUS;
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
+            case R.id.action_progress:
+                startActivity(new Intent(this,ProgressActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
