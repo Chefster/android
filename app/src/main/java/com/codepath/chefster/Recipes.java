@@ -8,10 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-/**
- * Created by Hezi Eliyahu on 11/11/2016.
- */
-
 public class Recipes {
 
     public static ArrayList<Dish> fromInputStream(InputStream inputStream) {
