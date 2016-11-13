@@ -12,11 +12,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -24,6 +20,11 @@
             android:value="da9751a3b965b8ddd38cc3e6889cb13866c0e421"/>
 
         <activity android:name=".activities.CookingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

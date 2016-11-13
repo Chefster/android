@@ -159,6 +159,49 @@
         "review": "The beautiful red color of this dish makes this a perfect Christmas appetizer. The relish, almost like candy, is paired well with the cream cheese. I used my stick blender to puree the relish and had no problems with it being runny. I made the recipe as written and enjoyed the hot bite. This sauce would also make a very good sweet and sour pork or shrimp dish.",
         "stars": 5
       }],
+    "steps": [
+      {
+        "description": "Do something with order 0",
+        "durationTime": 5,
+        "order": 0,
+        "prerequisite": -1,
+        "type": "Prep"
+      },
+      {
+        "description": "Do something in parallel (0)",
+        "durationTime": 7,
+        "order": 1,
+        "prerequisite": -1,
+        "type": "Prep"
+      },
+      {
+        "description": "Now do something that had a prerequisite (2)",
+        "durationTime": 5,
+        "order": 2,
+        "prerequisite": 1,
+        "type": "Cook"
+      },
+      {
+        "description": "Do something that depends on the last thing that happened (3)",
+        "durationTime": 10,
+        "order": 3,
+        "prerequisite": 2,
+        "type": "Cook"
+      },
+      {
+        "description": "Do something that depends on the last thing that happened (3)",
+        "durationTime": 3,
+        "order": 4,
+        "prerequisite": 2,
+        "type": "Cook"
+      },
+      {
+        "description": "Do last thing (5)",
+        "durationTime": 3,
+        "order": 5,
+        "prerequisite": 4,
+        "type": "Cook"
+      }],
     "serving": 24,
     "thumbnails": ["http://images.media-allrecipes.com/userphotos/250x250/86389.jpg",
       "http://images.media-allrecipes.com/userphotos/250x250/566280.jpg"],
@@ -245,10 +288,6 @@
         "name": "Egg",
         "thumbnail": ""
       }],
-    "steps": [
-      {
-
-      }],
     "calories": 330,
     "category": "Israeli",
     "description": "A delightful Israeli breakfast that would open your day in the perfect way!",
@@ -278,30 +317,35 @@
         "description": "Dice onion, tomatos and garlic",
         "durationTime": 5,
         "order": 0,
+        "prerequisite": -1,
         "type": "Prep"
       },
       {
         "description": "Heat 2 tbsp of Olive oil in a saucepan on a medium flame, and throw the diced tomato in",
         "durationTime": 4,
         "order": 1,
+        "prerequisite": 0,
         "type": "Cook"
       },
       {
         "description": "Add the diced onion and minced garlic and cook until golden",
         "durationTime": 5,
         "order": 2,
+        "prerequisite": 1,
         "type": "Cook"
       },
       {
         "description": "Add 1 tbsp of tomato paste, paprika, cumin, salt & pepper and play with quantities until it tastes just like you like!",
         "durationTime": 4,
         "order": 3,
+        "prerequisite": 2,
         "type": "Cook"
       },
       {
         "description": "Change the flame to low, add 1/4 cup of water and start breaking eggs individually in different separate parts of the pan. When you're done, close the lid and cook for 5 more minutes",
         "durationTime": 7,
         "order": 4,
+        "prerequisite": 3,
         "type": "Cook"
       }],
     "serving": 2,

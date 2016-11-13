@@ -20,6 +20,7 @@
         />
     
     <View
+        android:id="@+id/view_lists_separator"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@android:color/black"

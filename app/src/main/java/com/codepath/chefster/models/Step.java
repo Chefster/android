@@ -9,9 +9,10 @@ import org.parceler.Parcel;
  */
 @Parcel
 public class Step {
-    private int order;
     private String description;
-    private int durationTime;
+    private Integer order;
+    private Integer durationTime;
+    private Integer prerequisite;
     @Nullable private String imageUrl;
 
     public int getOrder() {
@@ -29,5 +30,13 @@ public class Step {
 
     public int getDurationTime() {
         return durationTime;
+    }
+
+    public Integer getPrerequisite() {
+        return prerequisite;
+    }
+
+    public boolean hasPreRequisite() {
+        return prerequisite != -1;
     }
 }

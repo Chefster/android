@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="4dp"
+    >
+
+    <TextView
+        android:id="@+id/text_view_step_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/button_play_done"
+        tools:text="Dice onions and tomatos. Then do blah blah and blah blah, and don't forget to blah blah"
+        />
+
+    <Button
+        android:id="@+id/button_play_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        tools:text="Start"
+        />
+
+    <TextView
+        android:id="@+id/text_view_time_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_step_description"
+        android:layout_marginTop="4dp"
+        tools:text="4m32s"
+        />
+
+</RelativeLayout>
