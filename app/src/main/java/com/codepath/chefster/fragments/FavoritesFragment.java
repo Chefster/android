@@ -3,21 +3,30 @@ package com.codepath.chefster.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.chefster.R;
+import com.codepath.chefster.Recipes;
+import com.codepath.chefster.adapters.FavoritesListAdapter;
+import com.codepath.chefster.models.Recipe;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class FavoritesFragment extends BaseFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private List<Recipe> recipeList;
+
+    private FavoritesListAdapter adapter;
+    @BindView(R.id.rvFavorites) RecyclerView rvFavorites;
 
     private OnFavoritesInteractionListener mListener;
 
@@ -37,8 +46,6 @@ public class FavoritesFragment extends BaseFragment {
     public static FavoritesFragment newInstance(String param1, String param2) {
         FavoritesFragment fragment = new FavoritesFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,8 +54,7 @@ public class FavoritesFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -56,9 +62,22 @@ public class FavoritesFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
+        final View view = inflater.inflate(R.layout.fragment_favorites, container, false);
+
+        ButterKnife.bind(this, view);
+
+        getFavoriteRecipesList();
+        initializeRecyclerView();
+        return view;
     }
 
+    private void initializeRecyclerView(){
+        LinearLayoutManager manager  = new LinearLayoutManager(getActivity());
+
+        rvFavorites.setLayoutManager(manager);
+        adapter = new FavoritesListAdapter(getActivity(), recipeList);
+        rvFavorites.setAdapter(adapter);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -96,5 +115,15 @@ public class FavoritesFragment extends BaseFragment {
     public interface OnFavoritesInteractionListener {
         // TODO: Update argument type and name
         void onFavoritesFragmentInteraction(Uri uri);
+    }
+
+    //This method will take the lst from database and return favorite list
+    private void getFavoriteRecipesList() {
+        try {
+            InputStream inputStream = getActivity().getAssets().open("recipes.json");
+            recipeList = Recipes.fromInputStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
