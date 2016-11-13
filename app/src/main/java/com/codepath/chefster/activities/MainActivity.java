@@ -1,5 +1,6 @@
 package com.codepath.chefster.activities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -103,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 //                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
 //                mUsername = ANONYMOUS;
 //                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            case R.id.action_progress:
+                startActivity(new Intent(this,ProgressActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
