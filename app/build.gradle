@@ -45,6 +45,7 @@ dependencies {
         transitive = true;
     }
     compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.3'
     compile 'com.android.support:customtabs:25.0.0'
     compile 'com.android.support:percent:25.0.0'
     compile 'com.android.support:support-v4:25.0.0'
