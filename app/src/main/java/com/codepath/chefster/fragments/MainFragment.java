@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.CategoryAdapter;
+import com.codepath.chefster.models.Categories;
 import com.codepath.chefster.utils.SpacesItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +32,7 @@ public class MainFragment extends BaseFragment {
     private String mParam2;
 
     private OnMainFragmentInteractionListener mListener;
+    private List<Categories> categoriesList;
 
     public MainFragment() {
         // Required empty public constructor
@@ -125,5 +130,24 @@ public class MainFragment extends BaseFragment {
     public interface OnMainFragmentInteractionListener {
         // TODO: Update argument type and name
         void onMainFragmentInteraction(Uri uri);
+    }
+
+    //Will give the list of categories.
+    //for now its hard coded, later can get from database
+    private void getCategoryList(){
+        try {
+            categoriesList = new ArrayList<>();
+            categoriesList.add(new Categories("Mexican",""));
+            categoriesList.add(new Categories("Italian",""));
+            categoriesList.add(new Categories("Vietnamese",""));
+            categoriesList.add(new Categories("Chinese",""));
+            categoriesList.add(new Categories("Israeli",""));
+            categoriesList.add(new Categories("Thai",""));
+            categoriesList.add(new Categories("Spanish",""));
+            categoriesList.add(new Categories("French",""));
+            categoriesList.add(new Categories("Japanese",""));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
