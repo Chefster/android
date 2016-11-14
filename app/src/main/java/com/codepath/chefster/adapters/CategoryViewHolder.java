@@ -2,10 +2,10 @@ package com.codepath.chefster.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.chefster.R;
-import com.codepath.chefster.utils.DynamicHeightImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 public class CategoryViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.ivCategoryImage)
-    DynamicHeightImageView ivCategory;
+    ImageView ivCategory;
     @BindView(R.id.tvCategoryName) TextView tvCategoryName;
 
     public CategoryViewHolder(View itemView) {

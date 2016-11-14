@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class FavoritesFragment extends BaseFragment {
 
-    private List<Dish> recipeList;
+    private List<Dish> dishList;
 
     private FavoritesListAdapter adapter;
     @BindView(R.id.rvFavorites) RecyclerView rvFavorites;
@@ -75,7 +75,7 @@ public class FavoritesFragment extends BaseFragment {
         LinearLayoutManager manager  = new LinearLayoutManager(getActivity());
 
         rvFavorites.setLayoutManager(manager);
-        adapter = new FavoritesListAdapter(getActivity(), recipeList);
+        adapter = new FavoritesListAdapter(getActivity(), dishList);
         rvFavorites.setAdapter(adapter);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -121,7 +121,7 @@ public class FavoritesFragment extends BaseFragment {
     private void getFavoriteRecipesList() {
         try {
             InputStream inputStream = getActivity().getAssets().open("recipes.json");
-            recipeList = Recipes.fromInputStream(inputStream);
+            dishList = Recipes.fromInputStream(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }

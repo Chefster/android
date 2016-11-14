@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
+import com.codepath.chefster.models.Categories;
+
+import java.util.List;
 
 /**
  * Created by PRAGYA on 11/12/2016.
@@ -16,9 +19,11 @@ import com.codepath.chefster.R;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
     private Context context;
+    private List<Categories> categoriesList;
 
-    public CategoryAdapter(Context context) {
+    public CategoryAdapter(Context context, List<Categories> categories) {
         this.context = context;
+        this.categoriesList = categories;
     }
 
     public Context getContext() {
@@ -40,13 +45,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         //for now hardcoding as we dont have any data model for category
-        
-        Glide.with(context).load("http://images.media-allrecipes.com/userphotos/720x405/233383.jpg").into(holder.ivCategory);
-        holder.tvCategoryName.setText("Indian");
+        Categories categories = categoriesList.get(position);
+
+        Glide.with(context).load(categories.getCategoryImage()).into(holder.ivCategory);
+        holder.tvCategoryName.setText(categories.getCategoryName());
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return categoriesList.size();
     }
 }
