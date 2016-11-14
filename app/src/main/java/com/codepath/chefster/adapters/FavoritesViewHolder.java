@@ -10,10 +10,6 @@ import com.codepath.chefster.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by PRAGYA on 11/12/2016.
- */
-
 public class FavoritesViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.tvTitle) TextView tvMealTitle;

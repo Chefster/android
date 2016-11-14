@@ -12,11 +12,7 @@ import com.codepath.chefster.models.Dish;
 
 import java.util.List;
 
-/**
- * Created by PRAGYA on 11/12/2016.
- */
-
-public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHolder>{
+public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHolder> {
 
     private Context context;
     private List<Dish> dishesList;
