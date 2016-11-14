@@ -29,7 +29,7 @@ public class ProgressActivity extends AppCompatActivity {
     }
 
 
-    protected void setupRecycler(){
+    protected void setupRecycler() {
         ProgressAdapter adapter = new ProgressAdapter();
         rvProgressActivity.setAdapter(adapter);
 
