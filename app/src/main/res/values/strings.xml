@@ -7,4 +7,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="auth_failed">Authenticaiton Failed</string>
+    <string name="well_done">Well Done!</string>
+    <string name="share_meal">Share your meal with other cooking lovers!</string>
+    <string name="share">Share</string>
 </resources>
