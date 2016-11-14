@@ -14,17 +14,17 @@ The following **required** functionality is completed:
   * [ ] User can add any meal to the **todays Menu**
 * [ ] User can navigate to a page where user have to input number of people cooking and amount of tools available.
 * [ ] When user starts cooking, user can **view the progress** of cooking(may be graphical representation).
-* [x] Improve the user interface and theme of the app.
+* [x] When done, user can post the photos of the creation, post comments.
 
 The following **optional** features are implemented:
 
 * [ ] User can create an account to save the previous cooked dishes.
-* [ ] When done, user can post the photos of the creation, post comments.
 * [ ] User can see the videos of the meals.
 * [ ] User can follow either the videos of the recipe for cooking, or step-by-step instructions. 
 * [ ] user can Sign Up with his Facebook Account or Google or via mail.
 * [ ] User should be displayed the username, and user profile image.
 * [ ] User can search for a meal.
+* [] Improve the user interface and theme of the app.
 * [ ] App will alarm the user on every step of the recipe. 
 * [ ] User can stop the alarm, switch to the next step by **voice recognition**
 
