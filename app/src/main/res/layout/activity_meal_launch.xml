@@ -1,15 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_meal_launch"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.codepath.chefster.activities.MealLaunchActivity"
-    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_chosen_dishes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                >
+
+                <TextView
+                    android:id="@+id/text_view_choose_tools_label"
+                    style="@style/launch_meal_textview_title"
+                    android:text="@string/choose_tools"
+                    />
+
+                <Spinner
+                    android:id="@+id/pans_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/text_view_choose_tools_label"
+                    android:layout_marginEnd="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_pans_label"
+                    android:layout_toEndOf="@id/pans_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_below="@id/text_view_choose_tools_label"
+                    android:text="@string/pans"
+                    />
+
+                <Spinner
+                    android:id="@+id/pots_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/text_view_pans_label"
+                    android:layout_below="@id/text_view_choose_tools_label"
+                    android:layout_marginEnd="4dp"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_pots_label"
+                    android:layout_toEndOf="@id/pots_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_view_choose_tools_label"
+                    android:text="@string/pots"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_oven"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pans_spinner"
+                    android:text="@string/oven"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_how_many_people_label"
+                    style="@style/launch_meal_textview_title"
+                    android:text="@string/how_many_people"
+                    android:layout_below="@id/checkbox_oven"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="4dp"
+                    android:padding="8dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@android:color/white"
+                    android:gravity="center_vertical"
+                    android:text="@string/one"
+                    android:layout_below="@id/text_view_how_many_people_label"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_persons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_persons"
+                    android:drawablePadding="4dp"
+                    android:padding="8dp"
+                    android:background="@android:color/white"
+                    android:gravity="center_vertical"
+                    android:text="@string/two"
+                    android:layout_toEndOf="@id/text_view_person"
+                    android:layout_below="@id/text_view_how_many_people_label"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_regular_time_calc_label"
+                    style="@style/launch_meal_textview_title"
+                    android:text="@string/regular_time_calc"
+                    android:layout_marginTop="12dp"
+                    android:layout_below="@id/text_view_person"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_regular_time_calc"
+                    style="@style/launch_meal_textview_content"
+                    android:text="2h35m"
+                    android:layout_below="@id/text_view_regular_time_calc_label"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_app_time_calc_label"
+                    style="@style/launch_meal_textview_title"
+                    android:text="@string/app_time_calc"
+                    android:layout_marginTop="12dp"
+                    android:layout_below="@id/text_view_regular_time_calc"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_app_time_calc"
+                    style="@style/launch_meal_textview_content"
+                    android:text="1h35m"
+                    android:layout_marginBottom="4dp"
+                    android:layout_below="@id/text_view_app_time_calc_label"
+                    />
+
+            </RelativeLayout>
+
+            <!-- Bottom padding to leave room for the sticky contact banner -->
+            <View
+                android:id="@+id/vdp_bottom_padding"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sticky_button_height"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/vdp_check_availability_button"
+        android:layout_alignParentBottom="true"
+        android:text="@string/start_cooking"
+        android:textColor="@android:color/white"
+        style="@style/start_cooking_sticky_button"
+        />
 
 </RelativeLayout>

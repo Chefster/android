@@ -8,4 +8,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="start_cooking_sticky_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/sticky_button_height</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="launch_meal_textview_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <style name="launch_meal_textview_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
 </resources>

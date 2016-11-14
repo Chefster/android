@@ -10,4 +10,22 @@
     <string name="well_done">Well Done!</string>
     <string name="share_meal">Share your meal with other cooking lovers!</string>
     <string name="share">Share</string>
+    <string name="pots">Pots</string>
+    <string name="pans">Pans</string>
+    <string name="stove">Stove</string>
+    <string name="oven">Oven</string>
+    <string name="start_cooking">Start Cooking!</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="how_many_people">How many people are cooking?</string>
+    <string name="regular_time_calc">Estimated time without Chefster</string>
+    <string name="app_time_calc">Estimated time with Chefster</string>
+    <string name="choose_tools">Choose available tools for best time optimization!</string>
+
+    <string-array name="amount_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>
