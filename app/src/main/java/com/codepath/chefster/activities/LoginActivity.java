@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
 
     @BindView(R.id.edit_text_email_input) EditText emailInputEditText;

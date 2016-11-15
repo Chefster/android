@@ -1,10 +1,12 @@
 package com.codepath.chefster.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,19 +19,25 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class MealLaunchActivity extends AppCompatActivity {
+public class MealLaunchActivity extends BaseActivity {
     @BindView(R.id.recycler_view_chosen_dishes) RecyclerView dishesRecyclerView;
     @BindView(R.id.pans_spinner) Spinner pansSpinner;
     @BindView(R.id.pots_spinner) Spinner potsSpinner;
     @BindView(R.id.checkbox_oven) CheckBox ovenCheckbox;
-    @BindView(R.id.text_view_person) TextView onepersonTextView;
+    @BindView(R.id.text_view_person) TextView onePersonTextView;
     @BindView(R.id.text_view_persons) TextView morePeopleTextView;
+
+    @BindColor(android.R.color.black) int chosenColor;
+    @BindColor(android.R.color.white) int unchosenColor;
 
     List<Dish> chosenDishes;
     FavoritesListAdapter dishesAdapter;
+    int numberOfPeople = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +49,9 @@ public class MealLaunchActivity extends AppCompatActivity {
         dishesAdapter = new FavoritesListAdapter(this, chosenDishes);
         dishesRecyclerView.setAdapter(dishesAdapter);
         // Setup layout manager for items with orientation
-        // Also supports `LinearLayoutManager.HORIZONTAL`
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         // Attach layout manager to the RecyclerView
         dishesRecyclerView.setLayoutManager(layoutManager);
-//        Meal chosenMeal = Parcels.unwrap(getIntent().getParcelableExtra("meal"));
-//        chosenDishes = chosenMeal.getDishes();
-
-//        try {
-//            InputStream inputStream = getAssets().open("recipes.json");
-//            chosenDishes.addAll(Recipes.fromInputStream(inputStream));
-//            dishesAdapter.notifyDataSetChanged();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -66,5 +63,33 @@ public class MealLaunchActivity extends AppCompatActivity {
         pansSpinner.setSelection(0);
         potsSpinner.setAdapter(adapter);
         potsSpinner.setSelection(0);
+
+        onePersonTextView.setBackgroundColor(chosenColor);
+        onePersonTextView.setTextColor(unchosenColor);
+    }
+
+    @OnClick(R.id.text_view_person)
+    public void chooseOnePerson() {
+        onePersonTextView.setBackgroundColor(chosenColor);
+        onePersonTextView.setTextColor(unchosenColor);
+        morePeopleTextView.setBackgroundColor(unchosenColor);
+        morePeopleTextView.setTextColor(chosenColor);
+        numberOfPeople = 1;
+    }
+
+    @OnClick(R.id.text_view_persons)
+    public void chooseMorePeople() {
+        onePersonTextView.setBackgroundColor(unchosenColor);
+        onePersonTextView.setTextColor(chosenColor);
+        morePeopleTextView.setBackgroundColor(chosenColor);
+        morePeopleTextView.setTextColor(unchosenColor);
+        numberOfPeople = 2;
+    }
+
+    @OnClick(R.id.button_start_cooking)
+    public void startCooking() {
+        Intent intent = new Intent(this, ProgressActivity.class);
+        intent.putExtra("selected_dishes", Parcels.wrap(chosenDishes));
+        startActivity(intent);
     }
 }

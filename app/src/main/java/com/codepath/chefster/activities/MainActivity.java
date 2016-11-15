@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
+public class MainActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener,
         MainFragment.OnMainFragmentInteractionListener, FavoritesFragment.OnFavoritesInteractionListener {
     private static final String ANONYMOUS = "anonymousUser";
 
@@ -61,11 +61,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         loadRecipesFromJson();
         setViewPager();
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void loadRecipesFromJson() {
@@ -110,9 +105,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mUsername = ANONYMOUS;
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
-            case R.id.action_progress:
-                startActivity(new Intent(this,ProgressActivity.class));
-                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

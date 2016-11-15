@@ -14,7 +14,7 @@
     <string name="pans">Pans</string>
     <string name="stove">Stove</string>
     <string name="oven">Oven</string>
-    <string name="start_cooking">Start Cooking!</string>
+    <string name="lets_go">Lets Go. I\'m Ready!</string>
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="how_many_people">How many people are cooking?</string>
@@ -31,4 +31,5 @@
     <string name="title_activity_dish_list">DishListActivity</string>
     <string name="finished_steps">Finished Steps</string>
     <string name="steps_to_do">Steps To Do</string>
+    <string name="finish_cooking">Finish Cooking!</string>
 </resources>

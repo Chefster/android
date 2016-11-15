@@ -1,39 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_progress"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/chefster_background"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.codepath.chefster.activities.ProgressActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/activity_progress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
-        style="@style/launch_meal_textview_title"
-        android:text="@string/finished_steps"
-        android:gravity="center_vertical"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_done"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/chefster_background"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/sticky_button_height"
+        tools:context="com.codepath.chefster.activities.ProgressActivity">
+
+        <TextView
+            android:id="@+id/text_view_done_steps_label"
+            style="@style/launch_meal_textview_title"
+            android:textSize="30sp"
+            android:text="@string/finished_steps"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            style="@style/launch_meal_textview_title"
+            android:textSize="30sp"
+            android:text="@string/steps_to_do"
+            android:gravity="center_vertical"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_active"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_finish_cooking"
+        android:layout_alignParentBottom="true"
+        android:text="@string/finish_cooking"
+        android:textColor="@android:color/white"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        style="@style/start_cooking_sticky_button"
         />
 
-    <TextView
-        style="@style/launch_meal_textview_title"
-        android:text="@string/steps_to_do"
-        android:gravity="center_vertical"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_active"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-</LinearLayout>
+</RelativeLayout>
