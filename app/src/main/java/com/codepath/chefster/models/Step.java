@@ -11,7 +11,10 @@ import org.parceler.Parcel;
 public class Step {
     private int order;
     private String description;
+    private String dishName;
+    private String type;
     private int durationTime;
+    private int preRequisite;
     @Nullable private String imageUrl;
 
     public int getOrder() {
@@ -29,5 +32,17 @@ public class Step {
 
     public int getDurationTime() {
         return durationTime;
+    }
+
+    public String getDishName() {
+        return dishName;
+    }
+
+    public int getPreRequisite() {
+        return preRequisite;
+    }
+
+    public String getType() {
+        return type;
     }
 }

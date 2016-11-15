@@ -1,9 +1,11 @@
-package com.codepath.chefster;
+package com.codepath.chefster.viewholders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import com.codepath.chefster.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
