@@ -10,15 +10,18 @@ import java.util.List;
  */
 @Parcel
 public class Meal {
-    private int id;
+    private Long id;
     private String name;
-    private long cookingTimeInMillis;
-    private double rating;
+    private Long cookingTimeInMillis;
+    private Double rating;
     private List<User> users;
     private List<Dish> dishes;
     private List<Review> reviews;
 
-    public int getId() {
+    public Meal() {
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -26,7 +29,7 @@ public class Meal {
         return name;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 
@@ -42,7 +45,7 @@ public class Meal {
         return reviews;
     }
 
-    public long getCookingTimeInMillis() {
+    public Long getCookingTimeInMillis() {
         return cookingTimeInMillis;
     }
 }

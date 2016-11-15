@@ -12,8 +12,11 @@ public class Review {
     private User user;
     private String description;
     private Date date;
-    private long cookingTimeInMillis;
-    private double rating;
+    private Long cookingTimeInMillis;
+    private Double rating;
+
+    public Review() {
+    }
 
     public User getUser() {
         return user;
@@ -27,11 +30,11 @@ public class Review {
         return date;
     }
 
-    public long getCookingTimeInMillis() {
+    public Long getCookingTimeInMillis() {
         return cookingTimeInMillis;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 }

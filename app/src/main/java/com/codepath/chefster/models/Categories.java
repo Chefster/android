@@ -14,6 +14,9 @@ public class Categories {
         this.categoryImage = categoryImage;
     }
 
+    public Categories() {
+    }
+
     public String getCategoryName() {
         return categoryName;
     }
