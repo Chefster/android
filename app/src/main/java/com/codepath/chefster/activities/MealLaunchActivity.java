@@ -1,8 +1,7 @@
 package com.codepath.chefster.activities;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
@@ -11,21 +10,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.codepath.chefster.R;
-import com.codepath.chefster.Recipes;
 import com.codepath.chefster.adapters.FavoritesListAdapter;
 import com.codepath.chefster.models.Dish;
-import com.codepath.chefster.models.Meal;
 
 import org.parceler.Parcels;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MealLaunchActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view_chosen_dishes) RecyclerView dishesRecyclerView;
@@ -34,7 +27,6 @@ public class MealLaunchActivity extends AppCompatActivity {
     @BindView(R.id.checkbox_oven) CheckBox ovenCheckbox;
     @BindView(R.id.text_view_person) TextView onepersonTextView;
     @BindView(R.id.text_view_persons) TextView morePeopleTextView;
-
 
     List<Dish> chosenDishes;
     FavoritesListAdapter dishesAdapter;
@@ -45,7 +37,7 @@ public class MealLaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meal_launch);
         ButterKnife.bind(this);
 
-        chosenDishes = new ArrayList<>();
+        chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra("selected_dishes"));
         dishesAdapter = new FavoritesListAdapter(this, chosenDishes);
         dishesRecyclerView.setAdapter(dishesAdapter);
         // Setup layout manager for items with orientation
@@ -56,13 +48,13 @@ public class MealLaunchActivity extends AppCompatActivity {
 //        Meal chosenMeal = Parcels.unwrap(getIntent().getParcelableExtra("meal"));
 //        chosenDishes = chosenMeal.getDishes();
 
-        try {
-            InputStream inputStream = getAssets().open("recipes.json");
-            chosenDishes.addAll(Recipes.fromInputStream(inputStream));
-            dishesAdapter.notifyDataSetChanged();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            InputStream inputStream = getAssets().open("recipes.json");
+//            chosenDishes.addAll(Recipes.fromInputStream(inputStream));
+//            dishesAdapter.notifyDataSetChanged();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -75,5 +67,4 @@ public class MealLaunchActivity extends AppCompatActivity {
         potsSpinner.setAdapter(adapter);
         potsSpinner.setSelection(0);
     }
-
 }
