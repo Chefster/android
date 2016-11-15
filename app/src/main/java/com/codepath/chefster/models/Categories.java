@@ -7,11 +7,11 @@ package com.codepath.chefster.models;
 public class Categories {
 
     private String categoryName;
-    private String categoryUrl;
+    private int categoryImage;
 
-    public Categories(String categoryName, String categoryUrl) {
+    public Categories(String categoryName, int categoryImage) {
         this.categoryName = categoryName;
-        this.categoryUrl = categoryUrl;
+        this.categoryImage = categoryImage;
     }
 
     public String getCategoryName() {
@@ -22,11 +22,11 @@ public class Categories {
         this.categoryName = categoryName;
     }
 
-    public String getCategoryUrl() {
-        return categoryUrl;
+    public int getCategoryImage() {
+        return categoryImage;
     }
 
-    public void setCategoryUrl(String categoryUrl) {
-        this.categoryUrl = categoryUrl;
+    public void setCategoryImage(int categoryImage) {
+        this.categoryImage = categoryImage;
     }
 }
