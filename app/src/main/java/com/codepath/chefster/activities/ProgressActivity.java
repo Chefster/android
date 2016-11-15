@@ -43,11 +43,13 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
         List<Dish> chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra("selected_dishes"));
         hashSetStepIndexList = new ArrayList<>(chosenDishes.size());
         for (int i = 0; i < chosenDishes.size(); i++) {
-            for (Step step : chosenDishes.get(i).getSteps()) {
-                if (step.getPreRequisite() == -1) {
-                    doneSteps.add(step);
-                } else {
-                    activeSteps.add(step);
+            if ( chosenDishes.get(i).getSteps() != null ) {
+                for (Step step : chosenDishes.get(i).getSteps()) {
+                    if (step.getPreRequisite() == -1) {
+                        doneSteps.add(step);
+                    } else {
+                        activeSteps.add(step);
+                    }
                 }
             }
         }
