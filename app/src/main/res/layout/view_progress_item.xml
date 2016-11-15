@@ -1,46 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/transparent_background_black_border"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="4dp"
+    android:layout_marginBottom="2dp"
+    >
 
-    <ImageView
-        android:id="@+id/ivItem"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <TextView
+        android:id="@+id/text_view_step_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_alignParentLeft="true"
-        android:layout_gravity="center_vertical"
-        android:src="@android:drawable/picture_frame"
+        android:padding="4dp"
+        android:background="@android:color/black"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:layout_centerVertical="true"
+        tools:text="PREP"
         />
 
     <TextView
-        android:id="@+id/tvItemTitle"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:id="@+id/text_view_dish_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textAlignment="textStart"
-        android:gravity="start|center_vertical"
-        android:layout_gravity="center_horizontal|center_vertical"
+        android:textStyle="bold"
+        android:textSize="22sp"
         android:alpha="0.5"
-        android:layout_marginRight="16dp"
-        android:layout_toRightOf="@+id/ivItem"
+        android:layout_toEndOf="@id/text_view_step_type"
+        tools:text="Shakshuka"
+        />
+
+    <TextView
+        android:id="@+id/text_view_step_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textStyle="italic"
+        android:textSize="18sp"
+        android:alpha="0.5"
+        android:layout_toEndOf="@id/text_view_step_type"
+        android:layout_below="@id/text_view_dish_title"
+        android:layout_toStartOf="@+id/circular_progress_button"
+        tools:text="Dice the tomatoes and add it to the pan together with the diced onions and garlic"
         />
 
     <com.dd.CircularProgressButton
-        android:id="@+id/circularButton1"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentRight="true"
+        android:id="@+id/circular_progress_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
         android:textColor="@android:color/white"
         android:background="@color/colorAccent"
-        android:layout_toRightOf="@+id/tvItemTitle"
-        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:padding="4dp"
+        android:textSize="18sp"
         app:cpb_cornerRadius="48dp"
         app:cpb_textComplete="Done"
-        app:cpb_textError="NotDone"
-        app:cpb_textIdle="Start" />
+        app:cpb_textError="NotDone"/>
 
 </RelativeLayout>

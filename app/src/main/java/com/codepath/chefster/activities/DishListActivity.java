@@ -11,7 +11,7 @@ import com.codepath.chefster.fragments.FavoritesFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DishListActivity extends AppCompatActivity implements FavoritesFragment.OnFavoritesInteractionListener {
+public class DishListActivity extends BaseActivity implements FavoritesFragment.OnFavoritesInteractionListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 

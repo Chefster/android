@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.viewholders.FavoritesViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

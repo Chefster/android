@@ -147,20 +147,32 @@
 
             </RelativeLayout>
 
-            <!-- Bottom padding to leave room for the sticky contact banner -->
+            <!-- Bottom padding to leave room for the sticky Button -->
             <View
-                android:id="@+id/vdp_bottom_padding"
+                android:id="@+id/meal_launch_bottom_padding"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sticky_button_height"
                 />
         </LinearLayout>
     </ScrollView>
 
+    <ProgressBar
+        android:id="@+id/progressBarFullScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="outsideOverlay"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
     <Button
-        android:id="@+id/vdp_check_availability_button"
+        android:id="@+id/button_start_cooking"
         android:layout_alignParentBottom="true"
-        android:text="@string/start_cooking"
+        android:text="@string/lets_go"
         android:textColor="@android:color/white"
+        android:textSize="28sp"
+        android:textStyle="bold"
         style="@style/start_cooking_sticky_button"
         />
 

@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/ivMealImage"
-            android:textSize="20sp"
+            android:textSize="22sp"
             tools:text="Pasta with white sauce" />
 
         <!--<com.codepath.chefster.utils.CircleAnimatedCheckBox-->
@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitle"
             android:layout_toRightOf="@id/ivMealImage"
+            android:textSize="20sp"
             android:ellipsize="end"
             android:maxLines="2"
             tools:text="Pasta, Milk, Floor, Bell Peppers, Butter, Cheese, Salt, Garlic, " />
@@ -67,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18sp"
                 android:gravity="center_horizontal"
                 tools:text="15:00" />
 
@@ -75,6 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18sp"
                 android:gravity="center_horizontal"
                 tools:text="4.5" />
         </LinearLayout>

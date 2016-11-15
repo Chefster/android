@@ -10,10 +10,10 @@ The following **required** functionality is completed:
 * [x] User can **switch between Meals categories and Favorites using tabs**
   * [x] User can view meals categories.
   * [x] User can view favorite list of meals.
-* [ ] User can select a category and **view list of meals**.
-  * [ ] User can add any meal to the **todays Menu**
+* [x] User can select a category and **view list of meals**.
+  * [x] User can add any meal to the **todays Menu**
 * [x] User can navigate to a page where user have to input number of people cooking and amount of tools available.
-* [ ] When user starts cooking, user can **view the progress** of cooking(may be graphical representation).
+* [x] When user starts cooking, user can **view the progress** of cooking(may be graphical representation).
 * [x] When done, user can post the photos of the creation, post comments.
 
 The following **optional** features are implemented:

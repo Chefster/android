@@ -1,5 +1,6 @@
 package com.codepath.chefster.models;
 
+import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 
 import org.parceler.Parcel;
@@ -9,12 +10,18 @@ import org.parceler.Parcel;
  */
 @Parcel
 public class Step {
-    private int order;
+    private Integer order;
     private String description;
-    private int durationTime;
+    private String dishName;
+    private String type;
+    private int preRequisite;
+    private Integer durationTime;
     @Nullable private String imageUrl;
 
-    public int getOrder() {
+    public Step() {
+    }
+
+    public Integer getOrder() {
         return order;
     }
 
@@ -27,7 +34,19 @@ public class Step {
         return imageUrl;
     }
 
-    public int getDurationTime() {
+    public Integer getDurationTime() {
         return durationTime;
+    }
+
+    public String getDishName() {
+        return dishName;
+    }
+
+    public int getPreRequisite() {
+        return preRequisite;
+    }
+
+    public String getType() {
+        return type;
     }
 }

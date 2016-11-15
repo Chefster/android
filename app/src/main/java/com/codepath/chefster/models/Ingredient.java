@@ -30,11 +30,11 @@ public class Ingredient {
         return description;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 

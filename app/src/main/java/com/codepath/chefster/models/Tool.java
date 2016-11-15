@@ -14,7 +14,7 @@ public class Tool {
         return name;
     }
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 }

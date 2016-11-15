@@ -9,12 +9,9 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
 import com.codepath.chefster.models.Categories;
+import com.codepath.chefster.viewholders.CategoryViewHolder;
 
 import java.util.List;
-
-/**
- * Created by PRAGYA on 11/12/2016.
- */
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 

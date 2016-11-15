@@ -1,4 +1,4 @@
-package com.codepath.chefster.adapters;
+package com.codepath.chefster.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,15 +10,10 @@ import com.codepath.chefster.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by PRAGYA on 11/12/2016.
- */
-
 public class CategoryViewHolder extends RecyclerView.ViewHolder{
 
-    @BindView(R.id.ivCategoryImage)
-    ImageView ivCategory;
-    @BindView(R.id.tvCategoryName) TextView tvCategoryName;
+    @BindView(R.id.ivCategoryImage) public ImageView ivCategory;
+    @BindView(R.id.tvCategoryName) public TextView tvCategoryName;
 
     public CategoryViewHolder(View itemView) {
         super(itemView);

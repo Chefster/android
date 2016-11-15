@@ -1,5 +1,7 @@
 package com.codepath.chefster.models;
 
+import android.util.Log;
+
 import org.parceler.Parcel;
 
 import java.util.List;
@@ -9,17 +11,20 @@ import java.util.List;
  */
 @Parcel
 public class User {
-    private int id;
+    private Long id;
     private String imageUrl;
     private String firstName;
     private String lastName;
     private List<Meal> pastMeals;
 
-    public int getId() {
+    public User() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -35,7 +40,7 @@ public class User {
         return pastMeals;
     }
 
-    public int getNumberOfMealsCooked() {
+    public Integer getNumberOfMealsCooked() {
         return pastMeals.size();
     }
 
