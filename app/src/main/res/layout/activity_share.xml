@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_share"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/black"
+    tools:context="com.codepath.chefster.activities.ShareActivity"
+    >
+
+    <TextView
+        android:id="@+id/text_view_share_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/well_done"
+        android:textSize="32sp"
+        android:textColor="@android:color/white"
+        />
+
+    <TextView
+        android:id="@+id/text_view_share_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_share_title"
+        android:text="@string/share_meal"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_meal_done_photos"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_below="@id/text_view_share_subtitle"
+        android:layout_marginTop="12dp"
+        />
+
+    <TextView
+        android:id="@+id/text_view_share_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/black_background_white_border"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/share"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        />
+</RelativeLayout>

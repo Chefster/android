@@ -10,16 +10,14 @@ import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
 import com.codepath.chefster.models.Dish;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by PRAGYA on 11/12/2016.
- */
-
-public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHolder>{
+public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHolder> {
 
     private Context context;
     private List<Dish> dishesList;
+    private List<Dish> selectedDishesList;
 
     public FavoritesListAdapter(Context context, List<Dish> recipes) {
         this.context = context;
@@ -42,8 +40,10 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
     }
 
     @Override
-    public void onBindViewHolder(FavoritesViewHolder holder, int position) {
-        Dish dish = dishesList.get(position);
+    public void onBindViewHolder(final FavoritesViewHolder holder, int position) {
+        final Dish dish = dishesList.get(position);
+
+        selectedDishesList = new ArrayList<>();
         holder.tvMealTitle.setText(dish.getTitle());
         holder.tvMealSummary.setText(dish.getDescription());
         holder.tvCookingTime.setText("Est." + String.valueOf(dish.getPrep_time() + dish.getCooking_time()) + " mins");
@@ -51,6 +51,18 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         if (dish.getThumbnails() != null && !dish.getThumbnails().isEmpty()) {
             Glide.with(context).load(dish.getThumbnails().get(0)).into(holder.ivMealImage);
         }
+
+
+        holder.cbSelectDish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.cbSelectDish.isChecked()){
+                    selectedDishesList.add(dish);
+                }else {
+                    selectedDishesList.remove(dish);
+                }
+            }
+        });
     }
 
     @Override
@@ -59,5 +71,9 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
             return dishesList.size();
         }
         return 0;
+    }
+
+    public List<Dish> getSelectedDishesList() {
+        return selectedDishesList;
     }
 }

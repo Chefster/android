@@ -1,5 +1,6 @@
 package com.codepath.chefster.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         MainFragment.OnMainFragmentInteractionListener, FavoritesFragment.OnFavoritesInteractionListener {
@@ -50,14 +52,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+ /*       mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this *//* FragmentActivity *//*, this /* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
+                */
         handleUserLogIn();
 
         loadRecipesFromJson();
         setViewPager();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void loadRecipesFromJson() {
@@ -98,9 +106,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         switch (item.getItemId()) {
             case R.id.sign_out:
                 firebaseAuth.signOut();
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 mUsername = ANONYMOUS;
                 startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            case R.id.action_progress:
+                startActivity(new Intent(this,ProgressActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

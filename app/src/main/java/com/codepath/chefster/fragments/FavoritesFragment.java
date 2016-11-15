@@ -1,6 +1,7 @@
 package com.codepath.chefster.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +12,11 @@ import android.view.ViewGroup;
 
 import com.codepath.chefster.R;
 import com.codepath.chefster.Recipes;
+import com.codepath.chefster.activities.MealLaunchActivity;
 import com.codepath.chefster.adapters.FavoritesListAdapter;
 import com.codepath.chefster.models.Dish;
+
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,13 +24,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class FavoritesFragment extends BaseFragment {
 
-    private List<Dish> recipeList;
+    private List<Dish> dishList;
 
     private FavoritesListAdapter adapter;
-    @BindView(R.id.rvFavorites) RecyclerView rvFavorites;
+    @BindView(R.id.rvFavorites)
+    RecyclerView rvFavorites;
 
     private OnFavoritesInteractionListener mListener;
 
@@ -71,18 +77,26 @@ public class FavoritesFragment extends BaseFragment {
         return view;
     }
 
-    private void initializeRecyclerView(){
-        LinearLayoutManager manager  = new LinearLayoutManager(getActivity());
+    private void initializeRecyclerView() {
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
 
         rvFavorites.setLayoutManager(manager);
-        adapter = new FavoritesListAdapter(getActivity(), recipeList);
+        adapter = new FavoritesListAdapter(getActivity(), dishList);
         rvFavorites.setAdapter(adapter);
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFavoritesFragmentInteraction(uri);
         }
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+        Intent intent = new Intent(getActivity(), MealLaunchActivity.class);
+        intent.putExtra("selected_dishes", Parcels.wrap(adapter.getSelectedDishesList()));
+        startActivity(intent);
     }
 
     @Override
@@ -121,7 +135,7 @@ public class FavoritesFragment extends BaseFragment {
     private void getFavoriteRecipesList() {
         try {
             InputStream inputStream = getActivity().getAssets().open("recipes.json");
-            recipeList = Recipes.fromInputStream(inputStream);
+            dishList = Recipes.fromInputStream(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
