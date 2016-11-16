@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keepnames class com.codepath.chefster.** { *; }
+-keep class com.codepath.chefster.models.** { *; }
+
+
+-dontobfuscate
