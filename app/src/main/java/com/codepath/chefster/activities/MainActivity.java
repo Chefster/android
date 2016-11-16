@@ -39,10 +39,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         MainFragment.OnMainFragmentInteractionListener, FavoritesFragment.OnFavoritesInteractionListener {
     private static final String ANONYMOUS = "anonymousUser";
 
-    @BindView(R.id.main_viewpager)
-    ViewPager viewPager;
-    @BindView(R.id.main_tab_layout)
-    TabLayout tabLayout;
+    @BindView(R.id.main_viewpager) ViewPager viewPager;
+    @BindView(R.id.main_tab_layout) TabLayout tabLayout;
 
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;

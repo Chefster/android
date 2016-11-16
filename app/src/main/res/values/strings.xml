@@ -29,7 +29,6 @@
         <item>4</item>
     </string-array>
     <string name="title_activity_dish_list">DishListActivity</string>
-    <string name="finished_steps">Finished Steps</string>
-    <string name="steps_to_do">Steps To Do</string>
+    <string name="finished_steps">Meals In Progress</string>
     <string name="finish_cooking">Finish Cooking!</string>
 </resources>

@@ -22,18 +22,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProgressActivity extends BaseActivity implements ProgressAdapter.onStepDoneListener {
-    @BindView(R.id.recycler_view_done)
-    RecyclerView doneStepsRecyclerView;
-    @BindView(R.id.recycler_view_active)
-    RecyclerView activeStepsRecyclerView;
-    @BindView(R.id.text_view_done_steps_label)
-    TextView doneStepsTextView;
+    @BindView(R.id.recycler_view_main) RecyclerView mainRecyclerView;
 
-    List<Step> doneSteps;
-    ProgressAdapter doneStepsAdapter;
-    List<Step> activeSteps;
-    ProgressAdapter activeStepsAdapter;
+    List<List<Step>> stepLists;
+    List<ProgressAdapter> adaptersList;
     List<HashSet<String>> hashSetStepIndexList;
+    List<Dish> chosenDishes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,45 +35,52 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
         setContentView(R.layout.activity_progress);
         ButterKnife.bind(this);
 
-        setupRecyclerViews();
-
-        List<Dish> chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra("selected_dishes"));
+        chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra("selected_dishes"));
         hashSetStepIndexList = new ArrayList<>(chosenDishes.size());
-        for (int i = 0; i < chosenDishes.size(); i++) {
-            if (chosenDishes.get(i).getSteps() != null) {
-                for (Step step : chosenDishes.get(i).getSteps()) {
-                    if (step.getPreRequisite() == -1) {
-                        doneSteps.add(step);
-                    } else {
-                        activeSteps.add(step);
-                    }
-                }
-            }
-        }
-        if (doneSteps.size() > 0) {
-            doneStepsTextView.setVisibility(View.VISIBLE);
-            doneStepsAdapter.notifyDataSetChanged();
-        }
-        activeStepsAdapter.notifyDataSetChanged();
+//        for (int i = 0; i < chosenDishes.size(); i++) {
+//            if (chosenDishes.get(i).getSteps() != null) {
+//                for (Step step : chosenDishes.get(i).getSteps()) {
+//                    if (step.getPreRequisite() == -1) {
+//                        doneSteps.add(step);
+//                    } else {
+//                        activeSteps.add(step);
+//                    }
+//                }
+//            }
+//        }
+//        if (doneSteps.size() > 0) {
+//            doneStepsTextView.setVisibility(View.VISIBLE);
+//        }
+
+        setupRecyclerViews();
     }
 
     protected void setupRecyclerViews() {
-        doneSteps = new ArrayList<>();
-        doneStepsAdapter = new ProgressAdapter(doneSteps, this, true);
-        doneStepsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
-        doneStepsRecyclerView.setAdapter(doneStepsAdapter);
+        stepLists = new ArrayList<>();
+        adaptersList = new ArrayList<>();
 
-        activeSteps = new ArrayList<>();
-        activeStepsAdapter = new ProgressAdapter(activeSteps, this, false);
-        activeStepsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
-        activeStepsRecyclerView.setAdapter(activeStepsAdapter);
+
+
+        for (int i = 0; i < chosenDishes.size(); i++) {
+            List<Step> currentList = chosenDishes.get(i).getSteps();
+            ProgressAdapter currentAdapter = new ProgressAdapter(currentList, this);
+            RecyclerView recyclerView = new RecyclerView(this);
+            // We want to have the recycler view with equal size for each row
+            recyclerView.setLayoutParams(
+                    new RecyclerView.LayoutParams(mainFrameLayout.getWidth(), mainFrameLayout.getHeight() / chosenDishes.size()));
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setAdapter(currentAdapter);
+            mainFrameLayout.addView(recyclerView);
+
+            stepLists.add(currentList);
+            adaptersList.add(currentAdapter);
+        }
     }
 
     @Override
     public void onStepDone(int position) {
-        Step newDoneStep = activeSteps.remove(position);
-        activeStepsAdapter.notifyItemRemoved(position);
-        doneSteps.add(0, newDoneStep);
-        doneStepsAdapter.notifyItemInserted(0);
+
     }
 }

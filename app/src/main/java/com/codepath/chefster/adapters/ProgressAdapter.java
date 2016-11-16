@@ -20,12 +20,15 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
 
     List<Step> steps;
     Context context;
-    boolean isDoneList;
+    int activeStep = 0;
 
-    public ProgressAdapter(List<Step> steps, Context context, boolean isDoneList) {
+    public ProgressAdapter(List<Step> steps, Context context) {
         this.steps = steps;
         this.context = context;
-        this.isDoneList = isDoneList;
+    }
+
+    public void setActiveStep(int activeStep) {
+        this.activeStep = activeStep;
     }
 
     @Override
@@ -36,41 +39,38 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ProgressItemViewHolder holder, final int position) {
+    public void onBindViewHolder(final ProgressItemViewHolder holder, int position) {
         final Step step = steps.get(position);
         holder.getStepDishTextView().setText(step.getDishName());
         holder.getStepDescriptionTextView().setText(step.getDescription());
         holder.getStepTypeTextView().setText(step.getType());
         String estTime = "Est.\n" + step.getDurationTime() + " mins";
-        if (isDoneList) {
-            holder.getCircularProgressButton().setVisibility(View.GONE);
-        } else {
-            holder.getCircularProgressButton().setText(estTime);
-            holder.getCircularProgressButton().setVisibility(View.VISIBLE);
-            // Get The Animator set his Values
-            final ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 100);
 
-            holder.getCircularProgressButton().setBackgroundColor(Color.DKGRAY);
-            holder.getCircularProgressButton().setStrokeColor(Color.RED);
-            holder.getCircularProgressButton().setIndeterminateProgressMode(true);
-            holder.getCircularProgressButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int buttonProgress = holder.getCircularProgressButton().getProgress();
-                    if (buttonProgress == 0) {
-                        simulateSuccessProgress(widthAnimation, holder.getCircularProgressButton(), step.getDurationTime());
-                    } else if (buttonProgress < 100) {
-                        if (widthAnimation.isRunning() && ! widthAnimation.isPaused())
-                            widthAnimation.pause();
-                        else if (widthAnimation.isPaused())
-                            widthAnimation.resume();
-                    }
-                    else {
-                        ((onStepDoneListener) context).onStepDone(position);
-                    }
+        holder.getCircularProgressButton().setText(estTime);
+        holder.getCircularProgressButton().setVisibility(View.VISIBLE);
+        // Get The Animator set his Values
+        final ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 100);
+
+        holder.getCircularProgressButton().setBackgroundColor(Color.DKGRAY);
+        holder.getCircularProgressButton().setStrokeColor(Color.RED);
+        holder.getCircularProgressButton().setIndeterminateProgressMode(true);
+        holder.getCircularProgressButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int buttonProgress = holder.getCircularProgressButton().getProgress();
+                if (buttonProgress == 0) {
+                    simulateSuccessProgress(widthAnimation, holder.getCircularProgressButton(), step.getDurationTime());
+                } else if (buttonProgress < 100) {
+                    if (widthAnimation.isRunning() && ! widthAnimation.isPaused())
+                        widthAnimation.pause();
+                    else if (widthAnimation.isPaused())
+                        widthAnimation.resume();
                 }
-            });
-        }
+                else {
+                    ((onStepDoneListener) context).onStepDone(holder.getAdapterPosition());
+                }
+            }
+        });
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
 //        if (isDoneList) {
 //            return steps.size() > 3 ? 3 : steps.size();
 //        }
-        return steps.size();
+        return steps == null ? 0 : steps.size();
     }
 
     private void simulateSuccessProgress(ValueAnimator widthAnimation, final CircularProgressButton button, int durationInMinutes) {
