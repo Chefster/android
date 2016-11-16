@@ -25,7 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ProgressActivity" />
+        <activity android:name=".activities.ProgressActivity"
+                  android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"
