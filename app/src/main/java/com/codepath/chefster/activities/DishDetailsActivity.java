@@ -32,6 +32,7 @@ public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.ivDishDetails)
     ImageView ivDishDetails;
 
+    final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
     final static private int SECOND = 1;
     private Dish dish;
@@ -43,7 +44,7 @@ public class DishDetailsActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        dish = Parcels.unwrap(getIntent().getParcelableExtra("selected_dish"));
+        dish = Parcels.unwrap(getIntent().getParcelableExtra(DISH_KEY));
 
         Glide.with(this).load(dish.getThumbnails().get(0)).into(ivDishDetails);
 

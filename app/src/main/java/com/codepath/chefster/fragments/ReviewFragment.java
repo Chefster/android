@@ -20,12 +20,14 @@ import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
- * Created by Hezi Eliyahu on 16/11/2016.
+ *  Review Fragment - for Displaying all the reviews of specific dish.
  */
 
 public class ReviewFragment extends BaseFragment {
     @BindView(R.id.rvReviews)
     RecyclerView rvReviews;
+
+    final static private String ARGUMENT = "reviews";
 
     private List<Review> reviewList;
     private ReviewAdapter adapter;
