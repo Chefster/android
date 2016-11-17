@@ -1,5 +1,6 @@
 package com.codepath.chefster.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +26,9 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
     List<List<Step>> stepLists;
     RecyclerViewAdapter mainAdapter;
     List<HashSet<String>> hashSetStepIndexList;
+    List<Integer> activeStepsList;
     List<Dish> chosenDishes;
+    int numberOfPeople, numberOfPans, numberOfPots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,10 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
         ButterKnife.bind(this);
 
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra("selected_dishes"));
+        Intent incomingIntent = getIntent();
+        numberOfPeople = incomingIntent.getIntExtra("number_of_people", 1);
+        numberOfPans = incomingIntent.getIntExtra("number_of_pans", 1);
+        numberOfPots = incomingIntent.getIntExtra("number_of_pots", 1);
         hashSetStepIndexList = new ArrayList<>(chosenDishes.size());
 //        for (int i = 0; i < chosenDishes.size(); i++) {
 //            if (chosenDishes.get(i).getSteps() != null) {

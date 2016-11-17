@@ -45,53 +45,11 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
         holder.getStepDescriptionTextView().setText(step.getDescription());
         holder.getStepTypeTextView().setText(step.getType());
         String estTime = "Est.\n" + step.getDurationTime() + " mins";
-
-        holder.getCircularProgressButton().setText(estTime);
-        holder.getCircularProgressButton().setVisibility(View.VISIBLE);
-        // Get The Animator set his Values
-        final ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 100);
-
-        holder.getCircularProgressButton().setBackgroundColor(Color.DKGRAY);
-        holder.getCircularProgressButton().setStrokeColor(Color.RED);
-        holder.getCircularProgressButton().setIndeterminateProgressMode(true);
-        holder.getCircularProgressButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int buttonProgress = holder.getCircularProgressButton().getProgress();
-                if (buttonProgress == 0) {
-                    simulateSuccessProgress(widthAnimation, holder.getCircularProgressButton(), step.getDurationTime());
-                } else if (buttonProgress < 100) {
-                    if (widthAnimation.isRunning() && ! widthAnimation.isPaused())
-                        widthAnimation.pause();
-                    else if (widthAnimation.isPaused())
-                        widthAnimation.resume();
-                }
-                else {
-                    ((onStepDoneListener) context).onStepDone(holder.getAdapterPosition());
-                }
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-//        if (isDoneList) {
-//            return steps.size() > 3 ? 3 : steps.size();
-//        }
         return steps == null ? 0 : steps.size();
-    }
-
-    private void simulateSuccessProgress(ValueAnimator widthAnimation, final CircularProgressButton button, int durationInMinutes) {
-        widthAnimation.setDuration(durationInMinutes * 60 * 1000);
-        widthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-        widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                button.setProgress(value);
-            }
-        });
-        widthAnimation.start();
     }
 
     public interface onStepDoneListener {
