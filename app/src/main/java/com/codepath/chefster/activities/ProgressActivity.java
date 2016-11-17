@@ -3,12 +3,10 @@ package com.codepath.chefster.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.ProgressAdapter;
+import com.codepath.chefster.adapters.RecyclerViewAdapter;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Step;
 
@@ -25,7 +23,7 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
     @BindView(R.id.recycler_view_main) RecyclerView mainRecyclerView;
 
     List<List<Step>> stepLists;
-    List<ProgressAdapter> adaptersList;
+    RecyclerViewAdapter mainAdapter;
     List<HashSet<String>> hashSetStepIndexList;
     List<Dish> chosenDishes;
 
@@ -57,26 +55,19 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
 
     protected void setupRecyclerViews() {
         stepLists = new ArrayList<>();
-        adaptersList = new ArrayList<>();
-
-
+        mainAdapter = new RecyclerViewAdapter(stepLists, this);
 
         for (int i = 0; i < chosenDishes.size(); i++) {
             List<Step> currentList = chosenDishes.get(i).getSteps();
-            ProgressAdapter currentAdapter = new ProgressAdapter(currentList, this);
-            RecyclerView recyclerView = new RecyclerView(this);
-            // We want to have the recycler view with equal size for each row
-            recyclerView.setLayoutParams(
-                    new RecyclerView.LayoutParams(mainFrameLayout.getWidth(), mainFrameLayout.getHeight() / chosenDishes.size()));
-            LinearLayoutManager llm = new LinearLayoutManager(this);
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            recyclerView.setAdapter(currentAdapter);
-            mainFrameLayout.addView(recyclerView);
-
             stepLists.add(currentList);
-            adaptersList.add(currentAdapter);
         }
+        mainAdapter.notifyDataSetChanged();
+//        final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, false);
+//        layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+
+        mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mainRecyclerView.setHasFixedSize(true);
+        mainRecyclerView.setAdapter(mainAdapter);
     }
 
     @Override

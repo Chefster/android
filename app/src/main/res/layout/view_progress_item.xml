@@ -5,10 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/transparent_background_black_border"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
     android:padding="4dp"
-    android:layout_marginBottom="2dp"
+    android:paddingBottom="16dp"
+    android:layout_marginBottom="8dp"
     >
 
     <TextView
@@ -31,8 +32,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        android:textSize="22sp"
-        android:alpha="0.5"
+        android:textSize="25sp"
         android:layout_toEndOf="@id/text_view_step_type"
         tools:text="Shakshuka"
         />

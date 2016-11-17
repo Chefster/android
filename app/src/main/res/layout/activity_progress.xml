@@ -15,7 +15,8 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/sticky_button_height"
+        android:layout_marginBottom="48dp"
+        android:gravity="center_horizontal"
         tools:context="com.codepath.chefster.activities.ProgressActivity">
 
         <TextView
@@ -23,14 +24,13 @@
             style="@style/launch_meal_textview_title"
             android:textSize="30sp"
             android:text="@string/finished_steps"
-            android:gravity="center_vertical"
-            android:visibility="gone"
+
             />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             />
 
     </LinearLayout>
