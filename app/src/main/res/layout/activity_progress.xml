@@ -28,9 +28,26 @@
             />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_main"
+            android:id="@+id/recycler_view_main_1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_main_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_main_3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"
             />
 
     </LinearLayout>

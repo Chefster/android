@@ -31,4 +31,6 @@
     <string name="title_activity_dish_list">DishListActivity</string>
     <string name="finished_steps">Meals In Progress</string>
     <string name="finish_cooking">Finish Cooking!</string>
+    <string name="show_details">Show Details</string>
+    <string name="hide_details">Hide Details</string>
 </resources>

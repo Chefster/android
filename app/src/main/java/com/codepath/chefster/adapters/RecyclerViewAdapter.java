@@ -22,11 +22,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHo
     List<List<Step>> stepsListList;
     Context context;
     List<Integer> activeStepsList;
+    boolean[] shouldExpand;
 
     public RecyclerViewAdapter(List<List<Step>> stepsListList, Context context) {
         this.stepsListList = stepsListList;
         this.context = context;
-
+        shouldExpand = new boolean[stepsListList.size()];
         activeStepsList = new ArrayList<>();
     }
 
@@ -34,8 +35,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHo
     public RecyclerViewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.layout_horizontal_recycler_view, parent, false);
+        RecyclerViewViewHolder holder = new RecyclerViewViewHolder(view);
 
-        int height = parent.getMeasuredHeight() / stepsListList.size();
+        int position = holder.getLayoutPosition();
+        int height = parent.getMeasuredHeight() / (shouldExpand[position] ? 1 : stepsListList.size());
         int width = parent.getMeasuredWidth();
         view.setLayoutParams(new RecyclerView.LayoutParams(width, height));
 
@@ -45,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHo
     @Override
     public void onBindViewHolder(RecyclerViewViewHolder holder, int position) {
         List<Step> steps = stepsListList.get(position);
-        ProgressAdapter adapter = new ProgressAdapter(steps, context);
+        ProgressAdapter adapter = new ProgressAdapter(steps, context, position);
 
         // vertical and cycle layout
         final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false);
@@ -65,5 +68,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHo
 
     public void setActiveStep(int list, int step) {
 
+    }
+
+    public void setShouldExpand(int indexToExpand, boolean shouldExpand) {
+        this.shouldExpand[indexToExpand] = shouldExpand;
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/white_translucent_background_black_border"
+    android:id="@+id/relative_layout_step_item"
+    android:background="@drawable/white_background_black_border"
     android:orientation="horizontal"
     android:layout_width="300dp"
     android:layout_height="match_parent"
@@ -47,6 +47,15 @@
         android:layout_toEndOf="@id/text_view_step_type"
         android:layout_below="@id/text_view_dish_title"
         tools:text="Dice the tomatoes and add it to the pan together with the diced onions and garlic"
+        />
+
+    <Button
+        android:id="@+id/button_step_details"
+        android:text="@string/show_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         />
 
 </RelativeLayout>

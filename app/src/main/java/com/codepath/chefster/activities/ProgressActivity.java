@@ -2,37 +2,40 @@ package com.codepath.chefster.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
+import com.azoft.carousellayoutmanager.CarouselLayoutManager;
+import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
+import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.ProgressAdapter;
 import com.codepath.chefster.adapters.RecyclerViewAdapter;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Step;
-import com.codepath.chefster.viewholders.RecyclerViewViewHolder;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProgressActivity extends BaseActivity implements ProgressAdapter.onStepDoneListener {
-    @BindView(R.id.recycler_view_main) RecyclerView mainRecyclerView;
+public class ProgressActivity extends BaseActivity implements ProgressAdapter.onStepInteractionListener {
+    @Nullable @BindViews({ R.id.recycler_view_main_1, R.id.recycler_view_main_2, R.id.recycler_view_main_3 })
+    List<RecyclerView> recyclerViewsList;
 
-    List<List<Step>> stepLists;
-    RecyclerViewAdapter mainAdapter;
+    ProgressAdapter[] adapter;
     List<HashSet<String>> hashSetStepIndexList;
     List<Integer> activeStepsList;
     List<Dish> chosenDishes;
+    HashMap<String, Integer> dishToIndexHashMap;
     int numberOfPeople, numberOfPans, numberOfPots;
 
     @Override
@@ -46,7 +49,9 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
         numberOfPeople = incomingIntent.getIntExtra("number_of_people", 1);
         numberOfPans = incomingIntent.getIntExtra("number_of_pans", 1);
         numberOfPots = incomingIntent.getIntExtra("number_of_pots", 1);
+        adapter = new ProgressAdapter[chosenDishes.size()];
         hashSetStepIndexList = new ArrayList<>(chosenDishes.size());
+        dishToIndexHashMap = new HashMap<>();
 //        for (int i = 0; i < chosenDishes.size(); i++) {
 //            if (chosenDishes.get(i).getSteps() != null) {
 //                for (Step step : chosenDishes.get(i).getSteps()) {
@@ -66,51 +71,78 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
     }
 
     protected void setupRecyclerViews() {
-        stepLists = new ArrayList<>();
-        mainAdapter = new RecyclerViewAdapter(stepLists, this);
-
         for (int i = 0; i < chosenDishes.size(); i++) {
             List<Step> currentList = chosenDishes.get(i).getSteps();
-            stepLists.add(currentList);
+            adapter[i] = new ProgressAdapter(currentList, this, i);
+            final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false);
+            layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+            recyclerViewsList.get(i).setAdapter(adapter[i]);
+            recyclerViewsList.get(i).setLayoutManager(layoutManager);
+            recyclerViewsList.get(i).setHasFixedSize(true);
+            recyclerViewsList.get(i).addOnScrollListener(new CenterScrollListener());
+            recyclerViewsList.get(i).setVisibility(View.VISIBLE);
         }
-        mainAdapter.notifyDataSetChanged();
-//        final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, false);
-//        layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
-
-        mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mainRecyclerView.setHasFixedSize(true);
-        mainRecyclerView.setAdapter(mainAdapter);
     }
 
     public void scrollToStep(int list, int step) {
-        mainRecyclerView.smoothScrollToPosition(list);
-        mainAdapter.setActiveStep(list, step);
+        recyclerViewsList.get(list).scrollToPosition(step);
+        adapter[list].setActiveStep(step);
     }
 
     @OnClick(R.id.text_view_meals_in_progress)
     public void startScrolling() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                    scrollToStep(0,4);
+        try {
+            Thread.sleep(1000);
+            scrollToStep(0,4);
+            Thread.sleep(1000);
+            scrollToStep(1,2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-                    Thread.sleep(1000);
-                    scrollToStep(1,2);
 
-                    Thread.sleep(2000);
-                    scrollToStep(2,1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.run();
+//
+//            Thread thread = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(1000);
+//
+//                        scrollToStep(0,4);
+//
+//                        Thread.sleep(1000);
+//                        scrollToStep(1,2);
+//
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//            thread.run();
     }
 
     @Override
-    public void onStepDone(int position) {
+    public void onStepDone(String dish, int step) {
 
+    }
+
+    @Override
+    public void onDetailsButtonClick(int index) {
+        boolean isExpanded = adapter[index].isExpanded();
+        expandIndex(index, !isExpanded);
+        adapter[index].setExpanded(!isExpanded);
+        adapter[index].notifyDataSetChanged();
+    }
+
+    public void expandIndex(int index, boolean expand) {
+        if (expand) {
+            for (int i = 0; i < chosenDishes.size(); i++) {
+                recyclerViewsList.get(i).setVisibility(i == index ? View.VISIBLE : View.GONE);
+            }
+        } else {
+            for (int i = 0; i < chosenDishes.size(); i++) {
+                recyclerViewsList.get(i).setVisibility(View.VISIBLE);
+            }
+        }
     }
 }
