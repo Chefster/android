@@ -22,9 +22,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProgressActivity extends BaseActivity implements ProgressAdapter.onStepDoneListener {
-    @BindView(R.id.recycler_view_done) RecyclerView doneStepsRecyclerView;
-    @BindView(R.id.recycler_view_active) RecyclerView activeStepsRecyclerView;
-    @BindView(R.id.text_view_done_steps_label) TextView doneStepsTextView;
+    @BindView(R.id.recycler_view_done)
+    RecyclerView doneStepsRecyclerView;
+    @BindView(R.id.recycler_view_active)
+    RecyclerView activeStepsRecyclerView;
+    @BindView(R.id.text_view_done_steps_label)
+    TextView doneStepsTextView;
 
     List<Step> doneSteps;
     ProgressAdapter doneStepsAdapter;
@@ -43,7 +46,7 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
         List<Dish> chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra("selected_dishes"));
         hashSetStepIndexList = new ArrayList<>(chosenDishes.size());
         for (int i = 0; i < chosenDishes.size(); i++) {
-          if ( chosenDishes.get(i).getSteps() != null ) {
+            if (chosenDishes.get(i).getSteps() != null) {
                 for (Step step : chosenDishes.get(i).getSteps()) {
                     if (step.getPreRequisite() == -1) {
                         doneSteps.add(step);
