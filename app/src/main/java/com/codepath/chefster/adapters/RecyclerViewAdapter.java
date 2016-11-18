@@ -11,17 +11,23 @@ import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.codepath.chefster.R;
 import com.codepath.chefster.models.Step;
+import com.codepath.chefster.viewholders.ProgressItemViewHolder;
 import com.codepath.chefster.viewholders.RecyclerViewViewHolder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHolder> {
     List<List<Step>> stepsListList;
     Context context;
+    List<Integer> activeStepsList;
 
     public RecyclerViewAdapter(List<List<Step>> stepsListList, Context context) {
         this.stepsListList = stepsListList;
         this.context = context;
+
+        activeStepsList = new ArrayList<>();
     }
 
     @Override
@@ -29,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHo
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.layout_horizontal_recycler_view, parent, false);
 
-        int height = parent.getMeasuredHeight() / (stepsListList.size() > 1 ? 2 : 1);
+        int height = parent.getMeasuredHeight() / stepsListList.size();
         int width = parent.getMeasuredWidth();
         view.setLayoutParams(new RecyclerView.LayoutParams(width, height));
 
@@ -49,10 +55,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHo
         holder.horizontalRecyclerView.setHasFixedSize(true);
         holder.horizontalRecyclerView.setAdapter(adapter);
         holder.horizontalRecyclerView.addOnScrollListener(new CenterScrollListener());
+
     }
 
     @Override
     public int getItemCount() {
         return stepsListList.size();
+    }
+
+    public void setActiveStep(int list, int step) {
+
     }
 }

@@ -17,7 +17,6 @@ public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.text_view_dish_title) TextView stepDishTextView;
     @BindView(R.id.text_view_step_description) TextView stepDescriptionTextView;
     @BindView(R.id.text_view_step_type) TextView stepTypeTextView;
-    @BindView(R.id.circular_progress_button) CircularProgressButton circularProgressButton;
 
     ValueAnimator widthAnimation;
 
@@ -36,10 +35,6 @@ public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
 
     public TextView getStepTypeTextView() {
         return stepTypeTextView;
-    }
-
-    public CircularProgressButton getCircularProgressButton() {
-        return circularProgressButton;
     }
 
     public ValueAnimator getWidthAnimation() {

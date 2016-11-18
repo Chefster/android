@@ -22,7 +22,6 @@
         android:background="@android:color/black"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
-        android:layout_centerVertical="true"
         tools:text="PREP"
         />
 
@@ -47,23 +46,7 @@
         android:alpha="0.5"
         android:layout_toEndOf="@id/text_view_step_type"
         android:layout_below="@id/text_view_dish_title"
-        android:layout_toStartOf="@+id/circular_progress_button"
         tools:text="Dice the tomatoes and add it to the pan together with the diced onions and garlic"
         />
-
-    <com.dd.CircularProgressButton
-        android:id="@+id/circular_progress_button"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="4dp"
-        android:textColor="@android:color/white"
-        android:background="@color/colorAccent"
-        android:layout_centerVertical="true"
-        android:padding="4dp"
-        android:textSize="18sp"
-        app:cpb_cornerRadius="48dp"
-        app:cpb_textComplete="Done"
-        app:cpb_textError="NotDone"/>
 
 </RelativeLayout>

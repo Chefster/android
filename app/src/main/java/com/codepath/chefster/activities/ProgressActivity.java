@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.ProgressAdapter;
 import com.codepath.chefster.adapters.RecyclerViewAdapter;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Step;
+import com.codepath.chefster.viewholders.RecyclerViewViewHolder;
 
 import org.parceler.Parcels;
 
@@ -19,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ProgressActivity extends BaseActivity implements ProgressAdapter.onStepDoneListener {
     @BindView(R.id.recycler_view_main) RecyclerView mainRecyclerView;
@@ -75,6 +80,33 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.on
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mainRecyclerView.setHasFixedSize(true);
         mainRecyclerView.setAdapter(mainAdapter);
+    }
+
+    public void scrollToStep(int list, int step) {
+        mainRecyclerView.smoothScrollToPosition(list);
+        mainAdapter.setActiveStep(list, step);
+    }
+
+    @OnClick(R.id.text_view_meals_in_progress)
+    public void startScrolling() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                    scrollToStep(0,4);
+
+                    Thread.sleep(1000);
+                    scrollToStep(1,2);
+
+                    Thread.sleep(2000);
+                    scrollToStep(2,1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.run();
     }
 
     @Override

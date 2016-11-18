@@ -44,7 +44,6 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
         holder.getStepDishTextView().setText(step.getDishName());
         holder.getStepDescriptionTextView().setText(step.getDescription());
         holder.getStepTypeTextView().setText(step.getType());
-        String estTime = "Est.\n" + step.getDurationTime() + " mins";
     }
 
     @Override
