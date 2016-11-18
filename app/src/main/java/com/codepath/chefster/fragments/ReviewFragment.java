@@ -36,7 +36,7 @@ public class ReviewFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        reviewList = getArguments().getParcelableArrayList("reviews");
+        reviewList = (List) getArguments().getParcelableArrayList("reviews");
     }
 
     @Nullable

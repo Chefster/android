@@ -34,14 +34,14 @@ public class IngredientsFragment extends BaseFragment {
     RecyclerView rvIngredients;
 
     private CategoryAdapter IngredientsAdapter;
-    private ArrayList<Ingredient> ingredientList;
+    private List<Ingredient> ingredientList;
     private IngredientsAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ingredientList = getArguments().getParcelableArrayList("ingredients");
+      ingredientList = (List)getArguments().getParcelableArrayList("ingredients");
     }
 
     @Nullable

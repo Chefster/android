@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHolder> {
+    final static public String DISH_KEY = "selected_dish";
 
     private Context context;
     private List<Dish> dishesList;
@@ -73,10 +74,9 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         holder.ivMealImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(context, String.valueOf(position),Toast.LENGTH_SHORT).show();
                 Dish selectedDish  = dishesList.get(position);
                 Intent intent = new Intent(getContext(), DishDetailsActivity.class);
-                intent.putExtra("selected_dish", Parcels.wrap(selectedDish));
+                intent.putExtra(DISH_KEY, Parcels.wrap(selectedDish));
                 getContext().startActivity(intent);
             }
         });

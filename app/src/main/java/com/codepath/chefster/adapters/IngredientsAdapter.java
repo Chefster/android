@@ -13,10 +13,6 @@ import com.codepath.chefster.viewholders.IngredientsViewHolder;
 
 import java.util.List;
 
-/**
- * Created by Hezi Eliyahu on 16/11/2016.
- */
-
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsViewHolder> {
     private Context context;
     private List<Ingredient> ingredientsList;
@@ -41,6 +37,8 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsViewHold
     public void onBindViewHolder(IngredientsViewHolder holder, int position) {
         Ingredient ingredient = ingredientsList.get(position);
 
+        if ( position % 2 != 0 )
+            holder.getTvIngredient().setBackgroundResource(R.color.cardview_shadow_start_color);
         holder.getTvIngredient().setText(ingredient.getName());
     }
 

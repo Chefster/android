@@ -12,10 +12,6 @@ import com.codepath.chefster.viewholders.ReviewViewHolder;
 
 import java.util.List;
 
-/**
- * Created by Hezi Eliyahu on 16/11/2016.
- */
-
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
     private Context context;
     private List<Review> reviewList;
@@ -41,7 +37,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
         Review review = reviewList.get(position);
         User user = review.getUser();
 
-        holder.getTvReviewName().setText("Hezi");
+        holder.getTvReviewName().setText("Anonymous");
         holder.getTvReview().setText(review.getDescription());
         if (review.getRating() != null)
             holder.getRbReview().setRating(review.getRating().floatValue());

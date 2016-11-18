@@ -8,7 +8,7 @@ import org.parceler.Parcel;
  * This class represents an ingredient that's a part of a dish with its price and amount needed
  */
 @Parcel
-public class Ingredient implements Parcelable{
+public class Ingredient {
     private String name;
     private String type;
     private String description;
@@ -19,26 +19,6 @@ public class Ingredient implements Parcelable{
 
     public Ingredient() {
     }
-
-    protected Ingredient(android.os.Parcel in) {
-        name = in.readString();
-        type = in.readString();
-        description = in.readString();
-        amountType = in.readString();
-        thumbnail = in.readString();
-    }
-
-    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
-        @Override
-        public Ingredient createFromParcel(android.os.Parcel in) {
-            return new Ingredient(in);
-        }
-
-        @Override
-        public Ingredient[] newArray(int size) {
-            return new Ingredient[size];
-        }
-    };
 
     public String getName() {
         return name;
@@ -66,20 +46,6 @@ public class Ingredient implements Parcelable{
 
     public String getThumbnail() {
         return thumbnail;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(android.os.Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(type);
-        parcel.writeString(description);
-        parcel.writeString(amountType);
-        parcel.writeString(thumbnail);
     }
 }
 

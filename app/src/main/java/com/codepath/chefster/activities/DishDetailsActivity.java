@@ -35,7 +35,10 @@ public class DishDetailsActivity extends BaseActivity {
     final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
     final static private int SECOND = 1;
+
     private Dish dish;
+    private IngredientsFragment ingredientsFragment;
+    private ReviewFragment reviewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,9 @@ public class DishDetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_dish_details);
 
         ButterKnife.bind(this);
+
+        ingredientsFragment = new IngredientsFragment();
+        reviewFragment = new ReviewFragment();
 
         dish = Parcels.unwrap(getIntent().getParcelableExtra(DISH_KEY));
 
@@ -60,7 +66,7 @@ public class DishDetailsActivity extends BaseActivity {
 
     // This Class is for Fragments Adapter.
     public class DishDetailsPagerAdapter extends FragmentPagerAdapter {
-        private String tabTitles[] = {"Ingredients", "Reviews"};
+        private String tabTitles[] = {getString(R.string.ingredients), getString(R.string.reviews)};
 
         public DishDetailsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -75,15 +81,13 @@ public class DishDetailsActivity extends BaseActivity {
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
             if (position == FIRST) {
-                IngredientsFragment fragment = new IngredientsFragment();
-                bundle.putParcelableArrayList("ingredients", (ArrayList) dish.getIngredients());
-                fragment.setArguments(bundle);
-                return fragment;
+                bundle.putParcelableArrayList(getString(R.string.ingredients), (ArrayList) dish.getIngredients());
+                ingredientsFragment.setArguments(bundle);
+                return ingredientsFragment;
             } else if (position == SECOND) {
-                ReviewFragment fragment = new ReviewFragment();
-                bundle.putParcelableArrayList("reviews", (ArrayList) dish.getReviews());
-                fragment.setArguments(bundle);
-                return fragment;
+                bundle.putParcelableArrayList(getString(R.string.reviews), (ArrayList) dish.getReviews());
+                reviewFragment.setArguments(bundle);
+                return reviewFragment;
             } else
                 return null;
         }
