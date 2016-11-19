@@ -33,4 +33,6 @@
     <string name="finish_cooking">Finish Cooking!</string>
     <string name="show_details">Show Details</string>
     <string name="hide_details">Hide Details</string>
+    <string name="ingredients">ingredients</string>
+    <string name="reviews">reviews</string>
 </resources>

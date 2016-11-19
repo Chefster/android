@@ -1,5 +1,7 @@
 package com.codepath.chefster.models;
 
+import android.os.Parcelable;
+
 import org.parceler.Parcel;
 
 /**
