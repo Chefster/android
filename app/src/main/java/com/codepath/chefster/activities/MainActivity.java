@@ -3,20 +3,15 @@ package com.codepath.chefster.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-<<<<<<< HEAD
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-=======
-import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
->>>>>>> refs/remotes/origin/master
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
 import com.codepath.chefster.client.FirebaseClient;
@@ -34,8 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -50,6 +43,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     ViewPager viewPager;
     @BindView(R.id.main_tab_layout)
     TabLayout tabLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;
@@ -67,8 +62,10 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
  /*       mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this *//* FragmentActivity *//*, this /* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
@@ -120,9 +117,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     }
 
     private void setViewPager() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(MainFragment.newInstance("", ""), "Categories");
-        adapter.addFragment(FavoritesFragment.newInstance("", ""), "Favorites");
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
+        adapter.addFragment(MainFragment.newInstance());
+        adapter.addFragment(FavoritesFragment.newInstance());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
