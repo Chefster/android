@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.chefster.R;
 import com.codepath.chefster.Recipes;
@@ -44,7 +45,6 @@ public class FavoritesFragment extends BaseFragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
      *
      * @return A new instance of fragment FavoritesFragment.
      */
@@ -91,11 +91,15 @@ public class FavoritesFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.fab)
-    public void onFabClick() {
-        Intent intent = new Intent(getActivity(), MealLaunchActivity.class);
-        intent.putExtra("selected_dishes", Parcels.wrap(adapter.getSelectedDishesList()));
-        startActivity(intent);
+    @OnClick(R.id.btnStartCooking)
+    public void onStartButtonClick() {
+        if (!adapter.getSelectedDishesList().isEmpty()) {
+            Intent intent = new Intent(getActivity(), MealLaunchActivity.class);
+            intent.putExtra("selected_dishes", Parcels.wrap(adapter.getSelectedDishesList()));
+            startActivity(intent);
+        }else{
+            Toast.makeText(getActivity(), "Please select dish to cook today..!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

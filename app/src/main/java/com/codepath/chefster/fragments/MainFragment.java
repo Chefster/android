@@ -88,7 +88,7 @@ public class MainFragment extends BaseFragment {
 
         rvCategories.setLayoutManager(manager);
         rvCategories.setItemAnimator(new SlideInUpAnimator());
-        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(30);
         rvCategories.addItemDecoration(decoration);
         categoryAdapter = new CategoryAdapter(getActivity(), getCategoryList());
         rvCategories.setAdapter(categoryAdapter);

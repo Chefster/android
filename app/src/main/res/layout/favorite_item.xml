@@ -10,17 +10,26 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/ivMealImage"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
             android:scaleType="centerCrop"
             android:contentDescription="DishImage"
             tools:src="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/btnAddToMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ivMealImage"
+            android:layout_alignRight="@id/ivMealImage"
+            android:text="Add to Today's Menu"
+            android:layout_margin="8dp"
+            android:textStyle="bold"
+            android:background="@drawable/button_shape"/>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -32,6 +41,7 @@
             android:layout_marginRight="18dp"
             android:layout_marginTop="16dp"
             android:textSize="22sp"
+            android:textStyle="bold"
             tools:text="Pasta with white sauce" />
 
         <TextView

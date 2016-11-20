@@ -2,6 +2,7 @@ package com.codepath.chefster.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.tvMealRating) public TextView tvMealRating;
     @BindView(R.id.ivMealImage) public ImageView ivMealImage;
     @BindView(R.id.ivfavorite) public ImageView ivfavorite;
+    @BindView(R.id.btnAddToMenu) public Button btnAddToMenu;
 
     public FavoritesViewHolder(View itemView) {
         super(itemView);
