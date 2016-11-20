@@ -15,6 +15,7 @@ import com.codepath.chefster.Recipes;
 import com.codepath.chefster.activities.MealLaunchActivity;
 import com.codepath.chefster.adapters.FavoritesListAdapter;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.utils.RecyclerViewVerticalSpacing;
 
 import org.parceler.Parcels;
 
@@ -80,6 +81,7 @@ public class FavoritesFragment extends BaseFragment {
         rvFavorites.setLayoutManager(manager);
         adapter = new FavoritesListAdapter(getActivity(), dishList);
         rvFavorites.setAdapter(adapter);
+        rvFavorites.addItemDecoration(new RecyclerViewVerticalSpacing(30, false));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

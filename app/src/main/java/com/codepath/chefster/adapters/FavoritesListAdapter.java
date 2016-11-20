@@ -57,19 +57,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
             Glide.with(context).load(dish.getThumbnails().get(0)).into(holder.ivMealImage);
         }
 
-
-        holder.cbSelectDish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(holder.cbSelectDish.isChecked()){
-                    selectedDishesList.add(dish);
-                }else {
-                    selectedDishesList.remove(dish);
-                }
-            }
-        });
-
-
         // when user Click on ItemImage it Will take Him To Dish Details
         holder.ivMealImage.setOnClickListener(new View.OnClickListener() {
             @Override
