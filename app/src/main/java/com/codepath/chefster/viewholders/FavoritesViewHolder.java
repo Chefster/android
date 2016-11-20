@@ -17,6 +17,7 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.tvCookingTime) public TextView tvCookingTime;
     @BindView(R.id.tvMealRating) public TextView tvMealRating;
     @BindView(R.id.ivMealImage) public ImageView ivMealImage;
+    @BindView(R.id.ivfavorite) public ImageView ivfavorite;
 
     public FavoritesViewHolder(View itemView) {
         super(itemView);

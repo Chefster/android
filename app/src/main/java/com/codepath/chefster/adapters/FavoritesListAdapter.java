@@ -68,6 +68,12 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
             }
         });
 
+        holder.ivfavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //remove from favorite list
+            }
+        });
     }
 
     @Override
