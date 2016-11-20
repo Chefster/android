@@ -31,7 +31,7 @@
                 <TextView
                     android:id="@+id/text_view_choose_tools_label"
                     style="@style/launch_meal_textview_title"
-                    android:text="@string/choose_tools"
+                    android:text="@string/what_tools"
                     />
 
                 <Spinner

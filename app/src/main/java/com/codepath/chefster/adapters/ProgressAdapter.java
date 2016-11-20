@@ -16,17 +16,12 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
     List<Step> steps;
     Context context;
     int index;
-    int activeStep = 0;
     boolean isExpanded;
 
     public ProgressAdapter(List<Step> steps, Context context, int index) {
         this.steps = steps;
         this.context = context;
         this.index = index;
-    }
-
-    public void setActiveStep(int activeStep) {
-        this.activeStep = activeStep;
     }
 
     @Override
@@ -41,17 +36,29 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
         final Step step = steps.get(position);
         holder.getStepDishTextView().setText(step.getDishName());
         holder.getStepDescriptionTextView().setText(step.getDescription());
-        if (position == activeStep) {
-            holder.getMainLayout().setBackgroundResource(R.drawable.light_blue_background_black_border);
-        } else {
-            holder.getMainLayout().setBackgroundResource(R.drawable.white_background_black_border);
+        switch (step.getStatus()) {
+            case ACTIVE:
+                holder.getMainLayout().setBackgroundResource(R.drawable.light_blue_background_black_border);
+                break;
+            case DONE:
+                holder.getMainLayout().setBackgroundResource(R.drawable.light_orange_background_black_border);
+                break;
+            default:
+                holder.getMainLayout().setBackgroundResource(R.drawable.white_background_black_border);
         }
+
         holder.getStepTypeTextView().setText(step.getType());
         holder.getStepDetailsButton().setText(isExpanded ? R.string.hide_details : R.string.show_details);
         holder.getStepDetailsButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((onStepInteractionListener) context).onDetailsButtonClick(index);
+                ((OnStepInteractionListener) context).onDetailsButtonClick(index);
+            }
+        });
+        holder.getFinishStepButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((OnStepInteractionListener) context).onStepDone(step.getDishName(), step.getOrder());
             }
         });
     }
@@ -61,7 +68,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
         return steps == null ? 0 : steps.size();
     }
 
-    public interface onStepInteractionListener {
+    public interface OnStepInteractionListener {
         void onStepDone(String dish, int step);
         void onDetailsButtonClick(int index);
     }

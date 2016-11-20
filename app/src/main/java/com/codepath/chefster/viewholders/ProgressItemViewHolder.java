@@ -17,6 +17,8 @@ public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.text_view_step_description) TextView stepDescriptionTextView;
     @BindView(R.id.text_view_step_type) TextView stepTypeTextView;
     @BindView(R.id.button_step_details) Button stepDetailsButton;
+    @BindView(R.id.button_play_pause_step) Button playPauseStepButton;
+    @BindView(R.id.button_finish_step) Button finishStepButton;
 
     public ProgressItemViewHolder(View itemView) {
         super(itemView);
@@ -37,6 +39,14 @@ public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
 
     public Button getStepDetailsButton() {
         return stepDetailsButton;
+    }
+
+    public Button getPlayPauseStepButton() {
+        return playPauseStepButton;
+    }
+
+    public Button getFinishStepButton() {
+        return finishStepButton;
     }
 
     public RelativeLayout getMainLayout() {

@@ -105,11 +105,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                 });
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
     private void setViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(MainFragment.newInstance("", ""), "Categories");

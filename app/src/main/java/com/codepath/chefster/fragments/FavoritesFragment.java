@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.activities.MealLaunchActivity;
@@ -95,7 +96,7 @@ public class FavoritesFragment extends BaseFragment {
     @OnClick(R.id.fab)
     public void onFabClick() {
         Intent intent = new Intent(getActivity(), MealLaunchActivity.class);
-        intent.putExtra("selected_dishes", Parcels.wrap(adapter.getSelectedDishesList()));
+        intent.putExtra(ChefsterApplication.SELECTED_DISHES_KEY, Parcels.wrap(adapter.getSelectedDishesList()));
         startActivity(intent);
     }
 

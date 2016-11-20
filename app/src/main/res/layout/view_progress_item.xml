@@ -59,4 +59,22 @@
         android:layout_alignParentEnd="true"
         />
 
+    <Button
+        android:text="@string/finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_finish_step"
+        android:layout_alignParentBottom="true"
+        />
+
+    <Button
+        android:text="@string/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_play_pause_step"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/button_finish_step"
+        android:layout_toStartOf="@id/button_step_details"
+        />
+
 </RelativeLayout>
