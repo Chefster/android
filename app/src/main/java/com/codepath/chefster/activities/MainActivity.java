@@ -66,6 +66,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
  /*       mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this *//* FragmentActivity *//*, this /* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
