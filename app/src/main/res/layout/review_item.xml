@@ -14,12 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Anonymous"
-            android:textSize="24dp" />
+            android:textSize="@dimen/text_size" />
 
         <TextView
             android:id="@+id/tvReview"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/text_size"
             android:layout_below="@+id/tvReviewName" />
 
         <RatingBar

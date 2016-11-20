@@ -5,4 +5,6 @@
 
     <dimen name="sticky_button_height">56dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_size_header">22sp</dimen>
+    <dimen name="text_size">18sp</dimen>
 </resources>

@@ -34,4 +34,5 @@
     <string name="finish_cooking">Finish Cooking!</string>
     <string name="ingredients">ingredients</string>
     <string name="reviews">reviews</string>
+    <string name="steps">steps</string>
 </resources>
