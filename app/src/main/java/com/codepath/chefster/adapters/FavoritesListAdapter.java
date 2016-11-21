@@ -26,6 +26,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
     public FavoritesListAdapter(Context context, List<Dish> recipes) {
         this.context = context;
         this.dishesList = recipes;
+        selectedDishesList = new ArrayList<>();
     }
 
     public Context getContext() {
@@ -48,7 +49,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
     public void onBindViewHolder(final FavoritesViewHolder holder, final int position) {
         final Dish dish = dishesList.get(position);
 
-        selectedDishesList = new ArrayList<>();
         holder.tvMealTitle.setText(dish.getTitle());
         holder.tvMealSummary.setText(dish.getDescription());
         holder.tvCookingTime.setText("Est." + String.valueOf(dish.getPrep_time() + dish.getCooking_time()) + " mins");
@@ -80,9 +80,11 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
             public void onClick(View view) {
                 if (!selectedDishesList.contains(dish)) {
                     holder.btnAddToMenu.setText(R.string.added);
+                    holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_added_dish, 0, 0, 0);
                     selectedDishesList.add(dish);
                 } else{
                     holder.btnAddToMenu.setText(R.string.add_to_menu);
+                    holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add_dish, 0, 0, 0);
                     selectedDishesList.remove(dish);
                 }
             }
