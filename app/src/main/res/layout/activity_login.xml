@@ -4,6 +4,12 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        />
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
@@ -19,55 +25,45 @@
         android:id="@+id/sign_in_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
         android:layout_gravity="center_horizontal"
+        android:padding="12dp"
         android:text="@string/sign_in"
-        android:layout_marginTop="46dp"
+        android:textSize="22sp"
+        android:layout_marginTop="16dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        />
-    <TextView
-        android:text="@string/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_view_email"
-        android:layout_below="@+id/sign_in_title"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="104dp"
         />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
+        android:background="@drawable/button_shape"
         android:ems="10"
         android:layout_below="@+id/sign_in_title"
-        android:layout_toEndOf="@+id/text_view_email"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="89dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:padding="12dp"
         android:id="@+id/edit_text_email_input"
         android:hint="user@gmail.com"
+        android:textColorHint="@android:color/black"
         />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
+        android:background="@drawable/button_shape"
         android:ems="10"
         android:id="@+id/edit_text_password_input"
         android:layout_below="@+id/edit_text_email_input"
         android:layout_alignStart="@+id/edit_text_email_input"
+        android:padding="12dp"
         android:hint="Password..."
-        />
-
-    <TextView
-        android:text="@string/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_alignBaseline="@+id/edit_text_password_input"
-        android:layout_alignBottom="@+id/edit_text_password_input"
-        android:layout_toStartOf="@+id/edit_text_email_input"
+        android:textColorHint="@android:color/black"
         />
 
     <Button
@@ -88,6 +84,16 @@
         android:layout_alignBaseline="@+id/button_sign_up"
         android:layout_alignBottom="@+id/button_sign_up"
         android:layout_alignEnd="@+id/edit_text_password_input"
+        />
+
+    <ImageView
+        android:id="@+id/image_view_chefster_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher"
+        android:layout_below="@id/slider"
         />
 
 </RelativeLayout>
