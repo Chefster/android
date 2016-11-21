@@ -121,29 +121,15 @@ public class MealLaunchActivity extends BaseActivity {
         // in the oven
         int totalPrepTime = 0, totalCookingTime = 0, totalOptimizedTime = 0, totalAggregatedTime = 0;
         for (Dish dish : chosenDishes) {
-            List<Step> stepsList = dish.getSteps();
-            for (Step step : stepsList) {
-                if (step.getType().equals("Prep")) {
-                    // This is a busy step and we aggregate the entire step time, divided by the amount
-                    // of people cooking
-                    totalPrepTime += (step.getDurationTime() / numberOfPeople);
-                } else {
-                    // This is not a busy step so we calculate the time it takes according to the
-                    // step time. The bigger the step, the longer time a cook would have to dedicate
-                    // to it
-                    totalCookingTime += (step.getDurationTime() < 5 ? 2 :
-                            (step.getDurationTime() < 10 ? 4 :
-                            (step.getDurationTime() < 20 ? 6 : 10)));
-                }
-            }
-
+            totalOptimizedTime += Math.max(dish.getCooking_time(), (dish.getPrep_time() / numberOfPeople));
             // If you cook sequentially, add 10 minutes between dishes to breathe a little :)
             totalAggregatedTime += (dish.getCooking_time() + dish.getPrep_time() + 10);
         }
         // Remove the last 10 minutes that were added because it's a wrong calculation
         totalAggregatedTime -= 10;
+        // These two are estimated assumptions for how productive 2 people can be in comparison to 1
         totalAggregatedTime -= (numberOfPeople > 1 ? (totalAggregatedTime / 5) : 0);
-        totalOptimizedTime = totalPrepTime + totalCookingTime;
+        totalOptimizedTime -= (numberOfPeople > 1 ? (totalOptimizedTime / 7) : 0);
 
         regularTimeTextView.setText(getBetterFormat(totalAggregatedTime));
         appTimeTextView.setText(getBetterFormat(totalOptimizedTime));
