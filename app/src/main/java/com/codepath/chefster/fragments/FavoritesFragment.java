@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
@@ -16,6 +17,7 @@ import com.codepath.chefster.Recipes;
 import com.codepath.chefster.activities.MealLaunchActivity;
 import com.codepath.chefster.adapters.FavoritesListAdapter;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.utils.RecyclerViewVerticalSpacing;
 
 import org.parceler.Parcels;
 
@@ -45,15 +47,11 @@ public class FavoritesFragment extends BaseFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment FavoritesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FavoritesFragment newInstance(String param1, String param2) {
+    public static FavoritesFragment newInstance() {
         FavoritesFragment fragment = new FavoritesFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -84,6 +82,7 @@ public class FavoritesFragment extends BaseFragment {
         rvFavorites.setLayoutManager(manager);
         adapter = new FavoritesListAdapter(getActivity(), dishList);
         rvFavorites.setAdapter(adapter);
+        rvFavorites.addItemDecoration(new RecyclerViewVerticalSpacing(30, false));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -93,11 +92,16 @@ public class FavoritesFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.fab)
-    public void onFabClick() {
-        Intent intent = new Intent(getActivity(), MealLaunchActivity.class);
-        intent.putExtra(ChefsterApplication.SELECTED_DISHES_KEY, Parcels.wrap(adapter.getSelectedDishesList()));
-        startActivity(intent);
+
+    @OnClick(R.id.btnStartCooking)
+    public void onStartButtonClick() {
+        if (!adapter.getSelectedDishesList().isEmpty()) {
+            Intent intent = new Intent(getActivity(), MealLaunchActivity.class);
+            intent.putExtra("selected_dishes", Parcels.wrap(adapter.getSelectedDishesList()));
+            startActivity(intent);
+        }else{
+            Toast.makeText(getActivity(), "Please select dish to cook today..!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -1,66 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp">
+    apps:cardElevation="2dp"
+    apps:cardCornerRadius="4dp"
+    android:padding="4dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/ivMealImage"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:scaleType="centerCrop"
             android:contentDescription="DishImage"
             tools:src="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/btnAddToMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ivMealImage"
+            android:layout_alignRight="@id/ivMealImage"
+            android:text="Add to Today's Menu"
+            android:layout_margin="8dp"
+            android:textStyle="bold"
+            android:background="@drawable/button_shape"/>
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/ivMealImage"
+            android:layout_below="@id/ivMealImage"
+            android:textColor="@color/colorPrimaryText"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="16dp"
             android:textSize="22sp"
+            android:textStyle="bold"
             tools:text="Pasta with white sauce" />
 
-        <!--<com.codepath.chefster.utils.CircleAnimatedCheckBox-->
-            <!--android:id="@+id/cb"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:layout_marginRight="5dp"-->
-            <!--android:button="@drawable/checkbox_selector_light"-->
-            <!--android:focusable="false"-->
-            <!--android:scaleX="1.20"-->
-            <!--android:scaleY="1.20"-->
-            <!--app:cb_color="#CC33b5e5"-->
-            <!--app:cb_pressed_ring_width="2dp"/>-->
-
-        <CheckBox
-            android:id="@+id/cbSelectDish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
         <TextView
             android:id="@+id/tvSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitle"
-            android:layout_toRightOf="@id/ivMealImage"
-            android:textSize="20sp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:textSize="16sp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
             tools:text="Pasta, Milk, Floor, Bell Peppers, Butter, Cheese, Salt, Garlic, " />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tvSummary"
+            android:layout_marginTop="12dp"
+            android:background="@color/colorSecondaryText" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivMealImage"
+            android:layout_below="@id/tvSummary"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -68,17 +74,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_cooking_time"
                 android:textSize="18sp"
-                android:gravity="center_horizontal"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
                 tools:text="15:00" />
+
+            <ImageView
+                android:id="@+id/ivfavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_favorite_selected"
+                android:gravity="center_vertical" />
 
             <TextView
                 android:id="@+id/tvMealRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:paddingRight="8dp"
+                android:drawableRight="@drawable/ic_rating"
                 android:textSize="18sp"
-                android:gravity="center_horizontal"
+                android:drawablePadding="8dp"
                 tools:text="4.5" />
         </LinearLayout>
     </RelativeLayout>

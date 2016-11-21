@@ -2,7 +2,6 @@ package com.codepath.chefster.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.codepath.chefster.R;
@@ -28,7 +27,7 @@ public class DishListActivity extends BaseActivity implements FavoritesFragment.
         getSupportActionBar().setTitle("Dishes");
         String categoryName = getIntent().getStringExtra("category_name");
 
-        FavoritesFragment favoritesFragment = FavoritesFragment.newInstance("","");
+        FavoritesFragment favoritesFragment = FavoritesFragment.newInstance();
 
         getSupportFragmentManager().beginTransaction().add(R.id.rlDishContainer, favoritesFragment).commit();
 
