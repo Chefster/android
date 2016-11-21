@@ -22,6 +22,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
     private Context context;
     private List<Dish> dishesList;
     private List<Dish> selectedDishesList;
+    private boolean isButtonPressed = false;
 
     public FavoritesListAdapter(Context context, List<Dish> recipes) {
         this.context = context;
@@ -44,7 +45,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         return viewHolder;
     }
 
-    private boolean isButtonPressed = false;
     @Override
     public void onBindViewHolder(final FavoritesViewHolder holder, final int position) {
         final Dish dish = dishesList.get(position);
@@ -52,7 +52,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         selectedDishesList = new ArrayList<>();
         holder.tvMealTitle.setText(dish.getTitle());
         holder.tvMealSummary.setText(dish.getDescription());
-        holder.tvCookingTime.setText("Est." + String.valueOf(dish.getPrep_time() + dish.getCooking_time()) + " mins");
+        holder.tvCookingTime.setText("Est." + String.valueOf(dish.getPrepTime() + dish.getCookingTime()) + " mins");
         holder.tvMealRating.setText(String.valueOf(dish.getRating()));
         if (dish.getThumbnails() != null && !dish.getThumbnails().isEmpty()) {
             Glide.with(context).load(dish.getThumbnails().get(0)).into(holder.ivMealImage);
@@ -79,10 +79,10 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         holder.btnAddToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isButtonPressed) {
+                if (!isButtonPressed) {
                     holder.btnAddToMenu.setText("Added to Today's Menu");
                     selectedDishesList.add(dish);
-                }else{
+                } else {
                     holder.btnAddToMenu.setText("Add to Today's Menu");
                     selectedDishesList.remove(dish);
                 }

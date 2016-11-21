@@ -180,7 +180,7 @@
     "tools": [
       {
         "amount": 1,
-        "name": "saucepan"
+        "name": "Pan"
       }],
     "prep_time": 10,
     "cooking_time": 20,
@@ -330,7 +330,7 @@
     "tools": [
       {
         "amount": 1,
-        "name": "Sauce Pan"
+        "name": "Pan"
       },
       {
         "amount": 1,
@@ -493,7 +493,11 @@
     "tools": [
       {
         "amount": 1,
-        "name": "Sauce Pan"
+        "name": "Pot"
+      },
+      {
+        "amount": 1,
+        "name": "Pan"
       },
       {
         "amount": 1,

@@ -2,23 +2,20 @@ package com.codepath.chefster.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.FavoritesListAdapter;
+import com.codepath.chefster.adapters.SmallDishAdapter;
 import com.codepath.chefster.models.Dish;
-import com.codepath.chefster.models.Step;
 
 import org.parceler.Parcels;
 
@@ -43,7 +40,7 @@ public class MealLaunchActivity extends BaseActivity {
     @BindColor(android.R.color.white) int unchosenColor;
 
     List<Dish> chosenDishes;
-    FavoritesListAdapter dishesAdapter;
+    SmallDishAdapter dishesAdapter;
     int numberOfPeople = 1;
     int numberOfPans = 1;
     int numberOfPots = 1;
@@ -65,7 +62,7 @@ public class MealLaunchActivity extends BaseActivity {
 
     private void setupRecyclerView() {
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
-        dishesAdapter = new FavoritesListAdapter(this, chosenDishes);
+        dishesAdapter = new SmallDishAdapter(this, chosenDishes);
         dishesRecyclerView.setAdapter(dishesAdapter);
         // Setup layout manager for items with orientation
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -121,9 +118,9 @@ public class MealLaunchActivity extends BaseActivity {
         // in the oven
         int totalPrepTime = 0, totalCookingTime = 0, totalOptimizedTime = 0, totalAggregatedTime = 0;
         for (Dish dish : chosenDishes) {
-            totalOptimizedTime += Math.max(dish.getCooking_time(), (dish.getPrep_time() / numberOfPeople));
+            totalOptimizedTime += Math.max(dish.getCookingTime(), (dish.getPrepTime() / numberOfPeople));
             // If you cook sequentially, add 10 minutes between dishes to breathe a little :)
-            totalAggregatedTime += (dish.getCooking_time() + dish.getPrep_time() + 10);
+            totalAggregatedTime += (dish.getCookingTime() + dish.getPrepTime() + 10);
         }
         // Remove the last 10 minutes that were added because it's a wrong calculation
         totalAggregatedTime -= 10;

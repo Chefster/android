@@ -41,11 +41,11 @@ public class Dish {
         return calories;
     }
 
-    public Integer getPrep_time() {
+    public Integer getPrepTime() {
         return prep_time;
     }
 
-    public Integer getCooking_time() {
+    public Integer getCookingTime() {
         return cooking_time;
     }
 

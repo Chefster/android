@@ -39,8 +39,8 @@
             android:name=".activities.DishListActivity"
             android:label="@string/title_activity_dish_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.BaseActivity"></activity>
-        <activity android:name=".activities.DishDetailsActivity"></activity>
+        <activity android:name=".activities.BaseActivity"/>
+        <activity android:name=".activities.DishDetailsActivity"/>
     </application>
 
 </manifest>
