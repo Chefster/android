@@ -44,6 +44,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         return viewHolder;
     }
 
+    private boolean isButtonPressed = false;
     @Override
     public void onBindViewHolder(final FavoritesViewHolder holder, final int position) {
         final Dish dish = dishesList.get(position);
@@ -57,19 +58,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
             Glide.with(context).load(dish.getThumbnails().get(0)).into(holder.ivMealImage);
         }
 
-
-        holder.cbSelectDish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(holder.cbSelectDish.isChecked()){
-                    selectedDishesList.add(dish);
-                }else {
-                    selectedDishesList.remove(dish);
-                }
-            }
-        });
-
-
         // when user Click on ItemImage it Will take Him To Dish Details
         holder.ivMealImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +69,26 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
             }
         });
 
+        holder.ivfavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //remove from favorite list
+            }
+        });
+
+        holder.btnAddToMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isButtonPressed) {
+                    holder.btnAddToMenu.setText("Added to Today's Menu");
+                    selectedDishesList.add(dish);
+                }else{
+                    holder.btnAddToMenu.setText("Add to Today's Menu");
+                    selectedDishesList.remove(dish);
+                }
+                isButtonPressed = !isButtonPressed; //reverse
+            }
+        });
     }
 
     @Override

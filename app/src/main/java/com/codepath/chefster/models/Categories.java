@@ -7,9 +7,9 @@ package com.codepath.chefster.models;
 public class Categories {
 
     private String categoryName;
-    private int categoryImage;
+    private String categoryImage;
 
-    public Categories(String categoryName, int categoryImage) {
+    public Categories(String categoryName, String categoryImage) {
         this.categoryName = categoryName;
         this.categoryImage = categoryImage;
     }
@@ -25,11 +25,11 @@ public class Categories {
         this.categoryName = categoryName;
     }
 
-    public int getCategoryImage() {
+    public String getCategoryImage() {
         return categoryImage;
     }
 
-    public void setCategoryImage(int categoryImage) {
+    public void setCategoryImage(String categoryImage) {
         this.categoryImage = categoryImage;
     }
 }
