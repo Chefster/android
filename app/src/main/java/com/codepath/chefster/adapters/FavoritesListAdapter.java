@@ -51,7 +51,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         selectedDishesList = new ArrayList<>();
         holder.tvMealTitle.setText(dish.getTitle());
         holder.tvMealSummary.setText(dish.getDescription());
-        holder.tvCookingTime.setText("Est." + String.valueOf(dish.getPrep_time() + dish.getCooking_time()) + " mins");
+        holder.tvCookingTime.setText("Est." + String.valueOf(dish.getPrepTime() + dish.getCookingTime()) + " mins");
         holder.tvMealRating.setText(String.valueOf(dish.getRating()));
         if (dish.getThumbnails() != null && !dish.getThumbnails().isEmpty()) {
             Glide.with(context).load(dish.getThumbnails().get(0)).into(holder.ivMealImage);

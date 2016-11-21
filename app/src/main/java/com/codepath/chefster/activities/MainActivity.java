@@ -17,6 +17,7 @@ import com.codepath.chefster.fragments.FavoritesFragment;
 import com.codepath.chefster.fragments.MainFragment;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Dishes;
+import com.codepath.chefster.models.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -71,11 +72,21 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
 
         // Use this call only if you have new Data stored in .json and you want to update the DB.
         // loadDataToDatabase();
+        // Add Users
+/*        mDatabase = FirebaseDatabase.getInstance().getReference();
+        ArrayList<User> users = new ArrayList<>();
+        User user = new User( 1L ,"","Hezi","Eliyahu",null);
+        users.add(user);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        for (User item : users ) {
+            mDatabase.child("users").child(String.valueOf(user.getId())).setValue(item);
+        }*/
 
         // Get all dishes from database.
         loadDishes();
 
-        setViewPager();
+
     }
 
     // using this Method will upload new .json to DataBase and Overwrite the tree.
@@ -93,11 +104,12 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
                         for (DataSnapshot dishSnapshot : dataSnapshot.getChildren()) {
                             Dish dish = dishSnapshot.getValue(Dish.class);
                             dishes.addDish(dish);
                         }
+                        FirebaseClient.setDishes(dishes.getDishes());
+                        setViewPager();
                     }
 
                     @Override

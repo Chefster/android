@@ -14,6 +14,7 @@ import com.codepath.chefster.R;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.activities.MealLaunchActivity;
 import com.codepath.chefster.adapters.FavoritesListAdapter;
+import com.codepath.chefster.client.FirebaseClient;
 import com.codepath.chefster.models.Dish;
 
 import org.parceler.Parcels;
@@ -72,7 +73,8 @@ public class FavoritesFragment extends BaseFragment {
 
         ButterKnife.bind(this, view);
 
-        getFavoriteRecipesList();
+        dishList = FirebaseClient.getDishes();
+
         initializeRecyclerView();
         return view;
     }
@@ -131,7 +133,7 @@ public class FavoritesFragment extends BaseFragment {
         void onFavoritesFragmentInteraction(Uri uri);
     }
 
-    //This method will take the lst from database and return favorite list
+/*    //This method will take the lst from database and return favorite list
     private void getFavoriteRecipesList() {
         try {
             InputStream inputStream = getActivity().getAssets().open("recipes.json");
@@ -139,5 +141,5 @@ public class FavoritesFragment extends BaseFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
