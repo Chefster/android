@@ -16,6 +16,7 @@ public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.text_view_dish_title) TextView stepDishTextView;
     @BindView(R.id.text_view_step_description) TextView stepDescriptionTextView;
     @BindView(R.id.text_view_step_type) TextView stepTypeTextView;
+    @BindView(R.id.text_view_time_duration) TextView estTimeTextView;
     @BindView(R.id.button_step_details) Button stepDetailsButton;
     @BindView(R.id.button_play_pause_step) Button playPauseStepButton;
     @BindView(R.id.button_finish_step) Button finishStepButton;
@@ -47,6 +48,10 @@ public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
 
     public Button getFinishStepButton() {
         return finishStepButton;
+    }
+
+    public TextView getEstTimeTextView() {
+        return estTimeTextView;
     }
 
     public RelativeLayout getMainLayout() {

@@ -74,6 +74,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         loadDishes();
 
         setViewPager();
+        loadDataToDatabase();
     }
 
     // using this Method will upload new .json to DataBase and Overwrite the tree.

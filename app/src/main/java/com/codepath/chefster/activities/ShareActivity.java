@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.PhotosAdapter;
 import com.codepath.chefster.models.Dish;
@@ -40,7 +41,7 @@ public class ShareActivity extends BaseActivity {
     ArrayList<Uri> photoUrisList;
     PhotosAdapter photosAdapter;
     int numOfPhotosTaken = 0;
-    Meal cookedMeal;
+    List<Dish> cookedDishes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class ShareActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         Intent startingIntent = getIntent();
-        cookedMeal = Parcels.unwrap(startingIntent.getParcelableExtra("meal"));
+        cookedDishes = Parcels.unwrap(startingIntent.getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
 
         photoUrisList = new ArrayList<>();
         photosAdapter = new PhotosAdapter(photoUrisList, this);
@@ -142,7 +143,7 @@ public class ShareActivity extends BaseActivity {
             shareIntent.setType("image/jpg");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Look what I cooked!");
             StringBuilder mealString = new StringBuilder();
-            for (Dish dish : cookedMeal.getDishes()) {
+            for (Dish dish : cookedDishes) {
                 mealString.append(dish.getTitle() + ", ");
             }
             mealString.setLength(mealString.length() - 1);

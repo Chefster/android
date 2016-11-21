@@ -3,11 +3,11 @@ package com.codepath.chefster.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
@@ -17,6 +17,8 @@ import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.ProgressAdapter;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Step;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import org.parceler.Parcels;
 
@@ -36,12 +38,15 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
 
     ProgressAdapter[] adapter;
 
-    List<HashSet<String>> hashSetStepIndexList;
+    List<HashSet<Integer>> stepIndexHashSetList;
     List<Dish> chosenDishes;
     List<List<Step>> stepsLists;
-    List<Integer> activeStepPerDish;
+    List<Integer> nextStepPerDish;
+    boolean[] finished;
     // A HashMap that points on an index for each dish name
     HashMap<String,Integer> dishNameToIndexHashMap;
+
+    List<HashMap<Integer, CountDownTimer>> timersListPerDish;
     int numberOfPeople, numberOfPans, numberOfPots;
 
     @Override
@@ -51,9 +56,14 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
         ButterKnife.bind(this);
 
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
+        finished = new boolean[chosenDishes.size()];
         stepsLists = new ArrayList<>(chosenDishes.size());
+        timersListPerDish = new ArrayList<>();
+        stepIndexHashSetList = new ArrayList<>(chosenDishes.size());
         for (Dish dish : chosenDishes) {
             stepsLists.add(dish.getSteps());
+            stepIndexHashSetList.add(new HashSet<Integer>());
+            timersListPerDish.add(new HashMap<Integer, CountDownTimer>());
         }
 
         Intent incomingIntent = getIntent();
@@ -61,7 +71,6 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
         numberOfPans = incomingIntent.getIntExtra("number_of_pans", 1);
         numberOfPots = incomingIntent.getIntExtra("number_of_pots", 1);
         adapter = new ProgressAdapter[chosenDishes.size()];
-        hashSetStepIndexList = new ArrayList<>(chosenDishes.size());
         dishNameToIndexHashMap = new HashMap<>();
 
         setupRecyclerViews();
@@ -69,20 +78,42 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
     }
 
     private void markInitialActiveSteps() {
-        activeStepPerDish = new ArrayList<>(chosenDishes.size());
-        PriorityQueue<Step> potentialInitialSteps = new PriorityQueue<>(chosenDishes.size());
+        nextStepPerDish = new ArrayList<>(chosenDishes.size());
         for (int i = 0; i < stepsLists.size(); i++) {
-            activeStepPerDish.add(0);
-            potentialInitialSteps.add(stepsLists.get(i).get(0));
+            nextStepPerDish.add(0);
         }
 
         for (int i = 0; i < numberOfPeople; i++) {
-            Step thisStep = potentialInitialSteps.poll();
+            Step thisStep = getNextBestStep();
             if (thisStep != null) {
                 int dishIndex = dishNameToIndexHashMap.get(thisStep.getDishName());
+                // increment the next step for this list
                 thisStep.setStatus(Step.Status.ACTIVE);
                 adapter[dishIndex].notifyDataSetChanged();
             }
+        }
+    }
+
+    private Step getNextBestStep() {
+        PriorityQueue<Step> potentialInitialSteps = new PriorityQueue<>(chosenDishes.size());
+        for (int i = 0; i < stepsLists.size(); i++) {
+            int nextStepOrderForThisList = nextStepPerDish.get(i);
+            // We want to protect from out of bound exception. This dish might be finished
+            if (nextStepOrderForThisList < stepsLists.get(i).size()) {
+                Step nextStep = stepsLists.get(i).get(nextStepPerDish.get(i));
+                if (nextStep.getPreRequisite() == -1
+                        || !stepIndexHashSetList.isEmpty() && stepIndexHashSetList.get(i).contains(nextStep.getPreRequisite())) {
+                    potentialInitialSteps.add(stepsLists.get(i).get(nextStepPerDish.get(i)));
+                }
+            }
+        }
+        if (potentialInitialSteps.isEmpty()) return null;
+        else {
+            Step chosenStep = potentialInitialSteps.peek();
+            int index = dishNameToIndexHashMap.get(chosenStep.getDishName());
+            nextStepPerDish.set(index, nextStepPerDish.get(index) + 1);
+
+            return chosenStep;
         }
     }
 
@@ -123,17 +154,68 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
     @Override
     public void onStepDone(String dish, int step) {
         int index = dishNameToIndexHashMap.get(dish);
+        stepIndexHashSetList.get(index).add(step);
         List<Step> currentStepsList = stepsLists.get(index);
+        // Set this step as DONE and update UI
         currentStepsList.get(step).setStatus(Step.Status.DONE);
         adapter[index].notifyItemChanged(step);
         if (step == currentStepsList.size() - 1) {
-            Toast.makeText(this, "Congrats for finishing to cook " + dish + "!", Toast.LENGTH_LONG).show();
+            finished[index] = true;
+            YoYo.with(Techniques.Tada)
+                    .duration(1500)
+                    .playOn(recyclerViewsList.get(index));
+            if (mealIsFinished()) {
+                finishCooking();
+            }
         } else {
-            currentStepsList.get(step + 1).setStatus(Step.Status.ACTIVE);
-            adapter[index].notifyItemChanged(step + 1);
-            scrollToStep(index, step + 1);
+            // When there are 2 people cooking, there could be 2 steps that should be done in the
+            // same list
+        }
+
+        Step chosenStep = getNextBestStep();
+        if (chosenStep == null) {
+            return;
+        }
+        chosenStep.setStatus(Step.Status.ACTIVE);
+        int newStepListIndex = dishNameToIndexHashMap.get(chosenStep.getDishName());
+        int order = chosenStep.getOrder();
+        adapter[newStepListIndex].notifyItemChanged(order);
+        scrollToStep(newStepListIndex, order);
+    }
+
+    @Override
+    public void onPausePlayButtonClick(String dish, final int step, long timeLeftForStep) {
+        final int index = dishNameToIndexHashMap.get(dish);
+        if (timersListPerDish.get(index).get(step) == null) {
+            timersListPerDish.get(index).put(step, new CountDownTimer(timeLeftForStep * 60000, 60000) {
+                public void onTick(long millisUntilFinished) {
+                    adapter[index].setTimeLeftForStep(step, millisUntilFinished / 1000 / 60);
+                    adapter[index].setStepTimerRunning(step, true);
+                    adapter[index].notifyItemChanged(step);
+                }
+
+                public void onFinish() {
+                    adapter[index].setTimeLeftForStep(step, 0);
+                    adapter[index].setStepTimerRunning(step, false);
+                    adapter[index].notifyItemChanged(step);
+                }
+            });
+            timersListPerDish.get(index).get(step).start();
+        } else {
+            timersListPerDish.get(index).get(step).cancel();
+            timersListPerDish.get(index).remove(step);
+            adapter[index].setStepTimerRunning(step, false);
+            adapter[index].notifyItemChanged(step);
         }
     }
+
+    private boolean mealIsFinished() {
+        for (boolean isFinished : finished) {
+            if (!isFinished) return false;
+        }
+        return true;
+    }
+
 
     @Override
     public void onDetailsButtonClick(int index) {

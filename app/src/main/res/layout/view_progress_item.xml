@@ -27,6 +27,20 @@
         />
 
     <TextView
+        android:id="@+id/text_view_time_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/text_view_step_type"
+        android:padding="4dp"
+        android:background="@android:color/black"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        tools:text="6 mins"
+        />
+
+    <TextView
         android:id="@+id/text_view_dish_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,7 +66,7 @@
 
     <Button
         android:id="@+id/button_step_details"
-        android:text="@string/show_details"
+        android:text="@string/show_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
