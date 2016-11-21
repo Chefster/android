@@ -2,6 +2,7 @@ package com.codepath.chefster.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.codepath.chefster.R;
 import com.crashlytics.android.Crashlytics;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.apache.commons.lang3.StringUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +36,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.edit_text_password_input) EditText passwordInputEditText;
     @BindView(R.id.button_sign_up) Button signupButton;
     @BindView(R.id.button_log_in) Button loginButton;
+    @BindView(R.id.slider) SliderLayout sliderLayout;
 
     private SignInButton mSignInButton;
     private GoogleApiClient mGoogleApiClient;
@@ -43,6 +49,8 @@ public class LoginActivity extends BaseActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        setSliderLayout();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -63,6 +71,22 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    private void setSliderLayout() {
+        DefaultSliderView sliderView1 = new DefaultSliderView(this);
+        DefaultSliderView sliderView2 = new DefaultSliderView(this);
+        DefaultSliderView sliderView3 = new DefaultSliderView(this);
+        DefaultSliderView sliderView4 = new DefaultSliderView(this);
+        sliderView1.image(R.drawable.slider1);
+        sliderView2.image(R.drawable.slider2);
+        sliderView3.image(R.drawable.slider3);
+        sliderView4.image(R.drawable.slider4);
+        sliderLayout.addSlider(sliderView1);
+        sliderLayout.addSlider(sliderView2);
+        sliderLayout.addSlider(sliderView3);
+        sliderLayout.addSlider(sliderView4);
+        sliderLayout.startAutoCycle();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -72,6 +96,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onStop() {
         super.onStop();
+        sliderLayout.stopAutoCycle();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -81,6 +106,10 @@ public class LoginActivity extends BaseActivity {
     public void signupNewUser() {
         String email = emailInputEditText.getText().toString();
         String password = passwordInputEditText.getText().toString();
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, R.string.incorrect_input, Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -106,6 +135,10 @@ public class LoginActivity extends BaseActivity {
     public void loginNewUser() {
         String email = emailInputEditText.getText().toString();
         String password = passwordInputEditText.getText().toString();
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, R.string.incorrect_input, Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

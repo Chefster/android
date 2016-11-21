@@ -35,4 +35,6 @@
     <string name="ingredients">ingredients</string>
     <string name="reviews">reviews</string>
     <string name="steps">steps</string>
+    <string name="incorrect_input">Please fill in all required fields</string>
+
 </resources>

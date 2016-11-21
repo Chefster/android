@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,27 +45,17 @@ public class MainFragment extends BaseFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment MainFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MainFragment newInstance(String param1, String param2) {
+    public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @BindView(R.id.rvCategoryGrid)
@@ -93,12 +83,12 @@ public class MainFragment extends BaseFragment {
         return view;
     }
 
-    private void initializeRecyclerView(){
-        StaggeredGridLayoutManager manager  = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+    private void initializeRecyclerView() {
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
 
         rvCategories.setLayoutManager(manager);
         rvCategories.setItemAnimator(new SlideInUpAnimator());
-        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(30);
         rvCategories.addItemDecoration(decoration);
         categoryAdapter = new CategoryAdapter(getActivity(), getCategoryList());
         rvCategories.setAdapter(categoryAdapter);
@@ -145,19 +135,17 @@ public class MainFragment extends BaseFragment {
 
     //Will give the list of categories.
     //for now its hard coded, later can get from database
-    private List<Categories> getCategoryList(){
+    private List<Categories> getCategoryList() {
         try {
             categoriesList = new ArrayList<>();
-            categoriesList.add(new Categories("American",R.drawable.american_category));
-//            categoriesList.add(new Categories("Italian",""));
-//            categoriesList.add(new Categories("Vietnamese",""));
-//            categoriesList.add(new Categories("Chinese",""));
-            categoriesList.add(new Categories("Israeli",R.drawable.israeli_dish));
-            categoriesList.add(new Categories("Side Dish",R.drawable.side_dish));
-//            categoriesList.add(new Categories("Thai",""));
-//            categoriesList.add(new Categories("Spanish",""));
-//            categoriesList.add(new Categories("French",""));
-//            categoriesList.add(new Categories("Japanese",""));
+            categoriesList.add(new Categories("American", "https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/category_american.jpg?alt=media&token=7ce009ae-48be-4dad-8bd6-a8d5c27ccfe0"));
+            categoriesList.add(new Categories("Israeli", "https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/category_israeli.jpg?alt=media&token=366d30d6-49ad-4316-8080-eabb906d475c"));
+            categoriesList.add(new Categories("Indian", "https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/category_indian.jpg?alt=media&token=fbaa409d-e3ac-44db-aa3b-0f8cd0a5dce4"));
+            categoriesList.add(new Categories("Italian", "https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/category_italian.jpg?alt=media&token=f1b87847-e52c-4002-9273-e8d7a3e6922b"));
+            categoriesList.add(new Categories("Vietnamese", "https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/category_vietnamese.jpg?alt=media&token=9f0ae1af-2f3e-4e68-a957-51a5a6b407d1"));
+            categoriesList.add(new Categories("Thai", "https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/category_thai.jpg?alt=media&token=8d6b62c1-160d-462e-a452-741987043ac4"));
+            categoriesList.add(new Categories("Spanish", "https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/category_spanish.jpg?alt=media&token=bd0ecd68-a3b5-4b31-a435-c9ed96e88f0f"));
+            categoriesList.add(new Categories("French", "https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/category_french.jpg?alt=media&token=77f98685-1007-42d4-8b4d-c019317c9b87"));
         } catch (Exception e) {
             e.printStackTrace();
         }

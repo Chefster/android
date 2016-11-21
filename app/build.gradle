@@ -88,6 +88,9 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.github.alorma:timelineview:2.3.0'
     compile 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:0.7.2'
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
 }
 
 // Add to the bottom of the file
