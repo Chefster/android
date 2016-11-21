@@ -44,7 +44,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         return viewHolder;
     }
 
-    private boolean isButtonPressed = false;
     @Override
     public void onBindViewHolder(final FavoritesViewHolder holder, final int position) {
         final Dish dish = dishesList.get(position);
@@ -79,14 +78,13 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         holder.btnAddToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isButtonPressed) {
-                    holder.btnAddToMenu.setText("Added to Today's Menu");
+                if (!selectedDishesList.contains(dish)) {
+                    holder.btnAddToMenu.setText(R.string.added);
                     selectedDishesList.add(dish);
-                }else{
-                    holder.btnAddToMenu.setText("Add to Today's Menu");
+                } else{
+                    holder.btnAddToMenu.setText(R.string.add_to_menu);
                     selectedDishesList.remove(dish);
                 }
-                isButtonPressed = !isButtonPressed; //reverse
             }
         });
     }

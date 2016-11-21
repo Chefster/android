@@ -67,6 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSummary"
             android:layout_marginTop="20dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:orientation="horizontal">
 
             <TextView
