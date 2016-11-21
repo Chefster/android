@@ -33,6 +33,8 @@ public class IngredientsFragment extends BaseFragment {
     @BindView(R.id.rvIngredients)
     RecyclerView rvIngredients;
 
+    final static private String ARGUMENT = "ingredients";
+
     private CategoryAdapter IngredientsAdapter;
     private List<Ingredient> ingredientList;
     private IngredientsAdapter adapter;
@@ -41,7 +43,8 @@ public class IngredientsFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-      ingredientList = (List)getArguments().getParcelableArrayList("ingredients");
+        ingredientList = (List) getArguments().getParcelableArrayList(ARGUMENT);
+        getArguments().remove(ARGUMENT);
     }
 
     @Nullable
