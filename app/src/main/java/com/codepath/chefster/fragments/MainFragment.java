@@ -58,8 +58,7 @@ public class MainFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
     }
 
-    @BindView(R.id.rvCategoryGrid)
-    RecyclerView rvCategories;
+    @BindView(R.id.rvCategoryGrid) RecyclerView rvCategories;
     private CategoryAdapter categoryAdapter;
 
     @Override

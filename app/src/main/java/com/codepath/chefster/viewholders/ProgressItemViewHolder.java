@@ -1,25 +1,25 @@
 package com.codepath.chefster.viewholders;
 
-import android.animation.ValueAnimator;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.chefster.R;
-import com.dd.CircularProgressButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
+    @BindView(R.id.relative_layout_step_item) RelativeLayout mainLayout;
     @BindView(R.id.text_view_dish_title) TextView stepDishTextView;
     @BindView(R.id.text_view_step_description) TextView stepDescriptionTextView;
     @BindView(R.id.text_view_step_type) TextView stepTypeTextView;
-    @BindView(R.id.circular_progress_button) CircularProgressButton circularProgressButton;
-
-    ValueAnimator widthAnimation;
+    @BindView(R.id.text_view_time_duration) TextView estTimeTextView;
+    @BindView(R.id.button_step_details) Button stepDetailsButton;
+    @BindView(R.id.button_play_pause_step) Button playPauseStepButton;
+    @BindView(R.id.button_finish_step) Button finishStepButton;
 
     public ProgressItemViewHolder(View itemView) {
         super(itemView);
@@ -38,11 +38,23 @@ public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
         return stepTypeTextView;
     }
 
-    public CircularProgressButton getCircularProgressButton() {
-        return circularProgressButton;
+    public Button getStepDetailsButton() {
+        return stepDetailsButton;
     }
 
-    public ValueAnimator getWidthAnimation() {
-        return widthAnimation;
+    public Button getPlayPauseStepButton() {
+        return playPauseStepButton;
+    }
+
+    public Button getFinishStepButton() {
+        return finishStepButton;
+    }
+
+    public TextView getEstTimeTextView() {
+        return estTimeTextView;
+    }
+
+    public RelativeLayout getMainLayout() {
+        return mainLayout;
     }
 }

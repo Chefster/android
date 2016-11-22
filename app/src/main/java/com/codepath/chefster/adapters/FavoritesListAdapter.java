@@ -22,6 +22,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
     private Context context;
     private List<Dish> dishesList;
     private List<Dish> selectedDishesList;
+    private boolean isButtonPressed = false;
 
     public FavoritesListAdapter(Context context, List<Dish> recipes) {
         this.context = context;
@@ -61,7 +62,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         holder.ivMealImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dish selectedDish  = dishesList.get(position);
+                Dish selectedDish  = dishesList.get(holder.getAdapterPosition());
                 Intent intent = new Intent(getContext(), DishDetailsActivity.class);
                 intent.putExtra(DISH_KEY, Parcels.wrap(selectedDish));
                 getContext().startActivity(intent);
