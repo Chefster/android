@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * This adapter is for the MealLaunchActivity and it holds all the chosen dishes
  */
-public class SmallDishAdapter extends RecyclerView.Adapter<SmallDishAdapter.ViewHolder> {
+public class CompactLayoutDishAdapter extends RecyclerView.Adapter<CompactLayoutDishAdapter.ViewHolder> {
     private Context context;
     private List<Dish> dishes;
 
@@ -34,7 +34,7 @@ public class SmallDishAdapter extends RecyclerView.Adapter<SmallDishAdapter.View
         return context;
     }
 
-    public SmallDishAdapter(Context context, List<Dish> dishes) {
+    public CompactLayoutDishAdapter(Context context, List<Dish> dishes) {
         this.context = context;
         this.dishes = dishes;
     }

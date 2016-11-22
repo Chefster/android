@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
-import com.codepath.chefster.adapters.FavoritesListAdapter;
-import com.codepath.chefster.adapters.SmallDishAdapter;
+import com.codepath.chefster.adapters.CompactLayoutDishAdapter;
 import com.codepath.chefster.models.Dish;
 
 import org.parceler.Parcels;
@@ -27,6 +26,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MealLaunchActivity extends BaseActivity {
+    private static final int OPTIMIZED_MULTIPLE_PEOPLE_PORTION = 7;
+    private static final int AGGREGATED_MULTIPLE_PEOPLE_PORTION = 5;
     @BindView(R.id.recycler_view_chosen_dishes) RecyclerView dishesRecyclerView;
     @BindView(R.id.pans_spinner) Spinner pansSpinner;
     @BindView(R.id.pots_spinner) Spinner potsSpinner;
@@ -40,7 +41,7 @@ public class MealLaunchActivity extends BaseActivity {
     @BindColor(android.R.color.white) int unchosenColor;
 
     List<Dish> chosenDishes;
-    SmallDishAdapter dishesAdapter;
+    CompactLayoutDishAdapter dishesAdapter;
     int numberOfPeople = 1;
     int numberOfPans = 1;
     int numberOfPots = 1;
@@ -62,7 +63,7 @@ public class MealLaunchActivity extends BaseActivity {
 
     private void setupRecyclerView() {
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
-        dishesAdapter = new SmallDishAdapter(this, chosenDishes);
+        dishesAdapter = new CompactLayoutDishAdapter(this, chosenDishes);
         dishesRecyclerView.setAdapter(dishesAdapter);
         // Setup layout manager for items with orientation
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -125,8 +126,8 @@ public class MealLaunchActivity extends BaseActivity {
         // Remove the last 10 minutes that were added because it's a wrong calculation
         totalAggregatedTime -= 10;
         // These two are estimated assumptions for how productive 2 people can be in comparison to 1
-        totalAggregatedTime -= (numberOfPeople > 1 ? (totalAggregatedTime / 5) : 0);
-        totalOptimizedTime -= (numberOfPeople > 1 ? (totalOptimizedTime / 7) : 0);
+        totalAggregatedTime -= (numberOfPeople > 1 ? (totalAggregatedTime / AGGREGATED_MULTIPLE_PEOPLE_PORTION) : 0);
+        totalOptimizedTime -= (numberOfPeople > 1 ? (totalOptimizedTime / OPTIMIZED_MULTIPLE_PEOPLE_PORTION) : 0);
 
         regularTimeTextView.setText(getBetterFormat(totalAggregatedTime));
         appTimeTextView.setText(getBetterFormat(totalOptimizedTime));

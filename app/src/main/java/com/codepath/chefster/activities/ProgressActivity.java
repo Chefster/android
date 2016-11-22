@@ -119,19 +119,21 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
 
     protected void setupRecyclerViews() {
         for (int i = 0; i < stepsLists.size(); i++) {
-            dishNameToIndexHashMap.put(stepsLists.get(i).get(0).getDishName(), i);
-            List<Step> currentList = stepsLists.get(i);
-            for (Step step : currentList) {
-                step.setStatus(Step.Status.READY);
+            if (!stepsLists.get(i).isEmpty()) {
+                dishNameToIndexHashMap.put(stepsLists.get(i).get(0).getDishName(), i);
+                List<Step> currentList = stepsLists.get(i);
+                for (Step step : currentList) {
+                    step.setStatus(Step.Status.READY);
+                }
+                adapter[i] = new ProgressAdapter(currentList, this, i);
+                final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false);
+                layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+                recyclerViewsList.get(i).setAdapter(adapter[i]);
+                recyclerViewsList.get(i).setLayoutManager(layoutManager);
+                recyclerViewsList.get(i).setHasFixedSize(true);
+                recyclerViewsList.get(i).addOnScrollListener(new CenterScrollListener());
+                recyclerViewsList.get(i).setVisibility(View.VISIBLE);
             }
-            adapter[i] = new ProgressAdapter(currentList, this, i);
-            final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false);
-            layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
-            recyclerViewsList.get(i).setAdapter(adapter[i]);
-            recyclerViewsList.get(i).setLayoutManager(layoutManager);
-            recyclerViewsList.get(i).setHasFixedSize(true);
-            recyclerViewsList.get(i).addOnScrollListener(new CenterScrollListener());
-            recyclerViewsList.get(i).setVisibility(View.VISIBLE);
         }
     }
 
