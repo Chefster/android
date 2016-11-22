@@ -98,6 +98,8 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
+    // Rating Bar
+    compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
 }
 
 // Add to the bottom of the file

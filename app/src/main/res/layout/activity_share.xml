@@ -34,13 +34,20 @@
         android:textColor="@android:color/white"
         />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_meal_done_photos"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_below="@id/text_view_share_subtitle"
-        android:layout_marginTop="12dp"
-        />
+    <ScrollView
+        android:layout_above="@+id/text_view_share_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:id="@+id/linear_layout_share_dish_frames"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </ScrollView>
 
     <TextView
         android:id="@+id/text_view_share_button"
@@ -56,4 +63,5 @@
         android:padding="16dp"
         android:layout_marginBottom="16dp"
         />
+
 </RelativeLayout>
