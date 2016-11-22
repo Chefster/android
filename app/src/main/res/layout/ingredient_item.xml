@@ -5,12 +5,12 @@
     android:layout_height="50dp"
     android:orientation="vertical">
 
-
     <TextView
         android:id="@+id/tvIngredient"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:text="Ingredient"
-        android:textSize="30dp" />
+        android:textSize="@dimen/text_size" />
 
 </LinearLayout>

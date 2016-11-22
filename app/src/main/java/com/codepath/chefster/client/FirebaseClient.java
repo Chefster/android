@@ -19,11 +19,19 @@ public class FirebaseClient {
 
     private Context context;
     private InputStream inputStream;
-    private ArrayList<Dish> dishesArray;
+    private static ArrayList<Dish> dishesArray;
     private DatabaseReference mDatabase;
 
     // empty constructor
     public FirebaseClient() {
+    }
+
+    public static ArrayList<Dish> getDishes() {
+        return dishesArray;
+    }
+
+    public static void setDishes(ArrayList<Dish> dishesArray) {
+        FirebaseClient.dishesArray = dishesArray;
     }
 
     // constructor

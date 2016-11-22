@@ -12,8 +12,8 @@ public class Dish {
     private Integer uid;
     private Integer serving; // amount of people.
     private Integer calories; //  calories
-    private Integer prep_time;
-    private Integer cooking_time;
+    private Integer prepTime;
+    private Integer cookingTime;
     private List<Step> steps;
     private List<Ingredient> ingredients;
     private List<Review> reviews;
@@ -42,11 +42,11 @@ public class Dish {
     }
 
     public Integer getPrepTime() {
-        return prep_time;
+        return prepTime;
     }
 
     public Integer getCookingTime() {
-        return cooking_time;
+        return cookingTime;
     }
 
     public List<Step> getSteps() {

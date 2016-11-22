@@ -119,7 +119,7 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
 
     protected void setupRecyclerViews() {
         for (int i = 0; i < stepsLists.size(); i++) {
-            if (!stepsLists.get(i).isEmpty()) {
+            if (stepsLists.get(i) != null && !stepsLists.get(i).isEmpty()) {
                 dishNameToIndexHashMap.put(stepsLists.get(i).get(0).getDishName(), i);
                 List<Step> currentList = stepsLists.get(i);
                 for (Step step : currentList) {
