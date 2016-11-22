@@ -46,7 +46,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
     }
 
     @Override
-    public void onBindViewHolder(final FavoritesViewHolder holder, final int position) {
+    public void onBindViewHolder(final FavoritesViewHolder holder, int position) {
         final Dish dish = dishesList.get(position);
 
         holder.tvMealTitle.setText(dish.getTitle());
@@ -58,10 +58,11 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesViewHold
         }
 
         // when user Click on ItemImage it Will take Him To Dish Details
+        final int thisPosition = position;
         holder.ivMealImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dish selectedDish  = dishesList.get(position);
+                Dish selectedDish  = dishesList.get(thisPosition);
                 Intent intent = new Intent(getContext(), DishDetailsActivity.class);
                 intent.putExtra(DISH_KEY, Parcels.wrap(selectedDish));
                 getContext().startActivity(intent);
