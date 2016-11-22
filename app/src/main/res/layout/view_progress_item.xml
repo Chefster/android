@@ -2,14 +2,15 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/transparent_background_black_border"
+    android:id="@+id/relative_layout_step_item"
+    android:background="@drawable/white_background_black_border"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
     android:padding="4dp"
-    android:layout_marginBottom="2dp"
+    android:paddingBottom="16dp"
+    android:layout_marginBottom="8dp"
     >
 
     <TextView
@@ -22,8 +23,21 @@
         android:background="@android:color/black"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
-        android:layout_centerVertical="true"
         tools:text="PREP"
+        />
+
+    <TextView
+        android:id="@+id/text_view_time_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/text_view_step_type"
+        android:padding="4dp"
+        android:background="@android:color/black"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        tools:text="6 mins"
         />
 
     <TextView
@@ -32,8 +46,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        android:textSize="22sp"
-        android:alpha="0.5"
+        android:textSize="25sp"
         android:layout_toEndOf="@id/text_view_step_type"
         tools:text="Shakshuka"
         />
@@ -48,23 +61,34 @@
         android:alpha="0.5"
         android:layout_toEndOf="@id/text_view_step_type"
         android:layout_below="@id/text_view_dish_title"
-        android:layout_toStartOf="@+id/circular_progress_button"
         tools:text="Dice the tomatoes and add it to the pan together with the diced onions and garlic"
         />
 
-    <com.dd.CircularProgressButton
-        android:id="@+id/circular_progress_button"
-        android:layout_width="100dp"
+    <Button
+        android:id="@+id/button_step_details"
+        android:text="@string/show_more"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="4dp"
-        android:textColor="@android:color/white"
-        android:background="@color/colorAccent"
-        android:layout_centerVertical="true"
-        android:padding="4dp"
-        android:textSize="18sp"
-        app:cpb_cornerRadius="48dp"
-        app:cpb_textComplete="Done"
-        app:cpb_textError="NotDone"/>
+        />
+
+    <Button
+        android:text="@string/finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_finish_step"
+        android:layout_alignParentBottom="true"
+        />
+
+    <Button
+        android:text="@string/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_play_pause_step"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/button_finish_step"
+        android:layout_toStartOf="@id/button_step_details"
+        />
 
 </RelativeLayout>

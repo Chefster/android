@@ -93,7 +93,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         // Get all dishes from database.
         loadDishes();
 
-
+        setViewPager();
+//        loadDataToDatabase();
     }
 
     // using this Method will upload new .json to DataBase and Overwrite the tree.
@@ -124,11 +125,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                         //handle databaseError
                     }
                 });
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void setViewPager() {

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.activities.MealLaunchActivity;
@@ -92,6 +93,7 @@ public class FavoritesFragment extends BaseFragment {
             mListener.onFavoritesFragmentInteraction(uri);
         }
     }
+
 
     @OnClick(R.id.btnStartCooking)
     public void onStartButtonClick() {
