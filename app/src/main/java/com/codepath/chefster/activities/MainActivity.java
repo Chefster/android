@@ -79,22 +79,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
 
         // Use this call only if you have new Data stored in .json and you want to update the DB.
         // loadDataToDatabase();
-        // Add Users
-/*        mDatabase = FirebaseDatabase.getInstance().getReference();
-        ArrayList<User> users = new ArrayList<>();
-        User user = new User( 1L ,"","Hezi","Eliyahu",null);
-        users.add(user);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        for (User item : users ) {
-            mDatabase.child("users").child(String.valueOf(user.getId())).setValue(item);
-        }*/
 
         // Get all dishes from database.
         loadDishes();
-
-        setViewPager();
-//        loadDataToDatabase();
     }
 
     // using this Method will upload new .json to DataBase and Overwrite the tree.
