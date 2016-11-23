@@ -11,6 +11,7 @@
     <style name="start_cooking_sticky_button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/sticky_button_height</item>
+        <item name="android:padding">4dp</item>
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 

@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
@@ -17,6 +20,7 @@ import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.ProgressAdapter;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Step;
+import com.codepath.chefster.views.StepProgressView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
@@ -28,15 +32,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProgressActivity extends BaseActivity implements ProgressAdapter.OnStepInteractionListener {
-    @Nullable @BindViews({ R.id.recycler_view_main_1, R.id.recycler_view_main_2, R.id.recycler_view_main_3 })
-    List<RecyclerView> recyclerViewsList;
-
-    ProgressAdapter[] adapter;
+public class ProgressActivity extends BaseActivity implements StepProgressView.OnStepProgressListener {
+    @Nullable @BindViews({ R.id.horiz_scroll_view_1, R.id.horiz_scroll_view_2, R.id.horiz_scroll_view_3 })
+    List<HorizontalScrollView> horizScrollViewsList;
+    @Nullable @BindViews({ R.id.linear_layout_dish_progress_1, R.id.linear_layout_dish_progress_2, R.id.linear_layout_dish_progress_3 })
+    List<LinearLayout> linearLayoutsList;
 
     List<HashSet<Integer>> stepIndexHashSetList;
     List<Dish> chosenDishes;
@@ -70,10 +75,9 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
         numberOfPeople = incomingIntent.getIntExtra("number_of_people", 1);
         numberOfPans = incomingIntent.getIntExtra("number_of_pans", 1);
         numberOfPots = incomingIntent.getIntExtra("number_of_pots", 1);
-        adapter = new ProgressAdapter[chosenDishes.size()];
         dishNameToIndexHashMap = new HashMap<>();
 
-        setupRecyclerViews();
+        setupLinearLayouts();
         markInitialActiveSteps();
     }
 
@@ -89,7 +93,7 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
                 int dishIndex = dishNameToIndexHashMap.get(thisStep.getDishName());
                 // increment the next step for this list
                 thisStep.setStatus(Step.Status.ACTIVE);
-                adapter[dishIndex].notifyDataSetChanged();
+//                adapter[dishIndex].notifyDataSetChanged();
             }
         }
     }
@@ -117,99 +121,84 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
         }
     }
 
-    protected void setupRecyclerViews() {
+    protected void setupLinearLayouts() {
         for (int i = 0; i < stepsLists.size(); i++) {
             if (stepsLists.get(i) != null && !stepsLists.get(i).isEmpty()) {
                 dishNameToIndexHashMap.put(stepsLists.get(i).get(0).getDishName(), i);
                 List<Step> currentList = stepsLists.get(i);
                 for (Step step : currentList) {
                     step.setStatus(Step.Status.READY);
+                    StepProgressView stepProgressView = new StepProgressView(this, chosenDishes.get(i) , step);
+                    stepProgressView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    linearLayoutsList.get(i).addView(stepProgressView);
                 }
-                adapter[i] = new ProgressAdapter(currentList, this, i);
-                final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false);
-                layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
-                recyclerViewsList.get(i).setAdapter(adapter[i]);
-                recyclerViewsList.get(i).setLayoutManager(layoutManager);
-                recyclerViewsList.get(i).setHasFixedSize(true);
-                recyclerViewsList.get(i).addOnScrollListener(new CenterScrollListener());
-                recyclerViewsList.get(i).setVisibility(View.VISIBLE);
+
+                horizScrollViewsList.get(i).setVisibility(View.VISIBLE);
             }
         }
     }
 
     public void scrollToStep(int list, int step) {
-        recyclerViewsList.get(list).smoothScrollToPosition(step);
+//        recyclerViewsList.get(list).smoothScrollToPosition(step);
     }
 
-    @OnClick(R.id.text_view_meals_in_progress)
-    public void startScrolling() {
-        try {
-            Thread.sleep(1000);
-            scrollToStep(0,4);
-            Thread.sleep(1000);
-            scrollToStep(1,2);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void onStepDone(String dish, int step) {
+//        int index = dishNameToIndexHashMap.get(dish);
+//        stepIndexHashSetList.get(index).add(step);
+//        List<Step> currentStepsList = stepsLists.get(index);
+//        // Set this step as DONE and update UI
+//        currentStepsList.get(step).setStatus(Step.Status.DONE);
+//        // TODO replace notifydatasetchange
+//        if (step == currentStepsList.size() - 1) {
+//            finished[index] = true;
+//            YoYo.with(Techniques.Tada)
+//                    .duration(1500)
+//                    .playOn(linearLayoutsList.get(index));
+//            if (mealIsFinished()) {
+//                finishCooking();
+//            }
+//        } else {
+//            // When there are 2 people cooking, there could be 2 steps that should be done in the
+//            // same list
+//        }
+//
+//        Step chosenStep = getNextBestStep();
+//        if (chosenStep == null) {
+//            return;
+//        }
+//        chosenStep.setStatus(Step.Status.ACTIVE);
+//        int newStepListIndex = dishNameToIndexHashMap.get(chosenStep.getDishName());
+//        int order = chosenStep.getOrder();
+//        adapter[newStepListIndex].notifyItemChanged(order);
+//        scrollToStep(newStepListIndex, order);
+//    }
 
-    @Override
-    public void onStepDone(String dish, int step) {
-        int index = dishNameToIndexHashMap.get(dish);
-        stepIndexHashSetList.get(index).add(step);
-        List<Step> currentStepsList = stepsLists.get(index);
-        // Set this step as DONE and update UI
-        currentStepsList.get(step).setStatus(Step.Status.DONE);
-        adapter[index].notifyItemChanged(step);
-        if (step == currentStepsList.size() - 1) {
-            finished[index] = true;
-            YoYo.with(Techniques.Tada)
-                    .duration(1500)
-                    .playOn(recyclerViewsList.get(index));
-            if (mealIsFinished()) {
-                finishCooking();
-            }
-        } else {
-            // When there are 2 people cooking, there could be 2 steps that should be done in the
-            // same list
-        }
-
-        Step chosenStep = getNextBestStep();
-        if (chosenStep == null) {
-            return;
-        }
-        chosenStep.setStatus(Step.Status.ACTIVE);
-        int newStepListIndex = dishNameToIndexHashMap.get(chosenStep.getDishName());
-        int order = chosenStep.getOrder();
-        adapter[newStepListIndex].notifyItemChanged(order);
-        scrollToStep(newStepListIndex, order);
-    }
-
-    @Override
-    public void onPausePlayButtonClick(String dish, final int step, long timeLeftForStep) {
-        final int index = dishNameToIndexHashMap.get(dish);
-        if (timersListPerDish.get(index).get(step) == null) {
-            timersListPerDish.get(index).put(step, new CountDownTimer(timeLeftForStep * 60000, 60000) {
-                public void onTick(long millisUntilFinished) {
-                    adapter[index].setTimeLeftForStep(step, millisUntilFinished / 1000 / 60);
-                    adapter[index].setStepTimerRunning(step, true);
-                    adapter[index].notifyItemChanged(step);
-                }
-
-                public void onFinish() {
-                    adapter[index].setTimeLeftForStep(step, 0);
-                    adapter[index].setStepTimerRunning(step, false);
-                    adapter[index].notifyItemChanged(step);
-                }
-            });
-            timersListPerDish.get(index).get(step).start();
-        } else {
-            timersListPerDish.get(index).get(step).cancel();
-            timersListPerDish.get(index).remove(step);
-            adapter[index].setStepTimerRunning(step, false);
-            adapter[index].notifyItemChanged(step);
-        }
-    }
+//    @Override
+//    public void onPausePlayButtonClick(String dish, final int step, long timeLeftForStep) {
+//        final int index = dishNameToIndexHashMap.get(dish);
+//        if (timersListPerDish.get(index).get(step) == null) {
+//            timersListPerDish.get(index).put(step, new CountDownTimer(timeLeftForStep * 60000, 60000) {
+//                public void onTick(long millisUntilFinished) {
+//                    adapter[index].setTimeLeftForStep(step, millisUntilFinished / 1000 / 60);
+//                    adapter[index].setStepTimerRunning(step, true);
+//                    adapter[index].notifyItemChanged(step);
+//                }
+//
+//                public void onFinish() {
+//                    adapter[index].setTimeLeftForStep(step, 0);
+//                    adapter[index].setStepTimerRunning(step, false);
+//                    adapter[index].notifyItemChanged(step);
+//                }
+//            });
+//            timersListPerDish.get(index).get(step).start();
+//        } else {
+//            timersListPerDish.get(index).get(step).cancel();
+//            timersListPerDish.get(index).remove(step);
+//            adapter[index].setStepTimerRunning(step, false);
+//            adapter[index].notifyItemChanged(step);
+//        }
+//    }
 
     private boolean mealIsFinished() {
         for (boolean isFinished : finished) {
@@ -218,23 +207,14 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
         return true;
     }
 
-
-    @Override
-    public void onDetailsButtonClick(int index) {
-        boolean isExpanded = adapter[index].isExpanded();
-        expandIndex(index, !isExpanded);
-        adapter[index].setExpanded(!isExpanded);
-        adapter[index].notifyDataSetChanged();
-    }
-
     public void expandIndex(int index, boolean expand) {
         if (expand) {
             for (int i = 0; i < chosenDishes.size(); i++) {
-                recyclerViewsList.get(i).setVisibility(i == index ? View.VISIBLE : View.GONE);
+                linearLayoutsList.get(i).setVisibility(i == index ? View.VISIBLE : View.GONE);
             }
         } else {
             for (int i = 0; i < chosenDishes.size(); i++) {
-                recyclerViewsList.get(i).setVisibility(View.VISIBLE);
+                linearLayoutsList.get(i).setVisibility(View.VISIBLE);
             }
         }
     }
@@ -256,5 +236,20 @@ public class ProgressActivity extends BaseActivity implements ProgressAdapter.On
                     }
                 });
        builder.create().show();
+    }
+
+    @Override
+    public void finishStep(String dishName, int step) {
+
+    }
+
+    @Override
+    public void pauseStep(String dishName, int step) {
+
+    }
+
+    @Override
+    public void resumeStep(String dishName, int step) {
+
     }
 }

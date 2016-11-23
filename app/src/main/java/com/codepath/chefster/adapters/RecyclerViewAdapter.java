@@ -48,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHo
     @Override
     public void onBindViewHolder(RecyclerViewViewHolder holder, int position) {
         List<Step> steps = stepsListList.get(position);
-        ProgressAdapter adapter = new ProgressAdapter(steps, context, position);
+        ProgressAdapter adapter = new ProgressAdapter(steps, context, position, null);
 
         // vertical and cycle layout
         final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false);
