@@ -114,6 +114,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot dishSnapshot : dataSnapshot.getChildren()) {
                             Dish dish = dishSnapshot.getValue(Dish.class);
+                            dish.save();
                             dishes.addDish(dish);
                         }
                         FirebaseClient.setDishes(dishes.getDishes());

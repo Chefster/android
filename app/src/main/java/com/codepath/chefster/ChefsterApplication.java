@@ -2,6 +2,10 @@ package com.codepath.chefster;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class ChefsterApplication extends Application {
@@ -16,5 +20,10 @@ public class ChefsterApplication extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
+
+        // This instantiates DBFlow
+        FlowManager.init(new FlowConfig.Builder(this).build());
+
+        Stetho.initializeWithDefaults(this);
     }
 }
