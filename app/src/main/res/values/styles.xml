@@ -61,4 +61,16 @@
         <item name="android:maxHeight">16dp</item>
     </style>
 
+    <style name="progress_item_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:background">@android:color/black</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">-4dp</item>
+    </style>
+
 </resources>

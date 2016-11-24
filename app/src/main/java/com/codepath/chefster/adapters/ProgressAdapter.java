@@ -91,7 +91,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
 
         holder.getStepTypeTextView().setText(step.getType());
         holder.getEstTimeTextView().setText("" + step.getDurationTime() + "mins");
-        holder.getStepDetailsButton().setText(isExpanded ? R.string.show_less : R.string.show_more);
+        holder.getStepDetailsButton().setText(isExpanded ? R.string.less : R.string.more);
         holder.getStepDetailsButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
