@@ -106,6 +106,8 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
     compile 'com.facebook.stetho:stetho:1.4.1'
+
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 }
 
 // Add to the bottom of the file
