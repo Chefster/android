@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -15,9 +14,11 @@ import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.CompactLayoutDishAdapter;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.models.Tool;
 
 import org.parceler.Parcels;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindColor;
@@ -31,17 +32,20 @@ public class MealLaunchActivity extends BaseActivity {
     @BindView(R.id.recycler_view_chosen_dishes) RecyclerView dishesRecyclerView;
     @BindView(R.id.pans_spinner) Spinner pansSpinner;
     @BindView(R.id.pots_spinner) Spinner potsSpinner;
-    @BindView(R.id.checkbox_oven) CheckBox ovenCheckbox;
     @BindView(R.id.text_view_person) TextView onePersonTextView;
     @BindView(R.id.text_view_persons) TextView morePeopleTextView;
     @BindView(R.id.text_view_regular_time_calc) TextView regularTimeTextView;
     @BindView(R.id.text_view_app_time_calc) TextView appTimeTextView;
+    @BindView(R.id.text_view_list_tools_needed) TextView listOfToolsNeededTextView;
+    @BindView(R.id.text_view_tools_warning) TextView toolsWarningTextView;
 
     @BindColor(android.R.color.black) int chosenColor;
     @BindColor(android.R.color.white) int unchosenColor;
 
     List<Dish> chosenDishes;
     CompactLayoutDishAdapter dishesAdapter;
+
+    HashMap<String, Integer> toolsNeededHashMap;
     int numberOfPeople = 1;
     int numberOfPans = 1;
     int numberOfPots = 1;
@@ -53,12 +57,32 @@ public class MealLaunchActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         setupRecyclerView();
+        countToolsNeeded();
         setupSpinners();
 
         onePersonTextView.setBackgroundColor(chosenColor);
         onePersonTextView.setTextColor(unchosenColor);
 
         calculateCookingTime();
+    }
+
+    private void countToolsNeeded() {
+        toolsNeededHashMap = new HashMap<>();
+        for (Dish dish : chosenDishes) {
+            for (Tool tool : dish.getTools()) {
+                Integer amountOfToolNeeded = toolsNeededHashMap.get(tool.getName());
+                toolsNeededHashMap.put(tool.getName(),
+                        amountOfToolNeeded == null ? tool.getAmount() : amountOfToolNeeded + tool.getAmount());
+            }
+        }
+
+        StringBuilder toolsNeededStr = new StringBuilder();
+        for (String key : toolsNeededHashMap.keySet()) {
+            toolsNeededStr.append(toolsNeededHashMap.get(key)).append(" ").append(key).append(", ");
+        }
+        toolsNeededStr.setLength(toolsNeededStr.length() - 2);
+
+        listOfToolsNeededTextView.setText(toolsNeededStr.toString());
     }
 
     private void setupRecyclerView() {
@@ -131,6 +155,14 @@ public class MealLaunchActivity extends BaseActivity {
 
         regularTimeTextView.setText(getBetterFormat(totalAggregatedTime));
         appTimeTextView.setText(getBetterFormat(totalOptimizedTime));
+
+        toolsWarningTextView.setVisibility(View.GONE);
+        for (String key : toolsNeededHashMap.keySet()) {
+            if ((key.equals("Pan") && toolsNeededHashMap.get(key) > numberOfPans)
+                || (key.equals("Pot") && toolsNeededHashMap.get(key) > numberOfPots)) {
+                toolsWarningTextView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private CharSequence getBetterFormat(int timeInMinutes) {

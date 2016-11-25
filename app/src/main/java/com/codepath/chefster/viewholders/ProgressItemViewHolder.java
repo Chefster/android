@@ -1,5 +1,6 @@
 package com.codepath.chefster.viewholders;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
+    @BindView(R.id.card_view_progress_item) CardView mainCardView;
     @BindView(R.id.relative_layout_step_item) RelativeLayout mainLayout;
     @BindView(R.id.text_view_dish_title) TextView stepDishTextView;
     @BindView(R.id.text_view_step_description) TextView stepDescriptionTextView;
@@ -24,6 +26,10 @@ public class ProgressItemViewHolder extends RecyclerView.ViewHolder{
     public ProgressItemViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+    }
+
+    public CardView getMainCardView() {
+        return mainCardView;
     }
 
     public TextView getStepDishTextView() {

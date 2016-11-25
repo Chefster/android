@@ -13,4 +13,8 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorBackground">#EAF0F2</color>
+    <!--Step color-->
+    <color name="white_translucent">#CCFFFFFF</color>
+    <color name="light_blue_translucent">#CC00AAFF</color>
+    <color name="light_orange_translucent">#CCFFA726</color>
 </resources>
