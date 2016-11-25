@@ -1,11 +1,13 @@
 package com.codepath.chefster.views;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,12 +36,17 @@ public class StepProgressView extends CardView {
     @BindView(R.id.button_finish_step) TextView finishStepButton;
     @BindView(R.id.pause_step_layout) ImageView pauseStepLayout;
 
+    boolean isExpanded;
     boolean isTimerRunning;
     long timeLeftInSeconds;
     CountDownTimer countDownTimer;
     OnStepProgressListener listener;
     Dish dish;
     Step step;
+
+    public StepProgressView(Context context) {
+        this(context, null, null);
+    }
 
     public StepProgressView(Context context, Dish dish, Step step) {
         super(context);
@@ -62,14 +69,17 @@ public class StepProgressView extends CardView {
         });
 
         setViewsText();
-
     }
 
     private void setViewsText() {
         stepDishTextView.setText(step.getDishName());
         stepDescriptionTextView.setText(step.getDescription());
         stepTypeTextView.setText(step.getType());
-        estTimeTextView.setText("" + step.getDurationTime() + "m");
+        if (step.getDurationTime() != 0) {
+            estTimeTextView.setText("" + step.getDurationTime() + "m");
+        } else {
+            estTimeTextView.setText("Instant!");
+        }
     }
 
     @OnClick(R.id.button_play_pause_step)
@@ -113,9 +123,79 @@ public class StepProgressView extends CardView {
         return sb.toString();
     }
 
+    public void setStepStatus(Step.Status status) {
+        step.setStatus(status);
+
+        switch (step.getStatus()) {
+            case READY:
+                mainLayout.setBackgroundResource(R.color.white_translucent);
+                finishStepButton.setVisibility(GONE);
+                playPauseStepButton.setVisibility(GONE);
+                break;
+            case ACTIVE:
+                mainLayout.setBackgroundResource(R.color.light_blue_translucent);
+                finishStepButton.setVisibility(VISIBLE);
+                if (step.getDurationTime() != 0) {
+                    playPauseStepButton.setVisibility(VISIBLE);
+                }
+                break;
+            case DONE:
+                mainLayout.setBackgroundResource(R.color.light_orange_translucent);
+                playPauseStepButton.setVisibility(GONE);
+                finishStepButton.setVisibility(GONE);
+        }
+    }
+
+    @OnClick(R.id.button_finish_step)
+    public void onFinishStepClick() {
+        if (isExpanded) {
+            expandStepItem();
+        }
+
+        // We don't want to show the dialog on every step. Only long cooking steps where
+        // the user might be able to keep doing things while a long not busy step is happening
+        if (step.getType().equals("Prep") || (step.getType().equals("Cook") && step.getDurationTime() < 8)) {
+            setStepStatus(Step.Status.DONE);
+            countDownTimer = null;
+            listener.showNextStep(step.getDishName(), step.getOrder(), true);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage(R.string.finish_step_message)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            setStepStatus(Step.Status.DONE);
+                            countDownTimer = null;
+                            listener.showNextStep(step.getDishName(), step.getOrder(), true);
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            listener.showNextStep(step.getDishName(), step.getOrder(), false);
+                        }
+                    });
+            builder.create().show();
+        }
+    }
+
+    @OnClick(R.id.button_step_details)
+    public void expandStepItem() {
+        isExpanded = !isExpanded;
+        if (isExpanded) {
+            stepDetailsButton.setText(R.string.less);
+            stepDetailsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_less, 0, 0, 0);
+            stepDescriptionTextView.setMaxLines(12);
+        } else {
+            stepDetailsButton.setText(R.string.more);
+            stepDetailsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_more, 0, 0, 0);
+            stepDescriptionTextView.setMaxLines(2);
+        }
+        listener.expandStepItem(step.getDishName(), isExpanded);
+    }
+
     public interface OnStepProgressListener {
-        void finishStep(String dishName, int step);
+        void showNextStep(String dishName, int step, boolean isFinished);
         void pauseStep(String dishName, int step);
         void resumeStep(String dishName, int step);
+        void expandStepItem(String dishName, boolean expand);
     }
 }

@@ -18,8 +18,8 @@
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="how_many_people">How many people are cooking?</string>
-    <string name="regular_time_calc">Estimated time without Chefster</string>
-    <string name="app_time_calc">Estimated time with Chefster</string>
+    <string name="regular_time_calc">Est. time without Chefster</string>
+    <string name="app_time_calc">Est. time with Chefster</string>
     <string name="what_tools">What tools do you have?</string>
 
     <string-array name="amount_array">
@@ -49,5 +49,12 @@
     <string name="leave_review">Leave a review!</string>
     <string name="review_hint">Did you like the dish? Would you make it again? Let other people know!</string>
     <string name="post_review">Post Review</string>
+    <string name="tools_needed">Tools needed for best time optimization:</string>
+    <string name="meal_summary">Meal Summary</string>
+    <string name="tools_warning">* You currently do not have the right tool set for an optimized cooking time</string>
+    <string name="future">Future</string>
+    <string name="done">Done</string>
+    <string name="active">Active</string>
+    <string name="finish_step_message">Are you done with this step? Clicking \'Yes\' will stop timer and mark this step as done. Clicking \'No\' will show you the next step and keep alert for this step.</string>
 
 </resources>
