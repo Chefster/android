@@ -12,6 +12,8 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
 
 
+def dbflow_version = "develop-SNAPSHOT"
+
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
@@ -30,14 +32,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
 
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources false // Not compatible with Instant Run
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFile('proguard-rules-test.pro')
@@ -98,6 +100,14 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
+
+
+    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    compile 'com.facebook.stetho:stetho:1.4.1'
+
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 }
 
 // Add to the bottom of the file

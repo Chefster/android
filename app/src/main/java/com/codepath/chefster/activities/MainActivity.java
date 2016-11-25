@@ -1,6 +1,5 @@
 package com.codepath.chefster.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,8 +17,8 @@ import com.codepath.chefster.client.FirebaseClient;
 import com.codepath.chefster.fragments.FavoritesFragment;
 import com.codepath.chefster.fragments.MainFragment;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.models.Dish_Table;
 import com.codepath.chefster.models.Dishes;
-import com.codepath.chefster.models.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,12 +28,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener,
         MainFragment.OnMainFragmentInteractionListener, FavoritesFragment.OnFavoritesInteractionListener {
@@ -46,6 +51,10 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     TabLayout tabLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.search_view)
+    MaterialSearchView searchView;
+
+    final static public String DISH_KEY = "selected_dish";
 
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;
@@ -56,6 +65,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     private ArrayList<Dish> dishesArray;
     private DatabaseReference mDatabase;
     private Dishes dishes;
+    List<Dish> search_result;
     private FirebaseClient firebaseClient;
 
 
@@ -79,22 +89,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
 
         // Use this call only if you have new Data stored in .json and you want to update the DB.
         // loadDataToDatabase();
-        // Add Users
-/*        mDatabase = FirebaseDatabase.getInstance().getReference();
-        ArrayList<User> users = new ArrayList<>();
-        User user = new User( 1L ,"","Hezi","Eliyahu",null);
-        users.add(user);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        for (User item : users ) {
-            mDatabase.child("users").child(String.valueOf(user.getId())).setValue(item);
-        }*/
 
         // Get all dishes from database.
         loadDishes();
-
-        setViewPager();
-//        loadDataToDatabase();
     }
 
     // using this Method will upload new .json to DataBase and Overwrite the tree.
@@ -114,6 +111,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot dishSnapshot : dataSnapshot.getChildren()) {
                             Dish dish = dishSnapshot.getValue(Dish.class);
+                            dish.save();
                             dishes.addDish(dish);
                         }
                         FirebaseClient.setDishes(dishes.getDishes());
@@ -170,7 +168,60 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchViewHandler(item);
+
         return true;
+    }
+
+    /*
+    * this method handle the request from the searchView,
+    * getting the query from the database and displaying the result.
+    */
+    private void searchViewHandler(MenuItem item) {
+        searchView.setMenuItem(item);
+        searchView.setVoiceSearch(true);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                List<Dish> selectedDish  = SQLite.select().from(Dish.class)
+                        .where(Dish_Table.title.like("%" + query + "%")).queryList();
+
+                if (! selectedDish.isEmpty()) {
+                    Dish currentDish = selectedDish.get(0);
+
+                    // TODO - Add Lists to Table - DBFlow don't support Lists.
+                    for ( Dish dish: dishes.getDishes() ) {
+                        if (dish.getUid() == currentDish.getUid()){
+                            currentDish = dish;
+                        }
+                    }
+
+                    Intent intent = new Intent(getApplication(), DishDetailsActivity.class);
+                    intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(DISH_KEY, Parcels.wrap(currentDish));
+                    getApplication().startActivity(intent);
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                search_result = SQLite.select().from(Dish.class)
+                        .where(Dish_Table.title.like("%" + newText + "%")).queryList();
+                String[] strings = new String[search_result.size()];
+                for (int i = 0; i < search_result.size(); i++) {
+                    strings[i] = search_result.get(i).getTitle();
+                }
+
+                searchView.setSuggestions(strings);
+
+                return true;
+            }
+        });
     }
 
     @Override
