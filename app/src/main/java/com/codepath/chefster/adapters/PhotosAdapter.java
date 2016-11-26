@@ -48,7 +48,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void configurePhotosViewHolder(PhotosViewHolder photosViewHolder, int position) {
         if (position == photoUrisList.size()) {
-            photosViewHolder.getPhotoTakenImageView().setImageResource(R.mipmap.ic_add);
+            photosViewHolder.getPhotoTakenImageView().setImageResource(R.drawable.ic_take_photo);
         } else {
             // by this point we have the camera photo on disk
             Bitmap takenImage = BitmapFactory.decodeFile(photoUrisList.get(position).getPath());

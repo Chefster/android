@@ -57,8 +57,7 @@ public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunc
 
         shareDishViewList = new HashMap<>();
         for (Dish dish : cookedDishes) {
-            ShareDishView shareDishView = new ShareDishView(this);
-            shareDishView.setDishName(dish.getTitle());
+            ShareDishView shareDishView = new ShareDishView(this, dish);
             shareDishViewList.put(dish.getTitle(), shareDishView);
             mainLinearLayout.addView(shareDishView);
         }
@@ -106,25 +105,32 @@ public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunc
         return state.equals(Environment.MEDIA_MOUNTED);
     }
 
-//    @OnClick(R.id.text_view_share_button)
-//    public void sharePhotos() {
-//        if (photoUrisList.size() == 0) {
-//            Toast.makeText(this, "There's nothing to share!", Toast.LENGTH_SHORT).show();
-//        } else {
-//            final Intent shareIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-//            shareIntent.setType("image/jpg");
-//            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Look what I cooked!");
-//            StringBuilder mealString = new StringBuilder();
-//            for (Dish dish : cookedDishes) {
-//                mealString.append(dish.getTitle() + ", ");
-//            }
-//            mealString.setLength(mealString.length() - 1);
-//
-//            shareIntent.putExtra(Intent.EXTRA_TEXT, mealString.toString());
-//            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, photoUrisList);
-//            startActivity(Intent.createChooser(shareIntent, "Share image using"));
-//        }
-//    }
+    @OnClick(R.id.text_view_share_button)
+    public void sharePhotos() {
+        ArrayList<Uri> photoUrisList = new ArrayList<>();
+        for (int i = 0; i < cookedDishes.size(); i++) {
+            ShareDishView shareDishView = (ShareDishView) mainLinearLayout.getChildAt(i);
+            photoUrisList.addAll(shareDishView.getImagesList());
+        }
+
+        if (photoUrisList.size() == 0) {
+            Toast.makeText(this, "There's nothing to share!", Toast.LENGTH_SHORT).show();
+        } else {
+            final Intent shareIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+            shareIntent.setType("image/jpg");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Look what I cooked with Chefster!");
+            StringBuilder mealString = new StringBuilder();
+            for (Dish dish : cookedDishes) {
+                mealString.append(dish.getTitle() + ", ");
+            }
+            mealString.setLength(mealString.length() - 2);
+            mealString.append(". Totally recommend it!");
+
+            shareIntent.putExtra(Intent.EXTRA_TEXT, mealString.toString());
+            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, photoUrisList);
+            startActivity(Intent.createChooser(shareIntent, "Share image using"));
+        }
+    }
 
     @Override
     public void launchCamera(String dish) {

@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:scaleType="centerCrop"
-            android:contentDescription="DishImage"
             tools:src="@mipmap/ic_launcher" />
 
         <Button
@@ -25,11 +24,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/ivMealImage"
-            android:layout_alignRight="@id/ivMealImage"
+            android:layout_alignEnd="@id/ivMealImage"
             android:text="@string/add_to_menu"
-            android:drawableLeft="@drawable/ic_add_dish"
+            android:drawableStart="@drawable/ic_add_dish"
             android:layout_margin="8dp"
-            android:textStyle="bold"
+            android:textAppearance="@style/thin_text"
+            android:textSize="20sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:background="@drawable/button_shape"/>
 
         <TextView
@@ -38,11 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ivMealImage"
             android:textColor="@color/colorPrimaryText"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
             android:textSize="22sp"
-            android:textStyle="bold"
+            android:textAppearance="@style/bold_text"
             tools:text="Pasta with white sauce" />
 
         <TextView
@@ -52,9 +53,9 @@
             android:layout_below="@id/tvTitle"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textSize="16sp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
+            android:textSize="18sp"
+            android:textAppearance="@style/thin_text"
+            android:layout_marginStart="8dp"
             tools:text="Pasta, Milk, Floor, Bell Peppers, Butter, Cheese, Salt, Garlic, " />
         <View
             android:layout_width="match_parent"

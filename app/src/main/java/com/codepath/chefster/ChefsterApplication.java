@@ -16,7 +16,7 @@ public class ChefsterApplication extends Application {
         super.onCreate();
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/OpenSans-CondLight.ttf")
+                .setDefaultFontPath("fonts/Roboto-Light.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

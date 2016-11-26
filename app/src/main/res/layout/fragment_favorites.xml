@@ -15,7 +15,7 @@
             android:id="@+id/btnStartCooking"
             style="@style/start_cooking_sticky_button"
             android:layout_alignParentBottom="true"
-            android:text="What to eat today ???"
+            android:text="Let\'s Cook"
             android:textColor="@android:color/white"
             android:textSize="28sp"
             android:textStyle="bold" />

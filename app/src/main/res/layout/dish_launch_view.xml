@@ -16,12 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/black"
+        android:paddingEnd="8dp"
         >
 
         <ImageView
             android:id="@+id/image_view_dish_image"
             android:layout_width="80dp"
-            android:layout_height="70dp"
+            android:layout_height="80dp"
             android:layout_alignParentStart="true"
             tools:src="@mipmap/ic_launcher"
             />
@@ -34,7 +35,7 @@
             android:textSize="22sp"
             android:textColor="@color/colorPrimary"
             android:layout_toEndOf="@id/image_view_dish_image"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="6dp"
             tools:text="Shakshuka"
             />
 
@@ -46,7 +47,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:layout_toEndOf="@id/image_view_dish_image"
             android:layout_below="@id/text_view_dish_title"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="6dp"
             tools:text="Est. 40 minutes. Tools:Pan, Pot"
             />
 
