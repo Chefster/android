@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/sign_in_layout"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_in_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:ignore="MissingPrefix"
+    >
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
@@ -86,14 +91,38 @@
         android:layout_alignEnd="@+id/edit_text_password_input"
         />
 
+    <TextView
+        android:id="@+id/chefster_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/light_text"
+        android:layout_marginTop="12dp"
+        android:text="@string/app_name"
+        android:textSize="40sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@id/slider"
+        />
+
     <ImageView
         android:id="@+id/image_view_chefster_logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/ic_launcher"
-        android:layout_below="@id/slider"
+        android:layout_below="@id/chefster_title_label"
+        />
+
+    <TextView
+        android:id="@+id/chefster_slogan_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/light_text"
+        android:text="@string/whats_cooking"
+        android:textSize="32sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@id/image_view_chefster_logo"
         />
 
 </RelativeLayout>
