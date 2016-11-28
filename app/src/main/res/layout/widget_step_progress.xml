@@ -22,6 +22,8 @@
 
         <TextView
             android:id="@+id/text_view_step_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             style="@style/progress_item_text_view"
             tools:text="PREP"
@@ -33,7 +35,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:textSize="25sp"
+            android:textSize="22sp"
             android:layout_toEndOf="@id/text_view_step_type"
             tools:text="Shakshuka"
             />
@@ -45,7 +47,6 @@
             android:textColor="@android:color/black"
             android:textStyle="italic"
             android:textSize="17sp"
-            android:lineSpacingMultiplier="0.7"
             android:ellipsize="end"
             android:maxLines="2"
             android:layout_toEndOf="@id/text_view_step_type"
@@ -56,7 +57,7 @@
         <LinearLayout
             android:id="@+id/linear_layout_progress_buttons_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
             android:layout_margin="4dp"
@@ -64,12 +65,16 @@
 
             <TextView
                 android:id="@+id/text_view_time_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 style="@style/progress_item_text_view"
                 tools:text="6 mins"
                 />
 
             <TextView
                 android:id="@+id/button_finish_step"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 style="@style/progress_item_text_view"
                 android:text="@string/finish"
                 android:drawableStart="@drawable/ic_next_step"
@@ -77,28 +82,34 @@
 
             <TextView
                 android:id="@+id/button_play_pause_step"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_play"
                 style="@style/progress_item_text_view"
                 />
 
-            <TextView
+            <ImageView
                 android:id="@+id/button_step_details"
-                android:text="@string/more"
-                android:drawableStart="@drawable/ic_more"
-                style="@style/progress_item_text_view"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_more"
+                android:background="@android:color/black"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
                 />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/pause_step_layout"
-            android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_width="56dp"
+            android:layout_height="48dp"
             android:src="@drawable/ic_pause"
             android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/black_translucent_round"
+            android:layout_marginBottom="36dp"
             tools:visibility="visible"
             />
     </RelativeLayout>
