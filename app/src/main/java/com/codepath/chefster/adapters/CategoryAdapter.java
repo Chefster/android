@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
-import com.codepath.chefster.models.Categories;
+import com.codepath.chefster.models.Category;
 import com.codepath.chefster.viewholders.CategoryViewHolder;
 
 import java.util.List;
@@ -16,11 +16,11 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
     private Context context;
-    private List<Categories> categoriesList;
+    private List<Category> categoriesList;
 
-    public CategoryAdapter(Context context, List<Categories> categories) {
+    public CategoryAdapter(Context context, List<Category> categoriesList) {
         this.context = context;
-        this.categoriesList = categories;
+        this.categoriesList = categoriesList;
     }
 
     public Context getContext() {
@@ -42,10 +42,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         //for now hardcoding as we dont have any data model for category
-        Categories categories = categoriesList.get(position);
+        Category category = categoriesList.get(position);
 
-        Glide.with(context).load(categories.getCategoryImage()).into(holder.ivCategory);
-        holder.tvCategoryName.setText(categories.getCategoryName());
+        Glide.with(context).load(category.getImage()).into(holder.ivCategory);
+        holder.tvCategoryName.setText(category.getName());
     }
 
     @Override

@@ -11,13 +11,13 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 
 import com.codepath.chefster.R;
+import com.codepath.chefster.fragments.ContainerFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
     private int[] tabImages = {R.drawable.ic_category, R.drawable.ic_favorite};
 
     private String tabTitles[] = new String[]{"CATEGORIES", "FAVORITES"};
@@ -39,8 +39,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return mFragmentList.size();
     }
 
-    public void addFragment(Fragment fragment) {
-        mFragmentList.add(fragment);
+    public void setFragment(Fragment fragment, int index) {
+        mFragmentList.add(index, fragment);
+    }
+
+    public void replaceFragment(Fragment fragment, int index) {
+        mFragmentList.remove(index);
+        mFragmentList.add(index, fragment);
     }
 
     @Override
@@ -53,5 +58,22 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
         sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return sb;
+    }
+
+    /**
+     * The reason this is overriden is a little Hacky. When we would click onto a dish and favorite it
+     * We wanted to update the favorite view but it was already instantiated, so we had to call
+     * notifyDataSetChanged(), but then it would return us to MainFragment on position 0, so that's
+     * why we differentiate.
+     * @param object The fragment returning from ViewPager
+     * @return
+     */
+    @Override
+    public int getItemPosition(Object object) {
+        if (object instanceof ContainerFragment) {
+            return POSITION_UNCHANGED;
+        } else {
+            return POSITION_NONE;
+        }
     }
 }

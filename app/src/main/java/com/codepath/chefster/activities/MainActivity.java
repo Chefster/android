@@ -1,7 +1,6 @@
 package com.codepath.chefster.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -10,11 +9,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.codepath.chefster.R;
+import com.codepath.chefster.adapters.DishesAdapter;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
 import com.codepath.chefster.client.FirebaseClient;
-import com.codepath.chefster.fragments.FavoritesFragment;
+import com.codepath.chefster.fragments.ContainerFragment;
+import com.codepath.chefster.fragments.DishesFragment;
 import com.codepath.chefster.fragments.MainFragment;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Dish_Table;
@@ -38,23 +41,24 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class MainActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener,
-        MainFragment.OnMainFragmentInteractionListener, FavoritesFragment.OnFavoritesInteractionListener {
+public class MainActivity extends BaseActivity implements
+        GoogleApiClient.OnConnectionFailedListener,
+        DishesAdapter.DishesInteractionListener,
+        MainFragment.CategoryClickedListener {
     private static final String ANONYMOUS = "anonymousUser";
-
-    @BindView(R.id.main_viewpager)
-    ViewPager viewPager;
-    @BindView(R.id.main_tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.search_view)
-    MaterialSearchView searchView;
-
     final static public String DISH_KEY = "selected_dish";
+    private static final String CATEGORY_KEY = "category_name";
+
+    @BindView(R.id.main_viewpager) ViewPager viewPager;
+    @BindView(R.id.main_tab_layout) TabLayout tabLayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.search_view) MaterialSearchView searchView;
+    @BindView(R.id.button_items_on_list) Button itemsOnListButton;
+
 
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;
@@ -62,12 +66,14 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     private String mUsername;
     private String mPhotoUrl;
     private GoogleApiClient mGoogleApiClient;
-    private ArrayList<Dish> dishesArray;
+
+    ViewPagerAdapter adapter;
     private DatabaseReference mDatabase;
     private Dishes dishes;
     List<Dish> search_result;
-    private FirebaseClient firebaseClient;
+    public List<Dish> selectedDishes;
 
+    private FirebaseClient firebaseClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,12 +129,14 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                         //handle databaseError
                     }
                 });
+
+        selectedDishes = new ArrayList<>();
     }
 
     private void setViewPager() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
-        adapter.addFragment(MainFragment.newInstance());
-        adapter.addFragment(FavoritesFragment.newInstance());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
+        adapter.setFragment(ContainerFragment.newInstance(), 0);
+        adapter.setFragment(DishesFragment.newInstance(null), 1);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -229,13 +237,44 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
 
     }
 
-    @Override
-    public void onFavoritesFragmentInteraction(Uri uri) {
-
+    @OnClick(R.id.button_items_on_list)
+    public void startCooking() {
+        if (selectedDishes == null || selectedDishes.isEmpty()) {
+            Toast.makeText(this, "There are 0 dishes on your list!", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(this, MealLaunchActivity.class);
+            intent.putExtra("selected_dishes", Parcels.wrap(selectedDishes));
+            startActivity(intent);
+        }
     }
 
     @Override
-    public void onMainFragmentInteraction(Uri uri) {
+    public void onDishLiked() {
+        adapter.replaceFragment(DishesFragment.newInstance(null), 1);
+        adapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onDishAdded(Dish dish) {
+        if (selectedDishes.size() == 3) {
+            Toast.makeText(this, "Can't cook more than 3 dishes with this version", Toast.LENGTH_SHORT).show();
+        } else {
+            if (!selectedDishes.contains(dish)) {
+                selectedDishes.add(dish);
+            }
+            itemsOnListButton.setText("Continue (" + selectedDishes.size() + "items)");
+        }
+    }
+
+    @Override
+    public void onDishRemoved(Dish dish) {
+        selectedDishes.remove(dish);
+        itemsOnListButton.setText("Dishes On List (" + selectedDishes.size() + ")");
+    }
+
+    @Override
+    public void onCategoryclicked(String category) {
+        adapter.replaceFragment(DishesFragment.newInstance(category), 0);
+        adapter.notifyDataSetChanged();
     }
 }
