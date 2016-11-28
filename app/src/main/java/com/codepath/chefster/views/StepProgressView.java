@@ -30,9 +30,9 @@ public class StepProgressView extends CardView {
     @BindView(R.id.text_view_dish_title) TextView stepDishTextView;
     @BindView(R.id.text_view_step_description) TextView stepDescriptionTextView;
     @BindView(R.id.text_view_step_type) TextView stepTypeTextView;
-    @BindView(R.id.text_view_time_duration) TextView estTimeTextView;
-    @BindView(R.id.button_step_details) TextView stepDetailsButton;
-    @BindView(R.id.button_play_pause_step) TextView playPauseStepButton;
+    @BindView(R.id.text_view_running_timer) TextView runningTimerTextView;
+    @BindView(R.id.button_step_details) ImageView stepDetailsButton;
+    @BindView(R.id.button_play_pause_step) ImageView playPauseStepButton;
     @BindView(R.id.button_finish_step) TextView finishStepButton;
     @BindView(R.id.pause_step_layout) ImageView pauseStepLayout;
 
@@ -76,9 +76,10 @@ public class StepProgressView extends CardView {
         stepDescriptionTextView.setText(step.getDescription());
         stepTypeTextView.setText(step.getType());
         if (step.getDurationTime() != 0) {
-            estTimeTextView.setText("" + step.getDurationTime() + "m");
+            runningTimerTextView.setText(getTimerFormat(step.getDurationTime() * 60));
+            runningTimerTextView.setVisibility(VISIBLE);
         } else {
-            estTimeTextView.setText("Instant!");
+            runningTimerTextView.setVisibility(GONE);
         }
     }
 
@@ -87,24 +88,23 @@ public class StepProgressView extends CardView {
         if (isTimerRunning) {
             isTimerRunning = false;
             pauseStepLayout.setVisibility(VISIBLE);
-            playPauseStepButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_play, 0, 0, 0);
+            playPauseStepButton.setImageResource(R.drawable.ic_play);
             countDownTimer.cancel();
         } else {
             isTimerRunning = true;
             pauseStepLayout.setVisibility(GONE);
-
-            playPauseStepButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pause, 0, 0, 0);
+            playPauseStepButton.setImageResource(R.drawable.ic_pause);
             countDownTimer = new CountDownTimer(timeLeftInSeconds * 1000, 1000) {
                 @Override
                 public void onTick(long l) {
                     timeLeftInSeconds = l / 1000;
-                    playPauseStepButton.setText(getTimerFormat(timeLeftInSeconds));
+                    runningTimerTextView.setText(getTimerFormat(timeLeftInSeconds));
                 }
 
                 @Override
                 public void onFinish() {
-                    playPauseStepButton.setText("Done!");
-                    playPauseStepButton.setCompoundDrawables(null, null, null, null);
+                    runningTimerTextView.setText("Done!");
+                    playPauseStepButton.setVisibility(GONE);
                 }
             }.start();
         }
@@ -116,7 +116,7 @@ public class StepProgressView extends CardView {
         int hours   = (int) ((totalSeconds / 3600) % 24);
         String secondsStr = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
         String minutesStr = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
-        String hoursStr = hours < 10 ? "0" + hours : String.valueOf(hours);
+        String hoursStr = String.valueOf(hours);
 
         StringBuilder sb = new StringBuilder();
         sb.append(hoursStr).append(":").append(minutesStr).append(":").append(secondsStr);
@@ -181,12 +181,10 @@ public class StepProgressView extends CardView {
     public void expandStepItem() {
         isExpanded = !isExpanded;
         if (isExpanded) {
-            stepDetailsButton.setText(R.string.less);
-            stepDetailsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_less, 0, 0, 0);
+            stepDetailsButton.setImageResource(R.drawable.ic_less);
             stepDescriptionTextView.setMaxLines(12);
         } else {
-            stepDetailsButton.setText(R.string.more);
-            stepDetailsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_more, 0, 0, 0);
+            stepDetailsButton.setImageResource(R.drawable.ic_more);
             stepDescriptionTextView.setMaxLines(2);
         }
         listener.expandStepItem(step.getDishName(), isExpanded);

@@ -315,9 +315,6 @@
         android:id="@+id/button_start_cooking"
         android:layout_alignParentBottom="true"
         android:text="@string/lets_go"
-        android:textColor="@android:color/white"
-        android:textSize="28sp"
-        android:textStyle="bold"
         style="@style/start_cooking_sticky_button"
         />
 

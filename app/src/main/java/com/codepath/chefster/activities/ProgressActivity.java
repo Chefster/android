@@ -1,17 +1,22 @@
 package com.codepath.chefster.activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
@@ -27,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.PriorityQueue;
 
 import butterknife.BindView;
@@ -36,12 +42,18 @@ import butterknife.OnClick;
 
 import static com.codepath.chefster.models.Step.Status.*;
 
-public class ProgressActivity extends BaseActivity implements StepProgressView.OnStepProgressListener {
+public class ProgressActivity extends BaseActivity implements
+        StepProgressView.OnStepProgressListener,
+        TextToSpeech.OnInitListener {
+    private final int REQ_CODE_SPEECH_INPUT = 100;
+
     @Nullable @BindViews({ R.id.horiz_scroll_view_1, R.id.horiz_scroll_view_2, R.id.horiz_scroll_view_3 })
     List<HorizontalScrollView> horizScrollViewsList;
     @Nullable @BindViews({ R.id.linear_layout_dish_progress_1, R.id.linear_layout_dish_progress_2, R.id.linear_layout_dish_progress_3 })
     List<LinearLayout> linearLayoutsList;
     @BindView(R.id.button_finish_cooking) Button finishCookingButton;
+
+    private TextToSpeech tts;
 
     List<HashSet<Integer>> stepIndexHashSetList;
     List<Dish> chosenDishes;
@@ -59,6 +71,8 @@ public class ProgressActivity extends BaseActivity implements StepProgressView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
         ButterKnife.bind(this);
+
+        tts = new TextToSpeech(this, this);
 
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
         finished = new boolean[chosenDishes.size()];
@@ -180,6 +194,8 @@ public class ProgressActivity extends BaseActivity implements StepProgressView.O
         // but sometime we have a 60m step to put something in the oven, and when we have
         // that, we want to see the next step and mark it as finished yet to keep the alarms
         if (isFinished) {
+            speakOut();
+            promptSpeechInput();
             stepIndexHashSetList.get(index).add(step);
 
             if (step == currentStepsList.size() - 1) {
@@ -238,5 +254,80 @@ public class ProgressActivity extends BaseActivity implements StepProgressView.O
         // increment the next step for this list
         int stepIndex = step.getOrder();
         ((StepProgressView) linearLayoutsList.get(dishIndex).getChildAt(stepIndex)).setStepStatus(status);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+
+            int result = tts.setLanguage(Locale.US);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            } else {
+                speakOut();
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+
+    }
+
+    private void speakOut() {
+        String text = "Step is finished";
+
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
+    }
+
+    /**
+     * Showing google speech input dialog
+     * */
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Receiving speech input
+     * */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    Toast.makeText(this, result.get(0), Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+
+        }
     }
 }
