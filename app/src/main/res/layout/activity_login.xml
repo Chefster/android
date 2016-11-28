@@ -1,128 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sign_in_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:ignore="MissingPrefix"
-    >
+    tools:ignore="MissingPrefix">
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        />
+        android:layout_height="280dp" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="104dp"
-        />
+        android:layout_gravity="center"
+        android:layout_marginBottom="104dp" />
 
     <TextView
         android:id="@+id/sign_in_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_shape"
-        android:layout_gravity="center_horizontal"
-        android:padding="12dp"
-        android:text="@string/sign_in"
-        android:textSize="22sp"
-        android:layout_marginTop="16dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_shape"
+        android:padding="12dp"
+        android:text="@string/sign_in"
+        android:textSize="22sp" />
 
     <EditText
+        android:id="@+id/edit_text_email_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/button_shape"
-        android:ems="10"
         android:layout_below="@+id/sign_in_title"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="8dp"
-        android:padding="12dp"
-        android:id="@+id/edit_text_email_input"
-        android:hint="user@gmail.com"
-        android:textColorHint="@android:color/black"
-        />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
         android:background="@drawable/button_shape"
         android:ems="10"
-        android:id="@+id/edit_text_password_input"
-        android:layout_below="@+id/edit_text_email_input"
-        android:layout_alignStart="@+id/edit_text_email_input"
+        android:hint="user@gmail.com"
+        android:inputType="textEmailAddress"
         android:padding="12dp"
+        android:textColorHint="@android:color/black" />
+
+    <EditText
+        android:id="@+id/edit_text_password_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/edit_text_email_input"
+        android:layout_below="@+id/edit_text_email_input"
+        android:background="@drawable/button_shape"
+        android:ems="10"
         android:hint="Password..."
-        android:textColorHint="@android:color/black"
-        />
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColorHint="@android:color/black" />
 
     <Button
-        android:text="Sign Up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/button_sign_up"
-        android:layout_below="@+id/edit_text_password_input"
-        android:layout_alignStart="@+id/edit_text_password_input"
-        android:layout_marginTop="17dp"
-        />
-
-    <Button
-        android:text="Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/edit_text_password_input"
+        android:layout_below="@+id/edit_text_password_input"
+        android:layout_marginTop="17dp"
+        android:text="Sign Up" />
+
+    <Button
         android:id="@+id/button_log_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/button_sign_up"
         android:layout_alignBottom="@+id/button_sign_up"
         android:layout_alignEnd="@+id/edit_text_password_input"
-        />
+        android:text="Login" />
 
     <TextView
         android:id="@+id/chefster_title_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textAppearance="@style/light_text"
-        android:layout_marginTop="12dp"
-        android:text="@string/app_name"
-        android:textSize="40sp"
-        android:textColor="@color/colorPrimary"
         android:layout_below="@id/slider"
-        />
+        android:layout_marginTop="12dp"
+        android:gravity="center_horizontal"
+        android:text="@string/app_name"
+        android:textAppearance="@style/light_text"
+        android:textColor="@color/colorPrimary"
+        android:textSize="40sp" />
 
     <ImageView
         android:id="@+id/image_view_chefster_logo"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_centerHorizontal="true"
-        android:src="@mipmap/ic_launcher"
         android:layout_below="@id/chefster_title_label"
-        />
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/chefster_slogan_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textAppearance="@style/light_text"
-        android:text="@string/whats_cooking"
-        android:textSize="32sp"
-        android:textColor="@color/colorPrimary"
         android:layout_below="@id/image_view_chefster_logo"
-        />
+        android:gravity="center_horizontal"
+        android:text="@string/whats_cooking"
+        android:textAppearance="@style/light_text"
+        android:textColor="@color/colorPrimary"
+        android:textSize="32sp" />
 
 </RelativeLayout>
