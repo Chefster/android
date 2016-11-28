@@ -31,7 +31,7 @@ public class StepProgressView extends CardView {
     @BindView(R.id.text_view_step_description) TextView stepDescriptionTextView;
     @BindView(R.id.text_view_step_type) TextView stepTypeTextView;
     @BindView(R.id.text_view_time_duration) TextView estTimeTextView;
-    @BindView(R.id.button_step_details) TextView stepDetailsButton;
+    @BindView(R.id.button_step_details) ImageView stepDetailsButton;
     @BindView(R.id.button_play_pause_step) TextView playPauseStepButton;
     @BindView(R.id.button_finish_step) TextView finishStepButton;
     @BindView(R.id.pause_step_layout) ImageView pauseStepLayout;
@@ -181,12 +181,10 @@ public class StepProgressView extends CardView {
     public void expandStepItem() {
         isExpanded = !isExpanded;
         if (isExpanded) {
-            stepDetailsButton.setText(R.string.less);
-            stepDetailsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_less, 0, 0, 0);
+            stepDetailsButton.setImageResource(R.drawable.ic_less);
             stepDescriptionTextView.setMaxLines(12);
         } else {
-            stepDetailsButton.setText(R.string.more);
-            stepDetailsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_more, 0, 0, 0);
+            stepDetailsButton.setImageResource(R.drawable.ic_more);
             stepDescriptionTextView.setMaxLines(2);
         }
         listener.expandStepItem(step.getDishName(), isExpanded);

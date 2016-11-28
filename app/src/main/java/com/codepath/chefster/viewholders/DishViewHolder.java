@@ -7,21 +7,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.chefster.R;
+import com.like.LikeButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FavoritesViewHolder extends RecyclerView.ViewHolder{
+public class DishViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.tvTitle) public TextView tvMealTitle;
     @BindView(R.id.tvSummary) public TextView tvMealSummary;
     @BindView(R.id.tvCookingTime) public TextView tvCookingTime;
     @BindView(R.id.tvMealRating) public TextView tvMealRating;
     @BindView(R.id.ivMealImage) public ImageView ivMealImage;
-    @BindView(R.id.ivfavorite) public ImageView ivfavorite;
+    @BindView(R.id.ivfavorite) public LikeButton ivfavorite;
     @BindView(R.id.btnAddToMenu) public Button btnAddToMenu;
 
-    public FavoritesViewHolder(View itemView) {
+    public DishViewHolder(View itemView) {
         super(itemView);
 
         ButterKnife.bind(this, itemView);

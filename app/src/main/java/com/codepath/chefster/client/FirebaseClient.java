@@ -2,32 +2,50 @@ package com.codepath.chefster.client;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+
+import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.utils.LocalStorage;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
-/**
- * Created by Hezi Eliyahu on 15/11/2016.
- */
+import java.util.List;
 
 public class FirebaseClient {
 
     private Context context;
     private InputStream inputStream;
-    private static ArrayList<Dish> dishesArray;
+    private static List<Dish> dishesArray;
     private DatabaseReference mDatabase;
 
     // empty constructor
     public FirebaseClient() {
     }
 
-    public static ArrayList<Dish> getDishes() {
-        return dishesArray;
+    public static List<Dish> getDishes(String category) {
+        if (category != null) {
+            List<Dish> categoryDishes = new ArrayList<>();
+            for (Dish dish : dishesArray) {
+                if (dish.getCategory().equals(category)) {
+                    categoryDishes.add(dish);
+                }
+            }
+
+            return categoryDishes;
+        } else {
+            LocalStorage localStorage = ChefsterApplication.getLocalStorage();
+            List<Dish> favoriteDishes = new ArrayList<>();
+            for (Dish dish : dishesArray) {
+                if (localStorage.isDishFavorited(dish.getUid())) {
+                    favoriteDishes.add(dish);
+                }
+            }
+            return favoriteDishes;
+        }
     }
 
     public static void setDishes(ArrayList<Dish> dishesArray) {

@@ -57,5 +57,6 @@
     <string name="active">Active</string>
     <string name="finish_step_message">Are you done with this step? Clicking \'Yes\' will stop timer and mark this step as done. Clicking \'No\' will show you the next step and keep alert for this step.</string>
     <string name="whats_cooking">What\'s Cookin\'?</string>
+    <string name="continue_0">Continue (0 items)</string>
 
 </resources>
