@@ -109,7 +109,7 @@ dependencies {
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
     compile 'com.facebook.stetho:stetho:1.4.1'
-    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    //compile 'com.miguelcatalan:materialsearchview:1.4.0'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'org.parceler:parceler:1.1.6'
