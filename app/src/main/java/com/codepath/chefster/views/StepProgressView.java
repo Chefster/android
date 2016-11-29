@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.widget.ImageView;
@@ -43,12 +44,14 @@ public class StepProgressView extends CardView {
     OnStepProgressListener listener;
     Dish dish;
     Step step;
+    TextToSpeech tts;
+    boolean shouldUseVoiceHelp;
 
     public StepProgressView(Context context) {
-        this(context, null, null);
+        this(context, null, null, null);
     }
 
-    public StepProgressView(Context context, Dish dish, Step step) {
+    public StepProgressView(Context context, Dish dish, Step step, TextToSpeech tts) {
         super(context);
         inflate(context, R.layout.widget_step_progress, this);
         ButterKnife.bind(this);
@@ -56,6 +59,8 @@ public class StepProgressView extends CardView {
         listener = (OnStepProgressListener) context;
         this.step = step;
         this.dish = dish;
+        this.tts = tts;
+        shouldUseVoiceHelp = true;
         timeLeftInSeconds = step.getDurationTime() * 60;
 
         Glide.with(context).load(dish.getThumbnails().get(0)).asBitmap().into(new SimpleTarget<Bitmap>() {
@@ -135,6 +140,9 @@ public class StepProgressView extends CardView {
             case ACTIVE:
                 mainLayout.setBackgroundResource(R.color.light_blue_translucent);
                 finishStepButton.setVisibility(VISIBLE);
+                if (shouldUseVoiceHelp) {
+                    tts.speak("now, for " + step.getDishName() + ", " + step.getDescription(), TextToSpeech.QUEUE_FLUSH, null);
+                }
                 if (step.getDurationTime() != 0) {
                     playPauseStepButton.setVisibility(VISIBLE);
                 }
@@ -188,6 +196,10 @@ public class StepProgressView extends CardView {
             stepDescriptionTextView.setMaxLines(2);
         }
         listener.expandStepItem(step.getDishName(), isExpanded);
+    }
+
+    public void setShouldUseVoiceHelp(boolean shouldUseVoiceHelp) {
+        this.shouldUseVoiceHelp = shouldUseVoiceHelp;
     }
 
     public interface OnStepProgressListener {

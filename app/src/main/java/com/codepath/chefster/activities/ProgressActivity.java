@@ -46,6 +46,9 @@ public class ProgressActivity extends BaseActivity implements
         StepProgressView.OnStepProgressListener,
         TextToSpeech.OnInitListener {
     private final int REQ_CODE_SPEECH_INPUT = 100;
+    private final int START_COOKING = 0;
+    private final int MID_COOKING = 1;
+    private final int DONE_COOKING = 2;
 
     @Nullable @BindViews({ R.id.horiz_scroll_view_1, R.id.horiz_scroll_view_2, R.id.horiz_scroll_view_3 })
     List<HorizontalScrollView> horizScrollViewsList;
@@ -54,6 +57,8 @@ public class ProgressActivity extends BaseActivity implements
     @BindView(R.id.button_finish_cooking) Button finishCookingButton;
 
     private TextToSpeech tts;
+    private boolean shouldUseVoiceHelp;
+    private int mealProgress;
 
     List<HashSet<Integer>> stepIndexHashSetList;
     List<Dish> chosenDishes;
@@ -72,6 +77,7 @@ public class ProgressActivity extends BaseActivity implements
         setContentView(R.layout.activity_progress);
         ButterKnife.bind(this);
 
+        mealProgress = START_COOKING;
         tts = new TextToSpeech(this, this);
 
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
@@ -142,7 +148,7 @@ public class ProgressActivity extends BaseActivity implements
                 List<Step> currentList = stepsLists.get(i);
                 for (Step step : currentList) {
                     // Populate each step in its view item
-                    StepProgressView stepProgressView = new StepProgressView(this, chosenDishes.get(i) , step);
+                    StepProgressView stepProgressView = new StepProgressView(this, chosenDishes.get(i), step, tts);
                     stepProgressView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     stepProgressView.setStepStatus(READY);
                     linearLayoutsList.get(i).addView(stepProgressView);
@@ -194,8 +200,6 @@ public class ProgressActivity extends BaseActivity implements
         // but sometime we have a 60m step to put something in the oven, and when we have
         // that, we want to see the next step and mark it as finished yet to keep the alarms
         if (isFinished) {
-            speakOut();
-            promptSpeechInput();
             stepIndexHashSetList.get(index).add(step);
 
             if (step == currentStepsList.size() - 1) {
@@ -266,7 +270,7 @@ public class ProgressActivity extends BaseActivity implements
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
             } else {
-                speakOut();
+                speakOutAndListen("Your cooking guide is ready to go. Do you want to use it?");
             }
 
         } else {
@@ -275,9 +279,13 @@ public class ProgressActivity extends BaseActivity implements
 
     }
 
-    private void speakOut() {
-        String text = "Step is finished";
+    private void speakOutAndListen(String text) {
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        while (tts.isSpeaking());
+        promptSpeechInput();
+    }
 
+    private void speakOut(String text) {
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
@@ -299,8 +307,6 @@ public class ProgressActivity extends BaseActivity implements
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.speech_prompt));
         try {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
@@ -323,7 +329,33 @@ public class ProgressActivity extends BaseActivity implements
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    Toast.makeText(this, result.get(0), Toast.LENGTH_LONG).show();
+                    String speech = result.get(0);
+                    if (speech.equals("shut the hell up")) {
+                        tts.speak("OK, I love you bye bye", TextToSpeech.QUEUE_FLUSH, null);
+                        shouldUseVoiceHelp = false;
+                    } else {
+                        switch (mealProgress) {
+                            case START_COOKING:
+                                if (speech.equals("yes")) {
+                                    tts.speak("Great! Let's cook some amazing things together. Say shut the hell up at any given moment to make me stop", TextToSpeech.QUEUE_FLUSH, null);
+                                    shouldUseVoiceHelp = true;
+                                } else if (speech.equals("no")) {
+                                    tts.speak("OK, i'll go find another friend to play with", TextToSpeech.QUEUE_FLUSH, null);
+                                    shouldUseVoiceHelp = false;
+                                }
+                                mealProgress = MID_COOKING;
+                                break;
+
+                            case MID_COOKING:
+                                if (speech.equals("next step") || speech.equals("finish")) {
+                                    tts.speak("Showing next step", TextToSpeech.QUEUE_FLUSH, null);
+                                }
+                                break;
+
+                            case DONE_COOKING:
+                                break;
+                        }
+                    }
                 }
                 break;
             }
