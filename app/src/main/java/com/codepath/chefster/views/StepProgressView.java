@@ -99,7 +99,7 @@ public class StepProgressView extends CardView {
             isTimerRunning = true;
             pauseStepLayout.setVisibility(GONE);
             playPauseStepButton.setImageResource(R.drawable.ic_pause);
-            countDownTimer = new CountDownTimer(timeLeftInSeconds * 1000, 1000) {
+            countDownTimer = new CountDownTimer(/*timeLeftInSeconds */ 5 * 1000, 1000) {
                 @Override
                 public void onTick(long l) {
                     timeLeftInSeconds = l / 1000;
@@ -109,6 +109,7 @@ public class StepProgressView extends CardView {
                 @Override
                 public void onFinish() {
                     runningTimerTextView.setText("Done!");
+                    tts.speak(step.getDishName() + " timer is done", TextToSpeech.QUEUE_FLUSH, null);
                     playPauseStepButton.setVisibility(GONE);
                 }
             }.start();
@@ -121,10 +122,10 @@ public class StepProgressView extends CardView {
         int hours   = (int) ((totalSeconds / 3600) % 24);
         String secondsStr = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
         String minutesStr = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
-        String hoursStr = String.valueOf(hours);
+        String hoursStr = hours > 0 ? String.valueOf(hours) + ":" : "";
 
         StringBuilder sb = new StringBuilder();
-        sb.append(hoursStr).append(":").append(minutesStr).append(":").append(secondsStr);
+        sb.append(hoursStr).append(minutesStr).append(":").append(secondsStr);
         return sb.toString();
     }
 
@@ -141,7 +142,8 @@ public class StepProgressView extends CardView {
                 mainLayout.setBackgroundResource(R.color.light_blue_translucent);
                 finishStepButton.setVisibility(VISIBLE);
                 if (shouldUseVoiceHelp) {
-                    tts.speak("now, for " + step.getDishName() + ", " + step.getDescription(), TextToSpeech.QUEUE_FLUSH, null);
+                    String text = "now, for " + step.getDishName() + ", a " + step.getDurationTime() + " minutes step, " + step.getDescription();
+                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
                 if (step.getDurationTime() != 0) {
                     playPauseStepButton.setVisibility(VISIBLE);
@@ -183,6 +185,11 @@ public class StepProgressView extends CardView {
                     });
             builder.create().show();
         }
+    }
+
+    @OnClick(R.id.button_step_description_audio)
+    public void playStepDescription() {
+        tts.speak(step.getDescription(), TextToSpeech.QUEUE_FLUSH, null);
     }
 
     @OnClick(R.id.button_step_details)

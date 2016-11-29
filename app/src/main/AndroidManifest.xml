@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codepath.chefster">
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -34,7 +35,7 @@
         <activity android:name=".activities.MealLaunchActivity"/>
         <activity android:name=".activities.BaseActivity"/>
         <activity android:name=".activities.DishDetailsActivity"/>
-
+        <activity android:name=".activities.ListeningActivity"/>
     </application>
 
 </manifest>

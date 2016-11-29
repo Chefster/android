@@ -1,11 +1,9 @@
 package com.codepath.chefster.activities;
 
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +14,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
@@ -42,10 +39,9 @@ import butterknife.OnClick;
 
 import static com.codepath.chefster.models.Step.Status.*;
 
-public class ProgressActivity extends BaseActivity implements
+public class ProgressActivity extends ListeningActivity implements
         StepProgressView.OnStepProgressListener,
         TextToSpeech.OnInitListener {
-    private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int START_COOKING = 0;
     private final int MID_COOKING = 1;
     private final int DONE_COOKING = 2;
@@ -77,8 +73,14 @@ public class ProgressActivity extends BaseActivity implements
         setContentView(R.layout.activity_progress);
         ButterKnife.bind(this);
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            String[] permissions = {"android.permission.RECORD_AUDIO"};
+//            requestPermissions(permissions, 0);
+//        }
+
         mealProgress = START_COOKING;
         tts = new TextToSpeech(this, this);
+        tts.setSpeechRate((float) 0.9);
 
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
         finished = new boolean[chosenDishes.size()];
@@ -270,7 +272,7 @@ public class ProgressActivity extends BaseActivity implements
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
             } else {
-                speakOutAndListen("Your cooking guide is ready to go. Do you want to use it?");
+                speakOut("Hi, I'm Chefie, your cooking assistant. If you want me to read the steps for you, press on the speaker icon on the top right corner of every step");
             }
 
         } else {
@@ -279,13 +281,23 @@ public class ProgressActivity extends BaseActivity implements
 
     }
 
-    private void speakOutAndListen(String text) {
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-        while (tts.isSpeaking());
-        promptSpeechInput();
-    }
-
     private void speakOut(String text) {
+//        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+//            @Override
+//            public void onStart(String s) {
+//                stopListening();
+//            }
+//
+//            @Override
+//            public void onDone(String s) {
+//                restartListeningService();
+//            }
+//
+//            @Override
+//            public void onError(String s) {
+//                restartListeningService();
+//            }
+//        });
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
@@ -299,67 +311,64 @@ public class ProgressActivity extends BaseActivity implements
         super.onDestroy();
     }
 
-    /**
-     * Showing google speech input dialog
-     * */
-    private void promptSpeechInput() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        try {
-            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
-        } catch (ActivityNotFoundException a) {
-            Toast.makeText(getApplicationContext(),
-                    getString(R.string.speech_not_supported),
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * Receiving speech input
-     * */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == RESULT_OK && null != data) {
-
-                    ArrayList<String> result = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String speech = result.get(0);
-                    if (speech.equals("shut the hell up")) {
-                        tts.speak("OK, I love you bye bye", TextToSpeech.QUEUE_FLUSH, null);
+    public void processVoiceCommands(String... voiceCommands) {
+        if (voiceCommands[0].equals("shut the hell up") || voiceCommands[0].equals("stop talking")) {
+            tts.speak("OK, I love you bye bye", TextToSpeech.QUEUE_FLUSH, null);
+            return;
+        } else if (voiceCommands[0].equals("finish cooking")) {
+            finishCooking();
+        } else {
+            switch (mealProgress) {
+                case START_COOKING:
+                    if (voiceCommands[0].equals("yes")) {
+                        speakOut("Great! Let's cook some amazing things together. Say 'shut the hell up' or 'stop talking' at any given moment to make me stop");
+                        shouldUseVoiceHelp = true;
+                    } else if (voiceCommands[0].equals("no")) {
+                        speakOut("OK, i'll go find another friend to play with");
                         shouldUseVoiceHelp = false;
-                    } else {
-                        switch (mealProgress) {
-                            case START_COOKING:
-                                if (speech.equals("yes")) {
-                                    tts.speak("Great! Let's cook some amazing things together. Say shut the hell up at any given moment to make me stop", TextToSpeech.QUEUE_FLUSH, null);
-                                    shouldUseVoiceHelp = true;
-                                } else if (speech.equals("no")) {
-                                    tts.speak("OK, i'll go find another friend to play with", TextToSpeech.QUEUE_FLUSH, null);
-                                    shouldUseVoiceHelp = false;
-                                }
-                                mealProgress = MID_COOKING;
-                                break;
-
-                            case MID_COOKING:
-                                if (speech.equals("next step") || speech.equals("finish")) {
-                                    tts.speak("Showing next step", TextToSpeech.QUEUE_FLUSH, null);
-                                }
-                                break;
-
-                            case DONE_COOKING:
-                                break;
-                        }
                     }
-                }
-                break;
-            }
+                    mealProgress = MID_COOKING;
+                    break;
 
+                case MID_COOKING:
+                    if (voiceCommands[0].equals("next step") || voiceCommands[0].equals("finish")) {
+                        speakOut("Showing next step");
+                    }
+                    break;
+
+                case DONE_COOKING:
+                    break;
+            }
         }
     }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           String permissions[], int[] grantResults) {
+//        switch (requestCode) {
+//            case 0: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                    // permission was granted, yay! Do the
+//                    // Start continuous listening for commands
+//                    while (tts.isSpeaking());
+//                    context = getApplicationContext(); // Needs to be set
+//                    VoiceRecognitionListener.getInstance().setListener(this); // Here we set the current listener
+//                    startListening(); // starts listening
+//
+//                } else {
+//
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                }
+//                return;
+//            }
+//
+//            // other 'case' lines to check for other
+//            // permissions this app might request
+//        }
+//    }
 }

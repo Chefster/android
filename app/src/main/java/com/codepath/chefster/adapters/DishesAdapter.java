@@ -90,35 +90,29 @@ public class DishesAdapter extends RecyclerView.Adapter<DishViewHolder> {
             }
         });
 
-        if (category != null) {
+        if (!((MainActivity) context).selectedDishes.contains(dish)) {
+            holder.btnAddToMenu.setText(R.string.add_to_menu);
+            holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add_dish, 0, 0, 0);
+        } else {
+            holder.btnAddToMenu.setText(R.string.added);
+            holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_added_dish, 0, 0, 0);
+        }
+        holder.btnAddToMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
             if (!((MainActivity) context).selectedDishes.contains(dish)) {
+                if (((MainActivity) context).selectedDishes.size() < 3) {
+                    holder.btnAddToMenu.setText(R.string.added);
+                    holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_added_dish, 0, 0, 0);
+                }
+                listener.onDishAdded(dish);
+            } else{
                 holder.btnAddToMenu.setText(R.string.add_to_menu);
                 holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add_dish, 0, 0, 0);
-            } else {
-                holder.btnAddToMenu.setText(R.string.added);
-                holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_added_dish, 0, 0, 0);
+                listener.onDishRemoved(dish);
             }
-            holder.btnAddToMenu.setVisibility(View.VISIBLE);
-            holder.btnAddToMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                if (!((MainActivity) context).selectedDishes.contains(dish)) {
-                    if (((MainActivity) context).selectedDishes.size() < 3) {
-                        holder.btnAddToMenu.setText(R.string.added);
-                        holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_added_dish, 0, 0, 0);
-                    }
-                    listener.onDishAdded(dish);
-                } else{
-                    holder.btnAddToMenu.setText(R.string.add_to_menu);
-                    holder.btnAddToMenu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add_dish, 0, 0, 0);
-                    listener.onDishRemoved(dish);
-                }
-                }
-            });
-        } else {
-            holder.btnAddToMenu.setVisibility(View.GONE);
-        }
-
+            }
+        });
     }
 
     @Override

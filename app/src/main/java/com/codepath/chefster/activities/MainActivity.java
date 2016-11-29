@@ -263,6 +263,8 @@ public class MainActivity extends BaseActivity implements
                 selectedDishes.add(dish);
             }
             itemsOnListButton.setText("Continue (" + selectedDishes.size() + " items)");
+            adapter.replaceFragment(DishesFragment.newInstance(null), 1);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -270,6 +272,8 @@ public class MainActivity extends BaseActivity implements
     public void onDishRemoved(Dish dish) {
         selectedDishes.remove(dish);
         itemsOnListButton.setText("Dishes On List (" + selectedDishes.size() + ")");
+        adapter.replaceFragment(DishesFragment.newInstance(null), 1);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
