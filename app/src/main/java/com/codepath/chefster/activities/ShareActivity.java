@@ -1,27 +1,17 @@
 package com.codepath.chefster.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
-import com.codepath.chefster.adapters.PhotosAdapter;
 import com.codepath.chefster.models.Dish;
-import com.codepath.chefster.models.Meal;
-import com.codepath.chefster.utils.ItemClickSupport;
 import com.codepath.chefster.views.ShareDishView;
 
 import org.parceler.Parcels;

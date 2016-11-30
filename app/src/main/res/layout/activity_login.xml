@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="280dp" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="104dp" />
+    <!--<com.google.android.gms.common.SignInButton-->
+        <!--android:id="@+id/sign_in_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginBottom="104dp" />-->
 
     <TextView
         android:id="@+id/sign_in_title"
@@ -79,6 +79,15 @@
         android:layout_alignBottom="@+id/button_sign_up"
         android:layout_alignEnd="@+id/edit_text_password_input"
         android:text="Login" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_log_in"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="30dp" />
 
     <TextView
         android:id="@+id/chefster_title_label"

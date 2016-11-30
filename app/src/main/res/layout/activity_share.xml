@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,27 +13,23 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.codepath.chefster.activities.ShareActivity"
-        >
+        tools:context="com.codepath.chefster.activities.ShareActivity">
 
-        <android.support.v7.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:apps="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/card_view_share_dish_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            apps:cardElevation="6dp"
-            apps:cardCornerRadius="4dp"
             android:layout_marginBottom="4dp"
-            >
+            apps:cardCornerRadius="4dp"
+            apps:cardElevation="6dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/orange_medium"
-                android:padding="4dp"
-                >
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/text_view_share_title"
@@ -42,21 +37,19 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="@string/well_done"
-                    android:textSize="32sp"
                     android:textColor="@android:color/black"
-                    />
+                    android:textSize="32sp" />
 
                 <TextView
                     android:id="@+id/text_view_share_subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/text_view_share_title"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_horizontal"
                     android:text="@string/share_meal"
-                    android:textSize="20sp"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="8dp"
-                    />
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 
@@ -64,28 +57,24 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/linear_layout_share_dish_frames"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:orientation="vertical" />
 
         </ScrollView>
 
-        <android.support.v7.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:apps="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            apps:cardElevation="4dp"
-            apps:cardCornerRadius="4dp"
             android:layout_marginBottom="4dp"
-            >
+            apps:cardCornerRadius="4dp"
+            apps:cardElevation="4dp">
 
             <TextView
                 android:id="@+id/text_view_share_button"
@@ -93,12 +82,11 @@
                 android:layout_height="wrap_content"
                 android:background="@color/orange_medium"
                 android:gravity="center"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:text="@string/share"
                 android:padding="8dp"
-                />
+                android:text="@string/share"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
         </android.support.v7.widget.CardView>
 
