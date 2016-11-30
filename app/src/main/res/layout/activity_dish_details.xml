@@ -13,23 +13,36 @@
         android:layout_height="200dp"
         android:scaleType="fitXY" />
 
+    <TextView
+        android:id="@+id/ovalTextView"
+        android:text="60    Min"
+        android:layout_alignBottom="@+id/ivDishDetails"
+        android:layout_alignRight="@id/ivDishDetails"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/oval_text_view" />
+
     <ImageView
         android:id="@+id/ivPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/youtube_btn"
-        android:scaleType="fitCenter"
         android:layout_centerHorizontal="true"
-        android:paddingTop="20dp"
-        android:alpha="0.8"
+        android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:layout_gravity="center"/>
+        android:alpha="0.8"
+        android:paddingTop="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/youtube_btn" />
 
     <com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView
         android:id="@+id/videoPlayer"
-        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tlDish"
@@ -37,10 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivDishDetails"
         android:alpha="0.7"
-        app:tabTextColor="@android:color/black"
-        app:tabSelectedTextColor="@color/cpb_white"
         android:background="@color/colorPrimary"
-        app:tabMode="fixed" />
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/cpb_white"
+        app:tabTextColor="@android:color/black" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vpDish"

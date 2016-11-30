@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
@@ -42,6 +43,9 @@ public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.videoPlayer)
     YouTubePlayerView videoPlayer;
 
+    @BindView(R.id.ovalTextView)
+    TextView ovalTextView;
+
     final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
     final static private int SECOND = 1;
@@ -73,6 +77,9 @@ public class DishDetailsActivity extends BaseActivity {
         else {
             ivPlayer.setVisibility(View.INVISIBLE);
         }
+
+        int totalTime= dish.getPrepTime() + dish.getCookingTime();
+        ovalTextView.setText( totalTime + "      " + "Min");
 
         setViewPager();
     }
