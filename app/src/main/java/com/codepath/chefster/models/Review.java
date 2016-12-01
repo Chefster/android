@@ -19,7 +19,7 @@ import java.util.Date;
 @Parcel(analyze = {Review.class})
 public class Review {
     @Column
-    @PrimaryKey
+    @PrimaryKey(autoincrement = true)
     private Long reviewId;
     @Column
     @ForeignKey

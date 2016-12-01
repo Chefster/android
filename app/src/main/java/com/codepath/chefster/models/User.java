@@ -19,7 +19,7 @@ import java.util.List;
 @Parcel(analyze = {User.class})
 public class User {
     @Column
-    @PrimaryKey
+    @PrimaryKey(autoincrement = true)
     private Long id;
     @Column
     private String imageUrl;
