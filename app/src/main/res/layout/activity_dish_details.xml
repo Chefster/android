@@ -23,8 +23,7 @@
         android:textStyle="bold"
         android:gravity="center_vertical|center_horizontal"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/oval_text_view" />
+        android:layout_marginBottom="10dp"/>
 
     <ImageView
         android:id="@+id/ivPlayer"

@@ -43,7 +43,7 @@ public class ShareDishView extends RelativeLayout {
     @BindView(R.id.share_dish_rating_bar) MaterialRatingBar ratingBar;
     @BindView(R.id.edit_text_dish_review) EditText reviewEditText;
 
-    List<Uri> imagesList;
+    List<String> imagesList;
     PhotosAdapter photosAdapter;
     OnLaunchCameraListener listener;
 
@@ -108,14 +108,14 @@ public class ShareDishView extends RelativeLayout {
         return ratingBar;
     }
 
-    public List<Uri> getImagesList() {
+    public List<String> getImagesList() {
         return imagesList;
     }
 
-    public void addToImagesList(Uri uri) {
-        imagesList.add(uri);
+    public void addToImagesList(String imagePath) {
+        imagesList.add(imagePath);
         photosAdapter.notifyItemInserted(imagesList.size() - 1);
-        dishPhotoRecyclerView.smoothScrollToPosition(imagesList.size() - 1);
+        dishPhotoRecyclerView.smoothScrollToPosition(imagesList.size());
     }
 
     public EditText getReviewEditText() {
