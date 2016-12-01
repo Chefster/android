@@ -1,11 +1,15 @@
 package com.codepath.chefster.activities;
 
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -37,14 +41,14 @@ public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.ivDishDetails)
     ImageView ivDishDetails;
 
-    @BindView(R.id.ivPlayer)
+/*    @BindView(R.id.ivPlayer)
     ImageView ivPlayer;
 
     @BindView(R.id.videoPlayer)
-    YouTubePlayerView videoPlayer;
+    YouTubePlayerView videoPlayer;*/
 
-    @BindView(R.id.ovalTextView)
-    TextView ovalTextView;
+/*    @BindView(R.id.ovalTextView)
+    TextView ovalTextView;*/
 
     final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
@@ -69,22 +73,44 @@ public class DishDetailsActivity extends BaseActivity {
 
         dish = Parcels.unwrap(getIntent().getParcelableExtra(DISH_KEY));
 
+        //Add support For ActionBar And collapsingToolbar
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(dish.getTitle());
+
+
         Glide.with(this).load(dish.getThumbnails().get(0)).into(ivDishDetails);
 
-        if (! dish.getVideoUrl().isEmpty()) {
+/*        if (! dish.getVideoUrl().isEmpty()) {
             videoManager();
         }
         else {
             ivPlayer.setVisibility(View.INVISIBLE);
-        }
+        }*/
+/*
 
         int totalTime= dish.getPrepTime() + dish.getCookingTime();
         ovalTextView.setText( totalTime + "      " + "Min");
+*/
 
         setViewPager();
     }
 
-    private void videoManager() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*    private void videoManager() {
         ivDishDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +125,7 @@ public class DishDetailsActivity extends BaseActivity {
             }
 
         });
-    }
+    }*/
 
     private void setViewPager() {
         DishDetailsPagerAdapter adapter = new DishDetailsPagerAdapter(getSupportFragmentManager());
