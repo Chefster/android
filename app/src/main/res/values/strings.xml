@@ -60,7 +60,7 @@
     <string name="finish_step_message">Are you done with this step? Clicking \'Yes\' will stop timer and mark this step as done. Clicking \'No\' will show you the next step and keep alert for this step.</string>
     <string name="whats_cooking">What\'s Cookin\'?</string>
     <string name="continue_0">Continue (0 items)</string>
-    <string name="speech_not_supported">Sorry! Your device doesn\\\'t support speech input</string>
-    <string name="speech_prompt"><![CDATA[Say something&#8230;]]></string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="speech_prompt">Say yes to use voice guidance, no to stop.</string>
 
 </resources>

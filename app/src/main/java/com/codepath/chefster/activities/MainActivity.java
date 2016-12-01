@@ -1,14 +1,23 @@
 package com.codepath.chefster.activities;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,12 +41,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,9 +67,8 @@ public class MainActivity extends BaseActivity implements
     @BindView(R.id.main_viewpager) ViewPager viewPager;
     @BindView(R.id.main_tab_layout) TabLayout tabLayout;
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.search_view) MaterialSearchView searchView;
     @BindView(R.id.button_items_on_list) Button itemsOnListButton;
-
+    @BindView(R.id.autoComplete) AutoCompleteTextView autocompleteView;
 
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;
@@ -73,6 +82,7 @@ public class MainActivity extends BaseActivity implements
     private Dishes dishes;
     List<Dish> search_result;
     public List<Dish> selectedDishes;
+
 
     private FirebaseClient firebaseClient;
 
@@ -95,7 +105,7 @@ public class MainActivity extends BaseActivity implements
         handleUserLogIn();
 
         // Use this call only if you have new Data stored in .json and you want to update the DB.
-        // loadDataToDatabase();
+      //   loadDataToDatabase();
 
         // Get all dishes from database.
         loadDishes();
@@ -167,7 +177,11 @@ public class MainActivity extends BaseActivity implements
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return true;
+            case R.id.action_search:
+                autocompleteView.setVisibility(View.VISIBLE);
 
+                searchViewHandler("");
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -178,9 +192,6 @@ public class MainActivity extends BaseActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
 
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchViewHandler(item);
-
         return true;
     }
 
@@ -188,50 +199,80 @@ public class MainActivity extends BaseActivity implements
     * this method handle the request from the searchView,
     * getting the query from the database and displaying the result.
     */
-    private void searchViewHandler(MenuItem item) {
-        searchView.setMenuItem(item);
-        searchView.setVoiceSearch(true);
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                List<Dish> selectedDish  = SQLite.select().from(Dish.class)
-                        .where(Dish_Table.title.like("%" + query + "%")).queryList();
+    public void searchViewHandler(String newText) {
 
-                if (! selectedDish.isEmpty()) {
+        autocompleteView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                List<Dish> selectedDish = SQLite.select().from(Dish.class)
+                        .where(Dish_Table.title.like("%" + adapterView.getItemAtPosition(i) + "%")).queryList();
+                if (!selectedDish.isEmpty()) {
                     Dish currentDish = selectedDish.get(0);
 
                     // TODO - Add Lists to Table - DBFlow don't support Lists.
-                    for ( Dish dish: dishes.getDishes() ) {
-                        if (dish.getUid() == currentDish.getUid()){
+                    for (Dish dish : dishes.getDishes()) {
+                        if (dish.getUid() == currentDish.getUid()) {
                             currentDish = dish;
                         }
                     }
+
+                    autocompleteView.setText("");
+                    autocompleteView.setVisibility(View.INVISIBLE);
 
                     Intent intent = new Intent(getApplication(), DishDetailsActivity.class);
                     intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(DISH_KEY, Parcels.wrap(currentDish));
                     getApplication().startActivity(intent);
-                    return true;
-                }
 
-                return false;
+                }
+            }
+        });
+
+
+        autocompleteView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                autocompleteView.setCursorVisible(true);
+                autocompleteView.setSelection(charSequence.length());
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                search_result = SQLite.select().from(Dish.class)
-                        .where(Dish_Table.title.like("%" + newText + "%")).queryList();
-                String[] strings = new String[search_result.size()];
-                for (int i = 0; i < search_result.size(); i++) {
-                    strings[i] = search_result.get(i).getTitle();
-                }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                autocompleteView.setCursorVisible(true);
+                autocompleteView.setSelection(charSequence.length());
+            }
 
-                searchView.setSuggestions(strings);
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-                return true;
             }
         });
+
+        autocompleteView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("clicked", "clicked");
+                autocompleteView.setText("");
+                autocompleteView.setCursorVisible(true);
+            }
+        });
+
+
+        search_result = SQLite.select().from(Dish.class)
+                .where(Dish_Table.title.like("%" + newText + "%")).queryList();
+        String[] strings = new String[search_result.size()];
+        for (int i = 0; i < search_result.size(); i++) {
+            strings[i] = search_result.get(i).getTitle();
+        }
+        int layoutItemId = android.R.layout.simple_dropdown_item_1line;
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, layoutItemId, Arrays.asList(strings));
+
+        autocompleteView.setAdapter(adapter);
+
+        autocompleteView.setFocusable(true);
+        autocompleteView.requestFocus();
     }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -264,6 +305,8 @@ public class MainActivity extends BaseActivity implements
                 selectedDishes.add(dish);
             }
             itemsOnListButton.setText("Continue (" + selectedDishes.size() + " items)");
+            adapter.replaceFragment(DishesFragment.newInstance(null), 1);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -271,6 +314,8 @@ public class MainActivity extends BaseActivity implements
     public void onDishRemoved(Dish dish) {
         selectedDishes.remove(dish);
         itemsOnListButton.setText("Dishes On List (" + selectedDishes.size() + ")");
+        adapter.replaceFragment(DishesFragment.newInstance(null), 1);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

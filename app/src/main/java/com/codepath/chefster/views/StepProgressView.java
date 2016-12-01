@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.widget.ImageView;
@@ -43,12 +44,14 @@ public class StepProgressView extends CardView {
     OnStepProgressListener listener;
     Dish dish;
     Step step;
+    TextToSpeech tts;
+    boolean shouldUseVoiceHelp;
 
     public StepProgressView(Context context) {
-        this(context, null, null);
+        this(context, null, null, null);
     }
 
-    public StepProgressView(Context context, Dish dish, Step step) {
+    public StepProgressView(Context context, Dish dish, Step step, TextToSpeech tts) {
         super(context);
         inflate(context, R.layout.widget_step_progress, this);
         ButterKnife.bind(this);
@@ -56,6 +59,8 @@ public class StepProgressView extends CardView {
         listener = (OnStepProgressListener) context;
         this.step = step;
         this.dish = dish;
+        this.tts = tts;
+        shouldUseVoiceHelp = true;
         timeLeftInSeconds = step.getDurationTime() * 60;
 
         Glide.with(context).load(dish.getThumbnails().get(0)).asBitmap().into(new SimpleTarget<Bitmap>() {
@@ -94,7 +99,7 @@ public class StepProgressView extends CardView {
             isTimerRunning = true;
             pauseStepLayout.setVisibility(GONE);
             playPauseStepButton.setImageResource(R.drawable.ic_pause);
-            countDownTimer = new CountDownTimer(timeLeftInSeconds * 1000, 1000) {
+            countDownTimer = new CountDownTimer(/*timeLeftInSeconds */ 5 * 1000, 1000) {
                 @Override
                 public void onTick(long l) {
                     timeLeftInSeconds = l / 1000;
@@ -104,6 +109,7 @@ public class StepProgressView extends CardView {
                 @Override
                 public void onFinish() {
                     runningTimerTextView.setText("Done!");
+                    tts.speak(step.getDishName() + " timer is done", TextToSpeech.QUEUE_FLUSH, null);
                     playPauseStepButton.setVisibility(GONE);
                 }
             }.start();
@@ -116,10 +122,10 @@ public class StepProgressView extends CardView {
         int hours   = (int) ((totalSeconds / 3600) % 24);
         String secondsStr = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
         String minutesStr = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
-        String hoursStr = String.valueOf(hours);
+        String hoursStr = hours > 0 ? String.valueOf(hours) + ":" : "";
 
         StringBuilder sb = new StringBuilder();
-        sb.append(hoursStr).append(":").append(minutesStr).append(":").append(secondsStr);
+        sb.append(hoursStr).append(minutesStr).append(":").append(secondsStr);
         return sb.toString();
     }
 
@@ -135,6 +141,10 @@ public class StepProgressView extends CardView {
             case ACTIVE:
                 mainLayout.setBackgroundResource(R.color.light_blue_translucent);
                 finishStepButton.setVisibility(VISIBLE);
+                if (shouldUseVoiceHelp) {
+                    String text = "now, for " + step.getDishName() + ", a " + step.getDurationTime() + " minutes step, " + step.getDescription();
+                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
                 if (step.getDurationTime() != 0) {
                     playPauseStepButton.setVisibility(VISIBLE);
                 }
@@ -177,6 +187,11 @@ public class StepProgressView extends CardView {
         }
     }
 
+    @OnClick(R.id.button_step_description_audio)
+    public void playStepDescription() {
+        tts.speak(step.getDescription(), TextToSpeech.QUEUE_FLUSH, null);
+    }
+
     @OnClick(R.id.button_step_details)
     public void expandStepItem() {
         isExpanded = !isExpanded;
@@ -188,6 +203,10 @@ public class StepProgressView extends CardView {
             stepDescriptionTextView.setMaxLines(2);
         }
         listener.expandStepItem(step.getDishName(), isExpanded);
+    }
+
+    public void setShouldUseVoiceHelp(boolean shouldUseVoiceHelp) {
+        this.shouldUseVoiceHelp = shouldUseVoiceHelp;
     }
 
     public interface OnStepProgressListener {
