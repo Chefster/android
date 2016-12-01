@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -43,10 +42,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     EditText emailInputEditText;
     @BindView(R.id.edit_text_password_input)
     EditText passwordInputEditText;
-    @BindView(R.id.button_sign_up)
-    Button signUpButton;
-    @BindView(R.id.button_log_in)
-    Button loginButton;
     @BindView(R.id.slider)
     SliderLayout sliderLayout;
 

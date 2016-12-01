@@ -14,124 +14,112 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#66000000">
-    <TextView
-        android:id="@+id/chefster_title_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:gravity="center_horizontal"
-        android:text="@string/app_name"
-        android:textAppearance="@style/light_text"
-        android:textColor="@color/colorPrimary"
-        android:textSize="40sp" />
+        android:background="@color/colorBackgroundLoginActivity">
 
-    <ImageView
-        android:id="@+id/image_view_chefster_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/chefster_title_label"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="app icon"
-        android:src="@mipmap/ic_launcher" />
+        <TextView
+            android:id="@+id/chefster_title_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/login_title_margin_top"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textAppearance="@style/light_text"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/login_title_text_size" />
 
-    <TextView
-        android:id="@+id/chefster_slogan_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/image_view_chefster_logo"
-        android:gravity="center_horizontal"
-        android:text="@string/whats_cooking"
-        android:textAppearance="@style/light_text"
-        android:textColor="@color/colorPrimary"
-        android:textSize="28sp" />
+        <ImageView
+            android:id="@+id/image_view_chefster_logo"
+            android:layout_width="@dimen/login_icon_size"
+            android:layout_height="@dimen/login_icon_size"
+            android:layout_below="@id/chefster_title_label"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/app_icon_content_description"
+            android:src="@mipmap/ic_launcher" />
 
-    <!--<com.google.android.gms.common.SignInButton-->
-    <!--android:id="@+id/sign_in_button"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_marginBottom="104dp" />-->
+        <TextView
+            android:id="@+id/chefster_slogan_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_view_chefster_logo"
+            android:gravity="center_horizontal"
+            android:text="@string/whats_cooking"
+            android:textAppearance="@style/light_text"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/login_slogan_size" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/sign_in_title"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:layout_marginTop="16dp"-->
-    <!--android:background="@drawable/button_shape"-->
-    <!--android:padding="12dp"-->
-    <!--android:text="@string/sign_in"-->
-    <!--android:textSize="22sp" />-->
+        <EditText
+            android:id="@+id/edit_text_email_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chefster_slogan_label"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/email_margin_bottom"
+            android:layout_marginEnd="@dimen/email_margin_end"
+            android:layout_marginStart="@dimen/email_margin_start"
+            android:layout_marginTop="@dimen/email_margin_top"
+            android:background="@drawable/button_shape"
+            android:ems="10"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/email_padding"
+            android:textColorHint="@android:color/black" />
 
-    <EditText
-        android:id="@+id/edit_text_email_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/chefster_slogan_label"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/button_shape"
-        android:ems="10"
-        android:hint="user@gmail.com"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:textColorHint="@android:color/black" />
+        <EditText
+            android:id="@+id/edit_text_password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/edit_text_email_input"
+            android:layout_alignStart="@+id/edit_text_email_input"
+            android:layout_below="@+id/edit_text_email_input"
+            android:background="@drawable/button_shape"
+            android:ems="10"
+            android:hint="Password..."
+            android:inputType="textPassword"
+            android:padding="@dimen/password_padding"
+            android:textColorHint="@android:color/black" />
 
-    <EditText
-        android:id="@+id/edit_text_password_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/edit_text_email_input"
-        android:layout_alignEnd="@id/edit_text_email_input"
-        android:layout_below="@+id/edit_text_email_input"
-        android:background="@drawable/button_shape"
-        android:ems="10"
-        android:hint="Password..."
-        android:inputType="textPassword"
-        android:padding="12dp"
-        android:textColorHint="@android:color/black" />
+        <TextView
+            android:id="@+id/button_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/signup_margin"
+            android:clickable="true"
+            android:text="@string/signup_text"
+            android:textColor="@color/colorBackground"
+            android:textSize="@dimen/signup_text_size" />
 
-    <Button
-        android:id="@+id/button_sign_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_log_in"
-        android:text="Sign Up" />
-
-    <Button
-        android:id="@+id/button_log_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/edit_text_password_input"
-        android:layout_below="@+id/edit_text_password_input"
-        android:background="@color/colorPrimaryDark"
-        android:layout_marginTop="16dp"
-        android:layout_alignEnd="@+id/edit_text_password_input"
-        android:text="Login" />
+        <Button
+            android:id="@+id/button_log_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_text_password_input"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/login_button_text_size"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/login_button_text"
+            android:textStyle="bold"
+            android:textColor="@color/colorBackground" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="or"
             android:layout_below="@id/button_log_in"
-            android:layout_margin="12dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/or_margin"
+            android:text="@string/or"
+            android:textColor="@color/colorBackground" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_log_in"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="40dp" />
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_log_in"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/fb_margin_bottom"
+            android:layout_marginTop="@dimen/fb_margin_top"
+            android:textSize="@dimen/fb_text_size" />
     </RelativeLayout>
 </RelativeLayout>

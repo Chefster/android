@@ -62,5 +62,10 @@
     <string name="continue_0">Continue (0 items)</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say yes to use voice guidance, no to stop.</string>
+    <string name="app_icon_content_description">app icon</string>
+    <string name="email_hint">user@gmail.com</string>
+    <string name="signup_text">Don\'t have an account yet? Sign Up.</string>
+    <string name="login_button_text">Login</string>
+    <string name="or">OR</string>
 
 </resources>
