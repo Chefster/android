@@ -164,9 +164,8 @@ public class MainActivity extends BaseActivity implements
             case R.id.sign_out:
                 firebaseAuth.signOut();
                 LoginManager.getInstance().logOut();
-//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mUsername = ANONYMOUS;
                 startActivity(new Intent(this, LoginActivity.class));
+                finish();
                 return true;
 
             default:

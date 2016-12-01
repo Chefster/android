@@ -44,7 +44,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     @BindView(R.id.edit_text_password_input)
     EditText passwordInputEditText;
     @BindView(R.id.button_sign_up)
-    Button signupButton;
+    Button signUpButton;
     @BindView(R.id.button_log_in)
     Button loginButton;
     @BindView(R.id.slider)
@@ -128,6 +128,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         } else {
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(i);
+                            finish();
                         }
                         // ...
                     }
@@ -163,10 +164,10 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         DefaultSliderView sliderView2 = new DefaultSliderView(this);
         DefaultSliderView sliderView3 = new DefaultSliderView(this);
         DefaultSliderView sliderView4 = new DefaultSliderView(this);
-        sliderView1.image(R.drawable.slider1);
-        sliderView2.image(R.drawable.slider2);
-        sliderView3.image(R.drawable.slider3);
-        sliderView4.image(R.drawable.slider4);
+        sliderView1.image("https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/slide_pic1.jpg?alt=media&token=6f5b9749-b651-4ef4-bf84-9347645169b7");
+        sliderView2.image("https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/slide_pic2.jpg?alt=media&token=dad0ddd3-3545-4053-bc05-aa82aac81f52");
+        sliderView3.image("https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/slide_pic3.jpg?alt=media&token=514a0421-ce30-4a89-9f65-c6d6d39d360c");
+        sliderView4.image("https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/slide_pic4.jpg?alt=media&token=27cc9868-7495-4812-b472-f48c1be54bc6");
         sliderLayout.addSlider(sliderView1);
         sliderLayout.addSlider(sliderView2);
         sliderLayout.addSlider(sliderView3);
@@ -190,7 +191,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     }
 
     @OnClick(R.id.button_sign_up)
-    public void signupNewUser() {
+    public void signUpNewUser() {
         String email = emailInputEditText.getText().toString();
         String password = passwordInputEditText.getText().toString();
         if (email.isEmpty() || password.isEmpty()) {
@@ -212,6 +213,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         } else {
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(i);
+                            finish();
                         }
                     }
                 });
@@ -242,6 +244,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         } else {
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(i);
+                            finish();
                         }
                     }
                 });
