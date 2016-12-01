@@ -6,7 +6,7 @@
     <color name="orange_dark">#EF6C00</color>
     <color name="orange_super_dark">#E65100</color>
     <color name="colorPrimary">#FF9800</color>
-    <color name="colorPrimaryDark">#F57C00</color>
+    <color name="colorPrimaryDark">@color/orange_super_dark</color>
     <color name="colorPrimaryLight">#FFE0B2</color>
     <color name="colorAccent">#FF9800</color>
     <color name="colorPrimaryText">#212121</color>
