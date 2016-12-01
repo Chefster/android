@@ -2,10 +2,10 @@ package com.codepath.chefster.activities;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -17,9 +17,11 @@ import com.codepath.chefster.views.ShareDishView;
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,14 +29,16 @@ import butterknife.OnClick;
 
 public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunchCameraListener {
     public final String APP_TAG = "MyCustomApp";
-    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    private static final int RC_IMAGE_CAPTURE = 1;
 
     @BindView(R.id.linear_layout_share_dish_frames) LinearLayout mainLinearLayout;
 
-    int numOfPhotosTaken = 0;
+    private UUID uuid;
+    String currentPhotoPath;
+    String photoDish;
+
     List<Dish> cookedDishes;
     HashMap<String, ShareDishView> shareDishViewList;
-    String lastFileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,54 +57,16 @@ public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunc
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                String dishName = lastFileName.split("_")[0];
-                ShareDishView shareDishView = shareDishViewList.get(dishName);
-                if (shareDishView != null) {
-                    shareDishView.addToImagesList(getPhotoFileUri("photo" + numOfPhotosTaken + ".jpg"));
-                }
-            } else { // Result was a failure
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    // Returns the Uri for a photo stored on disk given the fileName
-    public Uri getPhotoFileUri(String fileName) {
-        // Only continue if the SD Card is mounted
-        if (isExternalStorageAvailable()) {
-            // Get safe storage directory for photos
-            // Use `getExternalFilesDir` on Context to access package-specific directories.
-            // This way, we don't need to request external read/write runtime permissions.
-            File mediaStorageDir = new File(
-                    getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
-
-            // Create the storage directory if it does not exist
-            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-                Log.d(APP_TAG, "failed to create directory");
-            }
-
-            // Return the file target for the photo based on filename
-            return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator + fileName));
-        }
-        return null;
-    }
-
-    // Returns true if external storage for photos is available
-    private boolean isExternalStorageAvailable() {
-        String state = Environment.getExternalStorageState();
-        return state.equals(Environment.MEDIA_MOUNTED);
-    }
-
     @OnClick(R.id.text_view_share_button)
     public void sharePhotos() {
         ArrayList<Uri> photoUrisList = new ArrayList<>();
         for (int i = 0; i < cookedDishes.size(); i++) {
             ShareDishView shareDishView = (ShareDishView) mainLinearLayout.getChildAt(i);
-            photoUrisList.addAll(shareDishView.getImagesList());
+            List<String> pathList = shareDishView.getImagesList();
+            for (String path : pathList) {
+                Uri photoUri = FileProvider.getUriForFile(this, "com.codepath.chefster.fileprovider", new File(path));
+                photoUrisList.add(photoUri);
+            }
         }
 
         if (photoUrisList.size() == 0) {
@@ -122,18 +88,58 @@ public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunc
         }
     }
 
-    @Override
-    public void launchCamera(String dish) {
-        // create Intent to take a picture and return control to the calling application
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        lastFileName = dish + "_" + ++numOfPhotosTaken + ".jpg";
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(lastFileName)); // set the image file name
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        uuid = UUID.randomUUID();
 
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            // Start the image capture intent to take photo
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        String imageFileName = "JPEG_" + uuid.toString();
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.codepath.chefster.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, RC_IMAGE_CAPTURE);
+            }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RC_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            ShareDishView shareDishView = shareDishViewList.get(photoDish);
+            if (shareDishView != null) {
+                shareDishView.addToImagesList(currentPhotoPath);
+            }
+        }
+    }
+
+    @Override
+    public void launchCamera(String dishName) {
+        photoDish = dishName;
+        dispatchTakePictureIntent();
     }
 }

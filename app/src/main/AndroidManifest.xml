@@ -39,6 +39,16 @@
         <activity android:name=".activities.BaseActivity"/>
         <activity android:name=".activities.DishDetailsActivity"/>
         <activity android:name=".activities.ListeningActivity"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.codepath.chefster.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
     </application>
 
 </manifest>
