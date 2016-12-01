@@ -21,6 +21,7 @@ import com.codepath.chefster.fragments.IngredientsFragment;
 import com.codepath.chefster.fragments.ReviewFragment;
 import com.codepath.chefster.fragments.StepsFragment;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.models.Tool$$Parcelable;
 import com.pierfrancescosoffritti.youtubeplayer.AbstractYouTubeListener;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
 
@@ -49,6 +50,9 @@ public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.videoPlayer)
     YouTubePlayerView videoPlayer;
 
+    @BindView(R.id.detailsToolbar)
+    Toolbar toolbar;
+
     final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
     final static private int SECOND = 1;
@@ -73,13 +77,13 @@ public class DishDetailsActivity extends BaseActivity {
         dish = Parcels.unwrap(getIntent().getParcelableExtra(DISH_KEY));
 
         //Add support For ActionBar And collapsingToolbar
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(dish.getTitle());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("");
+        collapsingToolbar.setTitle(dish.getTitle());
 
 
         Glide.with(this).load(dish.getThumbnails().get(0)).into(ivDishDetails);

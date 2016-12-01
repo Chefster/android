@@ -19,11 +19,11 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginBottom="64dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
+            app:titleEnabled="false"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -32,15 +32,14 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
+                app:layout_collapseMode="parallax" />
 
             <com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView
                 android:id="@+id/videoPlayer"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:visibility="invisible"
-                app:layout_collapseMode="parallax"
-                />
+                app:layout_collapseMode="parallax" />
 
             <ImageView
                 android:id="@+id/ivPlayer"
@@ -53,11 +52,10 @@
                 android:paddingTop="20dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/youtube_btn"
-                app:layout_collapseMode="parallax"
-                />
+                app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/detailsToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:gravity="top"
@@ -68,43 +66,19 @@
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tlDish"
+                style="@style/MyCustomTabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivDishDetails"
                 android:layout_gravity="bottom"
                 android:background="@color/colorPrimary"
                 app:tabMode="fixed"
-                style="@style/MyCustomTabLayout"
                 app:tabSelectedTextColor="@color/cpb_white"
                 app:tabTextColor="@android:color/black" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-
-    <!--
-        <TextView
-            android:id="@+id/ovalTextView"
-            android:text="60    Min"
-            android:layout_alignBottom="@+id/ivDishDetails"
-            android:layout_alignRight="@id/ivDishDetails"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:textStyle="bold"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-             />
-    -->
-
-    <!--    />-->
-
-    <!--    <com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView
-            android:id="@+id/videoPlayer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />-->
-
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vpDish"
