@@ -159,10 +159,10 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         DefaultSliderView sliderView2 = new DefaultSliderView(this);
         DefaultSliderView sliderView3 = new DefaultSliderView(this);
         DefaultSliderView sliderView4 = new DefaultSliderView(this);
-        sliderView1.image("https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/slide_pic1.jpg?alt=media&token=6f5b9749-b651-4ef4-bf84-9347645169b7");
-        sliderView2.image("https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/slide_pic2.jpg?alt=media&token=dad0ddd3-3545-4053-bc05-aa82aac81f52");
-        sliderView3.image("https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/slide_pic3.jpg?alt=media&token=514a0421-ce30-4a89-9f65-c6d6d39d360c");
-        sliderView4.image("https://firebasestorage.googleapis.com/v0/b/chefster-c96f8.appspot.com/o/slide_pic4.jpg?alt=media&token=27cc9868-7495-4812-b472-f48c1be54bc6");
+        sliderView1.image(R.drawable.slide_pic1);
+        sliderView2.image(R.drawable.slide_pic2);
+        sliderView3.image(R.drawable.slide_pic3);
+        sliderView4.image(R.drawable.slide_pic4);
         sliderLayout.addSlider(sliderView1);
         sliderLayout.addSlider(sliderView2);
         sliderLayout.addSlider(sliderView3);
