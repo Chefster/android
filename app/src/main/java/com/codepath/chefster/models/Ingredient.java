@@ -8,7 +8,7 @@ import org.parceler.Parcel;
  * This class represents an ingredient that's a part of a dish with its price and amount needed
  */
 @Parcel
-public class Ingredient {
+public class Ingredient implements Comparable {
     private String name;
     private String type;
     private String description;
@@ -16,6 +16,7 @@ public class Ingredient {
     private Double price;
     private String amountType;
     private String thumbnail;
+    private String category;
 
     public Ingredient() {
     }
@@ -46,6 +47,16 @@ public class Ingredient {
 
     public String getThumbnail() {
         return thumbnail;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Ingredient other = (Ingredient) o;
+        return category.compareTo(other.category);
     }
 }
 

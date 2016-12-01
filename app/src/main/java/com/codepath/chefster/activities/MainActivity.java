@@ -21,6 +21,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.DishesAdapter;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
@@ -31,6 +32,7 @@ import com.codepath.chefster.fragments.MainFragment;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Dish_Table;
 import com.codepath.chefster.models.Dishes;
+import com.codepath.chefster.models.Ingredient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +49,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -288,6 +291,19 @@ public class MainActivity extends BaseActivity implements
         if (selectedDishes == null || selectedDishes.isEmpty()) {
             Toast.makeText(this, "There are 0 dishes on your list!", Toast.LENGTH_SHORT).show();
         } else {
+            // Create the shopping list
+            HashMap<Ingredient, Double> shoppingList = new HashMap<>();
+            for (Dish dish : selectedDishes) {
+                for (Ingredient ingredient : dish.getIngredients()) {
+                    if (shoppingList.get(ingredient) == null) {
+                        shoppingList.put(ingredient, ingredient.getAmount());
+                    } else {
+                        shoppingList.put(ingredient, shoppingList.get(ingredient) + ingredient.getAmount());
+                    }
+                }
+            }
+            ChefsterApplication.shoppingList = shoppingList;
+
             Intent intent = new Intent(this, MealLaunchActivity.class);
             intent.putExtra("selected_dishes", Parcels.wrap(selectedDishes));
             startActivity(intent);

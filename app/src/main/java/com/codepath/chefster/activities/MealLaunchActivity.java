@@ -1,19 +1,27 @@
 package com.codepath.chefster.activities;
 
+import android.app.FragmentManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.CompactLayoutDishAdapter;
+import com.codepath.chefster.fragments.MealLaunchSettingsFragment;
+import com.codepath.chefster.fragments.ShoppingListFragment;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.models.Ingredient;
 import com.codepath.chefster.models.Tool;
 
 import org.parceler.Parcels;
@@ -26,14 +34,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MealLaunchActivity extends BaseActivity {
+public class MealLaunchActivity extends BaseActivity implements
+        MealLaunchSettingsFragment.OnSettingsDialogCloseListener,
+        ShoppingListFragment.OnShoppingListInteractionListener {
     private static final int OPTIMIZED_MULTIPLE_PEOPLE_PORTION = 7;
     private static final int AGGREGATED_MULTIPLE_PEOPLE_PORTION = 5;
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_view_chosen_dishes) RecyclerView dishesRecyclerView;
-    @BindView(R.id.pans_spinner) Spinner pansSpinner;
-    @BindView(R.id.pots_spinner) Spinner potsSpinner;
-    @BindView(R.id.text_view_person) TextView onePersonTextView;
-    @BindView(R.id.text_view_persons) TextView morePeopleTextView;
     @BindView(R.id.text_view_regular_time_calc) TextView regularTimeTextView;
     @BindView(R.id.text_view_app_time_calc) TextView appTimeTextView;
     @BindView(R.id.text_view_list_tools_needed) TextView listOfToolsNeededTextView;
@@ -43,6 +51,7 @@ public class MealLaunchActivity extends BaseActivity {
     @BindColor(android.R.color.white) int unchosenColor;
 
     List<Dish> chosenDishes;
+    List<Ingredient> ingredients;
     CompactLayoutDishAdapter dishesAdapter;
 
     HashMap<String, Integer> toolsNeededHashMap;
@@ -56,14 +65,27 @@ public class MealLaunchActivity extends BaseActivity {
         setContentView(R.layout.activity_meal_launch);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow);
+        }
+        launchSettingsDialog();
         setupRecyclerView();
         countToolsNeeded();
         setupSpinners();
 
-        onePersonTextView.setBackgroundColor(chosenColor);
-        onePersonTextView.setTextColor(unchosenColor);
+//        onePersonTextView.setBackgroundColor(chosenColor);
+//        onePersonTextView.setTextColor(unchosenColor);
 
         calculateCookingTime();
+    }
+
+    private void launchSettingsDialog() {
+        FragmentManager fm = getFragmentManager();
+        MealLaunchSettingsFragment mealLaunchSettingsFragment = new MealLaunchSettingsFragment();
+        mealLaunchSettingsFragment.show(fm, "fragment_meal_launch_settings");
     }
 
     private void countToolsNeeded() {
@@ -102,35 +124,35 @@ public class MealLaunchActivity extends BaseActivity {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        pansSpinner.setAdapter(adapter);
-        pansSpinner.setSelection(numberOfPans - 1);
-        pansSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                numberOfPans = i + 1;
-                calculateCookingTime();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        potsSpinner.setAdapter(adapter);
-        potsSpinner.setSelection(numberOfPots - 1);
-        potsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                numberOfPots = i + 1;
-                calculateCookingTime();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        pansSpinner.setAdapter(adapter);
+//        pansSpinner.setSelection(numberOfPans - 1);
+//        pansSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                numberOfPans = i + 1;
+//                calculateCookingTime();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//
+//        potsSpinner.setAdapter(adapter);
+//        potsSpinner.setSelection(numberOfPots - 1);
+//        potsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                numberOfPots = i + 1;
+//                calculateCookingTime();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
     }
 
     /**
@@ -169,25 +191,25 @@ public class MealLaunchActivity extends BaseActivity {
         return "" + (timeInMinutes / 60) + "h" + (timeInMinutes % 60) + "m";
     }
 
-    @OnClick(R.id.text_view_person)
-    public void chooseOnePerson() {
-        onePersonTextView.setBackgroundColor(chosenColor);
-        onePersonTextView.setTextColor(unchosenColor);
-        morePeopleTextView.setBackgroundColor(unchosenColor);
-        morePeopleTextView.setTextColor(chosenColor);
-        numberOfPeople = 1;
-        calculateCookingTime();
-    }
-
-    @OnClick(R.id.text_view_persons)
-    public void chooseMorePeople() {
-        onePersonTextView.setBackgroundColor(unchosenColor);
-        onePersonTextView.setTextColor(chosenColor);
-        morePeopleTextView.setBackgroundColor(chosenColor);
-        morePeopleTextView.setTextColor(unchosenColor);
-        numberOfPeople = 2;
-        calculateCookingTime();
-    }
+//    @OnClick(R.id.text_view_person)
+//    public void chooseOnePerson() {
+//        onePersonTextView.setBackgroundColor(chosenColor);
+//        onePersonTextView.setTextColor(unchosenColor);
+//        morePeopleTextView.setBackgroundColor(unchosenColor);
+//        morePeopleTextView.setTextColor(chosenColor);
+//        numberOfPeople = 1;
+//        calculateCookingTime();
+//    }
+//
+//    @OnClick(R.id.text_view_persons)
+//    public void chooseMorePeople() {
+//        onePersonTextView.setBackgroundColor(unchosenColor);
+//        onePersonTextView.setTextColor(chosenColor);
+//        morePeopleTextView.setBackgroundColor(chosenColor);
+//        morePeopleTextView.setTextColor(unchosenColor);
+//        numberOfPeople = 2;
+//        calculateCookingTime();
+//    }
 
     @OnClick(R.id.button_start_cooking)
     public void startCooking() {
@@ -197,5 +219,41 @@ public class MealLaunchActivity extends BaseActivity {
         intent.putExtra("number_of_pans", numberOfPans);
         intent.putExtra("number_of_pots", numberOfPots);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_meal_launch, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        FragmentManager fm = getFragmentManager();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
+            case R.id.action_shopping_list:
+                ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
+                shoppingListFragment.show(fm, "fragment_shopping_list");
+                return true;
+
+            case R.id.action_settings:
+                MealLaunchSettingsFragment mealLaunchSettingsFragment = new MealLaunchSettingsFragment();
+                mealLaunchSettingsFragment.show(fm, "fragment_meal_launch_settings");
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
