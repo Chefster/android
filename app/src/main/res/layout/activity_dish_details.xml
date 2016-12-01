@@ -34,6 +34,28 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"/>
 
+            <com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView
+                android:id="@+id/videoPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                app:layout_collapseMode="parallax"
+                />
+
+            <ImageView
+                android:id="@+id/ivPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:alpha="0.8"
+                android:paddingTop="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/youtube_btn"
+                app:layout_collapseMode="parallax"
+                />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -52,6 +74,7 @@
                 android:layout_gravity="bottom"
                 android:background="@color/colorPrimary"
                 app:tabMode="fixed"
+                style="@style/MyCustomTabLayout"
                 app:tabSelectedTextColor="@color/cpb_white"
                 app:tabTextColor="@android:color/black" />
 
@@ -74,17 +97,7 @@
              />
     -->
 
-    <!--    <ImageView
-            android:id="@+id/ivPlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:alpha="0.8"
-            android:paddingTop="20dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/youtube_btn" />-->
+    <!--    />-->
 
     <!--    <com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView
             android:id="@+id/videoPlayer"

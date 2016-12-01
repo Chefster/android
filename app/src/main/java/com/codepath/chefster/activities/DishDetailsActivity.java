@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.codepath.chefster.R.id.ivPlayer;
+
 public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.vpDish)
     ViewPager viewPagerDish;
@@ -41,14 +43,11 @@ public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.ivDishDetails)
     ImageView ivDishDetails;
 
-/*    @BindView(R.id.ivPlayer)
+    @BindView(R.id.ivPlayer)
     ImageView ivPlayer;
 
     @BindView(R.id.videoPlayer)
-    YouTubePlayerView videoPlayer;*/
-
-/*    @BindView(R.id.ovalTextView)
-    TextView ovalTextView;*/
+    YouTubePlayerView videoPlayer;
 
     final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
@@ -80,22 +79,17 @@ public class DishDetailsActivity extends BaseActivity {
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(dish.getTitle());
+        collapsingToolbar.setTitle("");
 
 
         Glide.with(this).load(dish.getThumbnails().get(0)).into(ivDishDetails);
 
-/*        if (! dish.getVideoUrl().isEmpty()) {
+        if (! dish.getVideoUrl().isEmpty()) {
             videoManager();
         }
         else {
             ivPlayer.setVisibility(View.INVISIBLE);
-        }*/
-/*
-
-        int totalTime= dish.getPrepTime() + dish.getCookingTime();
-        ovalTextView.setText( totalTime + "      " + "Min");
-*/
+        }
 
         setViewPager();
     }
@@ -110,11 +104,12 @@ public class DishDetailsActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*    private void videoManager() {
+       private void videoManager() {
         ivDishDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 videoPlayer.setVisibility(View.VISIBLE);
+                ivPlayer.setVisibility(View.INVISIBLE);
                 videoPlayer.initialize(new AbstractYouTubeListener() {
                     @Override
                     public void onReady() {
@@ -125,7 +120,7 @@ public class DishDetailsActivity extends BaseActivity {
             }
 
         });
-    }*/
+    }
 
     private void setViewPager() {
         DishDetailsPagerAdapter adapter = new DishDetailsPagerAdapter(getSupportFragmentManager());
