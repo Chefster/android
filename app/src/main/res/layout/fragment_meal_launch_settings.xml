@@ -15,16 +15,17 @@
         android:layout_height="wrap_content"
         apps:cardElevation="2dp"
         apps:cardCornerRadius="4dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="12dp"
         >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="28sp"
                 android:textColor="@android:color/white"
                 android:gravity="center_horizontal"
                 android:textStyle="bold"
+                android:padding="8dp"
                 android:text="@string/some_questions"
                 android:background="@color/orange_super_dark"
                 />
@@ -50,21 +51,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textColor="@color/orange_super_dark"
                 android:textStyle="bold"
                 android:text="@string/what_tools"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_horizontal"
                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 >
 
                 <Spinner
                     android:id="@+id/pans_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_marginEnd="8dp"
                     android:background="@color/orange_medium"
                     />
@@ -75,14 +79,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="@string/pans"
-                    android:textSize="17sp"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     android:textColor="@color/orange_medium"
                     />
 
                 <Spinner
                     android:id="@+id/pots_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_marginEnd="4dp"
                     android:background="@color/orange_medium"
                     />
@@ -92,7 +97,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/pots"
-                    android:textSize="17sp"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     android:textColor="@color/orange_medium"
                     />
 
@@ -105,6 +111,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         apps:cardElevation="2dp"
         apps:cardCornerRadius="4dp"
         >
@@ -120,26 +127,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textColor="@color/orange_super_dark"
                 android:textStyle="bold"
                 android:text="@string/how_many_people"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_horizontal"
                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 >
-
 
                 <TextView
                     android:id="@+id/text_view_person"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="70dp"
                     android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="4dp"
                     android:padding="4dp"
+                    android:paddingStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:background="@android:color/white"
                     android:gravity="center_vertical"
@@ -148,11 +157,12 @@
 
                 <TextView
                     android:id="@+id/text_view_persons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="70dp"
                     android:drawableStart="@drawable/ic_persons"
-                    android:drawablePadding="4dp"
+                    android:drawablePadding="8dp"
                     android:padding="4dp"
+                    android:paddingStart="12dp"
                     android:background="@android:color/white"
                     android:gravity="center_vertical"
                     android:text="@string/two"
@@ -164,10 +174,67 @@
 
     </android.support.v7.widget.CardView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.v7.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:id="@+id/button_ok"
+            apps:cardElevation="2dp"
+            apps:cardCornerRadius="4dp"
+            android:layout_marginBottom="6dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="@string/ok"
+                android:background="@color/orange_super_dark"
+                />
+
+        </android.support.v7.widget.CardView>
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="match_parent"/>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:id="@+id/button_skip"
+            apps:cardElevation="2dp"
+            apps:cardCornerRadius="4dp"
+            android:layout_marginBottom="6dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="@string/skip"
+                android:background="@color/orange_super_dark"
+                />
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_tools"
         android:layout_gravity="center_horizontal"
         />
 

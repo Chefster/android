@@ -61,5 +61,7 @@
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say yes to use voice guidance, no to stop.</string>
     <string name="some_questions">Some questions for you before we start…</string>
+    <string name="ok">OK</string>
+    <string name="skip">SKIP</string>
 
 </resources>
