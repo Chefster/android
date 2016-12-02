@@ -17,6 +17,8 @@ import com.codepath.chefster.viewholders.StepViewHolder;
 import java.util.List;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepViewHolder> {
+    final static private int MIN_HEIGHT = 200;
+
     private Context context;
     private List<Step> stepList;
     private int timelineLimit;
@@ -41,7 +43,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepViewHolder> {
         holder.getTextViewStep().setText(step.getDescription());
 
         // Determine the Height of The TimeLine To be Like The Height of the textView
-        int tvHeight = getHeight(holder.getTextViewStep(),step.getDescription(),18,600,5);
+        int tvHeight = getHeight(holder.getTextViewStep(),step.getDescription(),18,850,5);
         ViewGroup.LayoutParams tlParams =  holder.getTimelineView().getLayoutParams();
         tlParams.height = tvHeight;
         holder.getTimelineView().setLayoutParams(tlParams);
@@ -59,7 +61,10 @@ public class StepsAdapter extends RecyclerView.Adapter<StepViewHolder> {
         int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(deviceWidth, View.MeasureSpec.AT_MOST);
         int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         textView.measure(widthMeasureSpec, heightMeasureSpec);
-        return textView.getMeasuredHeight();
+        if (textView.getMeasuredHeight() < MIN_HEIGHT)
+            return MIN_HEIGHT;
+        else
+            return textView.getMeasuredHeight();
     }
 
     @Override

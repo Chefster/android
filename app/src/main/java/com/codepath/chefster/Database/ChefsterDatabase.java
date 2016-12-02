@@ -7,5 +7,5 @@ public class ChefsterDatabase {
 
     public static final String NAME = "ChefsterDatabase";
 
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 }
