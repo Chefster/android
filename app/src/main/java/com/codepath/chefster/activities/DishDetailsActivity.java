@@ -1,11 +1,15 @@
 package com.codepath.chefster.activities;
 
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +21,7 @@ import com.codepath.chefster.fragments.IngredientsFragment;
 import com.codepath.chefster.fragments.ReviewFragment;
 import com.codepath.chefster.fragments.StepsFragment;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.models.Tool$$Parcelable;
 import com.pierfrancescosoffritti.youtubeplayer.AbstractYouTubeListener;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
 
@@ -26,6 +31,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.codepath.chefster.R.id.ivPlayer;
 
 public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.vpDish)
@@ -43,8 +50,8 @@ public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.videoPlayer)
     YouTubePlayerView videoPlayer;
 
-    @BindView(R.id.ovalTextView)
-    TextView ovalTextView;
+    @BindView(R.id.detailsToolbar)
+    Toolbar toolbar;
 
     final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
@@ -69,6 +76,16 @@ public class DishDetailsActivity extends BaseActivity {
 
         dish = Parcels.unwrap(getIntent().getParcelableExtra(DISH_KEY));
 
+        //Add support For ActionBar And collapsingToolbar
+        toolbar.setTitle(dish.getTitle());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(dish.getTitle());
+
+
         Glide.with(this).load(dish.getThumbnails().get(0)).into(ivDishDetails);
 
         if (! dish.getVideoUrl().isEmpty()) {
@@ -78,17 +95,25 @@ public class DishDetailsActivity extends BaseActivity {
             ivPlayer.setVisibility(View.INVISIBLE);
         }
 
-        int totalTime= dish.getPrepTime() + dish.getCookingTime();
-        ovalTextView.setText( totalTime + "      " + "Min");
-
         setViewPager();
     }
 
-    private void videoManager() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+       private void videoManager() {
         ivDishDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 videoPlayer.setVisibility(View.VISIBLE);
+                ivPlayer.setVisibility(View.INVISIBLE);
                 videoPlayer.initialize(new AbstractYouTubeListener() {
                     @Override
                     public void onReady() {

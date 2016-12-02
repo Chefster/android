@@ -1,7 +1,10 @@
 package com.codepath.chefster.models;
 
+import android.os.Parcelable;
+
 import com.codepath.chefster.Database.ChefsterDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 
@@ -13,11 +16,13 @@ import java.util.Date;
  * This class represents a review with its description, author, date, cooking time and rating
  */
 @Table(database = ChefsterDatabase.class)
-@Parcel(analyze={Dish.class})
-public class Review{
-    @PrimaryKey
+@Parcel(analyze = {Review.class})
+public class Review {
     @Column
-    private Integer id;
+    @PrimaryKey(autoincrement = true)
+    private Long reviewId;
+    @Column
+    @ForeignKey
     private User user;
     @Column
     private String description;
@@ -28,26 +33,17 @@ public class Review{
     @Column
     private Double rating;
     @Column
-    private Integer name;
+    private Long mealId;
 
     public Review() {
-
     }
 
-    public Integer getId() {
-        return id;
+    public Long getReviewId() {
+        return reviewId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getName() {
-        return name;
-    }
-
-    public void setName(Integer name) {
-        this.name = name;
+    public Long getMealId() {
+        return mealId;
     }
 
     public User getUser() {
@@ -70,6 +66,10 @@ public class Review{
         return rating;
     }
 
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
+    }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -88,5 +88,9 @@ public class Review{
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public void setMealId(Long mealId) {
+        this.mealId = mealId;
     }
 }

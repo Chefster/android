@@ -25,7 +25,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 public class MainFragment extends BaseFragment {
 
     private List<Category> categoryList;
-    CategoryClickedListener listener;
+        CategoryClickedListener listener;
 
     public MainFragment() {
         // Required empty public constructor
