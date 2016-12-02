@@ -28,16 +28,14 @@ public class User {
     @Column
     private String lastName;
     private List<Meal> pastMeals;
+    @Column
+    private String email;
 
     public User() {
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -60,6 +58,14 @@ public class User {
         return imageUrl;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
@@ -74,5 +80,9 @@ public class User {
 
     public void setPastMeals(List<Meal> pastMeals) {
         this.pastMeals = pastMeals;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
