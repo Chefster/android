@@ -66,6 +66,8 @@ dependencies {
 
     // Login Slide Show
     compile 'com.nineoldandroids:library:2.4.0'
+    //Login through facebook
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     // Rating Bar
     // DBFlow
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"

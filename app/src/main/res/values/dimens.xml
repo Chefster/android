@@ -7,4 +7,21 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_size_header">22sp</dimen>
     <dimen name="text_size">18sp</dimen>
+    <dimen name="login_title_margin_top">12dp</dimen>
+    <dimen name="login_title_text_size">40sp</dimen>
+    <dimen name="login_icon_size">100dp</dimen>
+    <dimen name="login_slogan_size">24sp</dimen>
+    <dimen name="email_margin_bottom">12dp</dimen>
+    <dimen name="email_margin_end">32dp</dimen>
+    <dimen name="email_margin_start">32dp</dimen>
+    <dimen name="email_margin_top">24dp</dimen>
+    <dimen name="email_padding">12dp</dimen>
+    <dimen name="password_padding">12dp</dimen>
+    <dimen name="signup_margin">24dp</dimen>
+    <dimen name="signup_text_size">16sp</dimen>
+    <dimen name="login_button_text_size">16dp</dimen>
+    <dimen name="or_margin">12dp</dimen>
+    <dimen name="fb_margin_bottom">30dp</dimen>
+    <dimen name="fb_margin_top">40dp</dimen>
+    <dimen name="fb_text_size">18sp</dimen>
 </resources>

@@ -4,6 +4,8 @@
     <string name="sign_out">Sign Out</string>
     <string name="sign_in">Login</string>
     <string name="client_id">265724200627-n8b6duii1at2gipef6db4mba5l74afqr.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">172246319912350</string>
+    <string name="fb_login_protocol_scheme">fb172246319912350</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="auth_failed">Authenticaiton Failed</string>
@@ -60,5 +62,10 @@
     <string name="continue_0">Continue (0 items)</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say yes to use voice guidance, no to stop.</string>
+    <string name="app_icon_content_description">app icon</string>
+    <string name="email_hint">user@gmail.com</string>
+    <string name="signup_text">Don\'t have an account yet? Sign Up.</string>
+    <string name="login_button_text">Login</string>
+    <string name="or">OR</string>
 
 </resources>
