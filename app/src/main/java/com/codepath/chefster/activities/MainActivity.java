@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,8 +23,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.DishesAdapter;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
@@ -31,6 +38,7 @@ import com.codepath.chefster.fragments.MainFragment;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Dish_Table;
 import com.codepath.chefster.models.Dishes;
+import com.codepath.chefster.models.User;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,6 +62,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static com.codepath.chefster.R.id.tvHeaderName;
 
 public class MainActivity extends BaseActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -68,6 +77,8 @@ public class MainActivity extends BaseActivity implements
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.button_items_on_list) Button itemsOnListButton;
     @BindView(R.id.autoComplete) AutoCompleteTextView autocompleteView;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
 
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;
@@ -103,6 +114,10 @@ public class MainActivity extends BaseActivity implements
                 */
         handleUserLogIn();
 
+        //FirebaseClient.updateUserInformation("Hezi","https://avatars3.githubusercontent.com/u/5735246?v=3&s=460");
+        User user = FirebaseClient.getUserInformation();
+
+        drawerInit();
         // Use this call only if you have new Data stored in .json and you want to update the DB.
       //   loadDataToDatabase();
 
@@ -112,6 +127,32 @@ public class MainActivity extends BaseActivity implements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = {"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
             requestPermissions(permissions, 0);
+        }
+    }
+
+    public void drawerInit(){
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 

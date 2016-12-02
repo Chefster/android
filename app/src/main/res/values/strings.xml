@@ -67,5 +67,6 @@
     <string name="signup_text">Don\'t have an account yet? Sign Up.</string>
     <string name="login_button_text">Login</string>
     <string name="or">OR</string>
-
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
