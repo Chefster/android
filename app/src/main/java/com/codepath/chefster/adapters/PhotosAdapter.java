@@ -3,11 +3,11 @@ package com.codepath.chefster.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.codepath.chefster.R;
@@ -18,11 +18,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<Uri> photoUrisList;
+    List<String> photosPathList;
     Context context;
 
-    public PhotosAdapter(List<Uri> photoUrisList, Context context) {
-        this.photoUrisList = photoUrisList;
+    public PhotosAdapter(List<String> photoUrisList, Context context) {
+        this.photosPathList = photoUrisList;
         this.context = context;
     }
 
@@ -47,20 +47,20 @@ public class PhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private void configurePhotosViewHolder(PhotosViewHolder photosViewHolder, int position) {
-        if (position == photoUrisList.size()) {
+        if (position == photosPathList.size()) {
             photosViewHolder.getPhotoTakenImageView().setImageResource(R.drawable.ic_take_photo);
         } else {
-            // by this point we have the camera photo on disk
-            Bitmap takenImage = BitmapFactory.decodeFile(photoUrisList.get(position).getPath());
-            // RESIZE BITMAP, see section below
-            // Load the taken image into a preview
-            photosViewHolder.getPhotoTakenImageView().setImageBitmap(takenImage);
+
+            Bitmap bitmap = BitmapFactory.decodeFile(photosPathList.get(position));
+            Bitmap bMapScaled = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 3, bitmap.getHeight() / 3, true);
+            photosViewHolder.getPhotoTakenImageView().setImageBitmap(bMapScaled);
+
         }
     }
 
     @Override
     public int getItemCount() {
-        return 1 + photoUrisList.size();
+        return 1 + photosPathList.size();
     }
 
     public class PhotosViewHolder extends RecyclerView.ViewHolder {

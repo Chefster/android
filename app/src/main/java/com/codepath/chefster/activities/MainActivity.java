@@ -1,7 +1,7 @@
 package com.codepath.chefster.activities;
 
-import android.app.SearchManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -107,6 +107,11 @@ public class MainActivity extends BaseActivity implements
 
         // Get all dishes from database.
         loadDishes();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String[] permissions = {"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
+            requestPermissions(permissions, 0);
+        }
     }
 
     // using this Method will upload new .json to DataBase and Overwrite the tree.

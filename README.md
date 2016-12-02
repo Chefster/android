@@ -34,3 +34,5 @@ The following **bonus** features are implemented:
 * [ ] User can share photos, videos and comments within the group. 
 
 Link to WireFrames are [Here](https://github.com/Chefster/android/blob/master/wireframes.pdf)
+
+## Link for Milestone 2 video is [Here](https://www.youtube.com/watch?v=itzGO5hII38)
