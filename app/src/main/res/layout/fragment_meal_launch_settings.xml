@@ -22,12 +22,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:gravity="center_horizontal"
                 android:textStyle="bold"
                 android:padding="8dp"
                 android:text="@string/some_questions"
-                android:background="@color/orange_super_dark"
+                android:background="@android:color/black"
                 />
 
     </android.support.v7.widget.CardView>
@@ -193,11 +193,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="24sp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:text="@string/ok"
-                android:background="@color/orange_super_dark"
+                android:background="@color/black"
                 />
 
         </android.support.v7.widget.CardView>
@@ -220,11 +220,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="24sp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:text="@string/skip"
-                android:background="@color/orange_super_dark"
+                android:background="@color/black"
                 />
 
         </android.support.v7.widget.CardView>

@@ -185,6 +185,7 @@ public class MainActivity extends BaseActivity implements
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
             case R.id.action_search:
+                toolbar.setTitle("");
                 autocompleteView.setVisibility(View.VISIBLE);
 
                 searchViewHandler("");
