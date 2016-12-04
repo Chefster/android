@@ -27,6 +27,9 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.ivReviewProfile)
     ImageView ivReviewProfile;
 
+    @BindView(R.id.tvReviewDate)
+    TextView tvReviewDate;
+
     public TextView getTvReviewName() {
         return tvReviewName;
     }
@@ -41,6 +44,10 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
 
     public ImageView getIvReviewProfile() {
         return ivReviewProfile;
+    }
+
+    public TextView getTvReviewDate() {
+        return tvReviewDate;
     }
 
     public ReviewViewHolder(View itemView) {

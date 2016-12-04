@@ -23,7 +23,7 @@ public class Review {
     @Column
     @PrimaryKey(autoincrement = true)
     private Long reviewId;
-    private List<User> user;
+    private User user;
     @Column
     private String description;
     @Column
@@ -46,7 +46,7 @@ public class Review {
         return mealId;
     }
 
-    public List<User> getUser() {
+    public User getUser() {
         return  this.user;
     }
 
@@ -70,8 +70,8 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public void setUser(List<User> user) {
-        this.user =  user;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setDescription(String description) {

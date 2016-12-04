@@ -12,6 +12,9 @@ import com.codepath.chefster.models.Review;
 import com.codepath.chefster.models.User;
 import com.codepath.chefster.viewholders.ReviewViewHolder;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
@@ -37,10 +40,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
     @Override
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
         Review review = reviewList.get(position);
-        List<User> reviewUser = review.getUser();
-        User user = null;
-        if ( reviewUser != null )
-            user = reviewUser.get(0);
+        User user = review.getUser();
 
         holder.getTvReviewName().setText("Anonymous");
         holder.getTvReview().setText(review.getDescription());
@@ -53,6 +53,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
                 Glide.with(getContext()).load(user.getImageUrl()).asBitmap()
                         .into(holder.getIvReviewProfile());
             }
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = review.getDate();
+        if (date != null) {
+            String reviewDate = dateFormat.format(review.getDate());
+            holder.getTvReviewDate().setText(reviewDate);
         }
     }
 

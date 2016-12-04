@@ -27,7 +27,7 @@ public class User {
     private String firstName;
     @Column
     private String lastName;
-    private List<Meal> pastMeals;
+    //private List<Meal> pastMeals;
     @Column
     private String email;
 
@@ -46,13 +46,13 @@ public class User {
         return lastName;
     }
 
-    public List<Meal> getPastMeals() {
+/*    public List<Meal> getPastMeals() {
         return pastMeals;
     }
 
     public Integer getNumberOfMealsCooked() {
         return pastMeals.size();
-    }
+    }*/
 
     public String getImageUrl() {
         return imageUrl;
@@ -77,10 +77,10 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+/*
     public void setPastMeals(List<Meal> pastMeals) {
         this.pastMeals = pastMeals;
-    }
+    }*/
 
     public void setEmail(String email) {
         this.email = email;
