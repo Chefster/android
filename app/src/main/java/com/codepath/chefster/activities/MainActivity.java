@@ -334,7 +334,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onDishRemoved(Dish dish) {
         selectedDishes.remove(dish);
-        itemsOnListButton.setText("Dishes On List (" + selectedDishes.size() + ")");
+        itemsOnListButton.setText("Continue (" + selectedDishes.size() + " dishes)");
         adapter.replaceFragment(DishesFragment.newInstance(null), 1);
         adapter.notifyDataSetChanged();
     }

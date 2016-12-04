@@ -66,6 +66,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/sticky_button_height"
         android:layout_alignParentBottom="true"
-        android:text="@string/continue_0" />
+        android:text="@string/empty_dishes_list" />
 
 </RelativeLayout>
