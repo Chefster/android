@@ -325,7 +325,7 @@ public class MainActivity extends BaseActivity implements
             if (!selectedDishes.contains(dish)) {
                 selectedDishes.add(dish);
             }
-            itemsOnListButton.setText("Continue (" + selectedDishes.size() + " items)");
+            itemsOnListButton.setText("Continue (" + selectedDishes.size() + " dishes)");
             adapter.replaceFragment(DishesFragment.newInstance(null), 1);
             adapter.notifyDataSetChanged();
         }
