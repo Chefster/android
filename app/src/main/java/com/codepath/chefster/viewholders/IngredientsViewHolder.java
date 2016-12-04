@@ -17,9 +17,14 @@ public class IngredientsViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tvIngredient)
     TextView tvIngredient;
 
+    @BindView(R.id.tvIngredientAmount)
+    TextView tvIngredientAmount;
+
     public TextView getTvIngredient() {
         return tvIngredient;
     }
+
+    public TextView getTvIngredientAmount() { return tvIngredientAmount; }
 
     public IngredientsViewHolder(View itemView) {
         super(itemView);

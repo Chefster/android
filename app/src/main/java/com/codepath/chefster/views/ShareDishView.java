@@ -20,6 +20,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.PhotosAdapter;
+import com.codepath.chefster.client.FirebaseClient;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Review;
 import com.codepath.chefster.utils.ItemClickSupport;
@@ -46,6 +47,7 @@ public class ShareDishView extends RelativeLayout {
     List<String> imagesList;
     PhotosAdapter photosAdapter;
     OnLaunchCameraListener listener;
+    Dish dish;
 
 
     public ShareDishView(Context context, Dish dish) {
@@ -67,6 +69,7 @@ public class ShareDishView extends RelativeLayout {
         inflate(context, R.layout.widget_share_dish, this);
         ButterKnife.bind(this);
         listener = (OnLaunchCameraListener) context;
+        this.dish = dish;
 
         Glide.with(context).load(dish.getThumbnails().get(0)).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
@@ -129,9 +132,27 @@ public class ShareDishView extends RelativeLayout {
     @OnClick(R.id.text_view_post_review)
     public void postReview() {
         Review review = new Review();
-        // fill review details
-        //persist review to database
-        Toast.makeText(getContext(), "Review posted!", Toast.LENGTH_SHORT).show();
+        String desc = getReviewEditText().getText().toString();
+
+        if  (! desc.isEmpty()) {
+            review.setDescription(getReviewEditText().getText().toString());
+            review.setMealId(Long.valueOf(dish.getUid()));
+            review.setRating(Double.valueOf(getRatingBar().getRating()));
+
+            List<Review> reviews = dish.getReviews();
+            if (reviews == null)
+                review.setReviewId(0l);
+            else
+                review.setReviewId((Long.valueOf(reviews.size())));
+
+            if (review.getDescription() != "")
+                FirebaseClient.uploadDishReviewToFireBase(review, review.getMealId().intValue());
+
+            Toast.makeText(getContext(), "Review posted!", Toast.LENGTH_SHORT).show();
+        }
+        else
+            Toast.makeText(getContext(), "Description Missing", Toast.LENGTH_SHORT).show();
+
     }
 
     public interface OnLaunchCameraListener {

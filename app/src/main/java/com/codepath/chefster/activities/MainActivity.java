@@ -33,6 +33,7 @@ import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Dish_Table;
 import com.codepath.chefster.models.Dishes;
 import com.codepath.chefster.models.Ingredient;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -179,9 +180,9 @@ public class MainActivity extends BaseActivity implements
         switch (item.getItemId()) {
             case R.id.sign_out:
                 firebaseAuth.signOut();
-//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mUsername = ANONYMOUS;
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(this, LoginActivity.class));
+                finish();
                 return true;
             case R.id.action_search:
                 toolbar.setTitle("");
