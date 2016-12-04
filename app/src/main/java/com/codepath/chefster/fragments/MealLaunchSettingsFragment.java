@@ -102,11 +102,6 @@ public class MealLaunchSettingsFragment extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.button_skip)
-    public void onSkipClicked() {
-        dismiss();
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

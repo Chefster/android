@@ -32,7 +32,9 @@
 
         <activity android:name=".activities.CookingActivity"/>
         <activity android:name=".activities.ShareActivity"/>
-        <activity android:name=".activities.MealLaunchActivity"/>
+        <activity
+            android:name=".activities.MealLaunchActivity"
+            android:parentActivityName=".activities.MainActivity"/>
         <activity android:name=".activities.BaseActivity"/>
         <activity android:name=".activities.DishDetailsActivity"/>
         <activity android:name=".activities.ListeningActivity"/>

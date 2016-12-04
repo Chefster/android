@@ -54,6 +54,7 @@
     <style name="launch_meal_textview_content" parent="launch_meal_textview">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/bold_text</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -99,6 +100,11 @@
     <style name="MyAnimation.Window" parent="@android:style/Animation.Activity">
         <item name="android:windowEnterAnimation">@anim/anim_in</item>
         <item name="android:windowExitAnimation">@anim/anim_out</item>
+    </style>
+
+    <style name="ingredient_row">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

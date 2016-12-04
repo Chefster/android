@@ -6,7 +6,7 @@
     android:id="@+id/card_view_dish_compact_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    apps:cardElevation="4dp"
+    apps:cardElevation="2dp"
     apps:cardCornerRadius="4dp"
     android:layout_marginBottom="4dp"
     >

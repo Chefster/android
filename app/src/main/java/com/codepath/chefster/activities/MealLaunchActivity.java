@@ -2,34 +2,36 @@ package com.codepath.chefster.activities;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.CompactLayoutDishAdapter;
 import com.codepath.chefster.fragments.MealLaunchSettingsFragment;
-import com.codepath.chefster.fragments.ShoppingListFragment;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Ingredient;
 import com.codepath.chefster.models.Tool;
+import com.codepath.chefster.views.ShoppingInredientView;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,9 +47,11 @@ public class MealLaunchActivity extends BaseActivity implements
     @BindView(R.id.text_view_app_time_calc) TextView appTimeTextView;
     @BindView(R.id.text_view_list_tools_needed) TextView listOfToolsNeededTextView;
     @BindView(R.id.text_view_tools_warning) TextView toolsWarningTextView;
+    @BindView(R.id.linear_layout_shopping_list) LinearLayout shoppingListLinearLayout;
 
     List<Dish> chosenDishes;
     List<Ingredient> ingredients;
+    StringBuilder shoppingListStr;
     CompactLayoutDishAdapter dishesAdapter;
 
     HashMap<String, Integer> toolsNeededHashMap;
@@ -69,11 +73,13 @@ public class MealLaunchActivity extends BaseActivity implements
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow);
             getSupportActionBar().setTitle("Meal Summary");
         }
+
         launchSettingsDialog();
+
         setupRecyclerView();
         countToolsNeeded();
-
         calculateCookingTime();
+        fillShoppingList();
     }
 
     private void launchSettingsDialog() {
@@ -143,10 +149,50 @@ public class MealLaunchActivity extends BaseActivity implements
         }
     }
 
+    private void fillShoppingList() {
+        ingredients = new ArrayList<>();
+        shoppingListStr = new StringBuilder();
+        for (Ingredient ingredient : ChefsterApplication.shoppingList.keySet()) {
+            ingredients.add(ingredient);
+        }
+        Collections.sort(ingredients);
+        String lastCategory = "jibrish";
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getCategory() != null) {
+                if (!ingredient.getCategory().equals(lastCategory)) {
+                    lastCategory = ingredient.getCategory();
+                    TextView categoryTextView = new TextView(this);
+                    categoryTextView.setTextSize(23f);
+                    categoryTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+                    SpannableString content = new SpannableString(lastCategory);
+                    content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+                    categoryTextView.setText(content);
+                    categoryTextView.setPadding(0, 4, 0, 0);
+                    shoppingListLinearLayout.addView(categoryTextView);
+                    shoppingListStr.append('\n').append(lastCategory).append('\n');
+                }
+            }
+            double amount = ChefsterApplication.shoppingList.get(ingredient);
+            String amountStr = amount + " " + ingredient.getAmountType();
+            ShoppingInredientView shoppingInredientView = new ShoppingInredientView(this);
+            shoppingInredientView.setTextViews(amountStr, ingredient.getName(), ingredient.getPrice());
+            shoppingListLinearLayout.addView(shoppingInredientView);
+            shoppingListStr.append(amountStr).append(" ").append(ingredient.getName()).append(" = $").append(ingredient.getPrice());
+        }
+    }
+
     private CharSequence getBetterFormat(int timeInMinutes) {
         return "" + (timeInMinutes / 60) + "h" + (timeInMinutes % 60) + "m";
     }
 
+    @OnClick(R.id.image_view_share)
+    public void shareShoppingList() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Shopping List");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, shoppingListStr.toString());
+        startActivity(intent);
+    }
 
     @OnClick(R.id.button_start_cooking)
     public void startCooking() {

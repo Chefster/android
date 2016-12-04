@@ -63,5 +63,6 @@
     <string name="some_questions">Some questions for you before we start…</string>
     <string name="ok">OK</string>
     <string name="skip">SKIP</string>
+    <string name="shooping_list">Shopping List</string>
 
 </resources>
