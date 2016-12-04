@@ -29,23 +29,24 @@
 
            <AutoCompleteTextView
                 android:id="@+id/autoComplete"
-                android:layout_width="fill_parent"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
+                android:layout_gravity="top|right"
                 android:dropDownVerticalOffset="5dp"
                 android:hint="Search Dish..."
                 android:cursorVisible="true"
                 android:windowSoftInputMode="stateAlwaysVisible"
-                android:focusable="true"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:imeOptions="actionSearch"
                 android:dropDownWidth="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:inputType="textAutoComplete|textAutoCorrect"
                 android:popupBackground="@android:color/white"
+                android:drawableLeft="@drawable/ic_arrow_back_black_24dp"
                 android:textColor="#FFFFFF" >
             </AutoCompleteTextView>
             </android.support.v7.widget.Toolbar>
-
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/main_tab_layout"
@@ -60,13 +61,13 @@
             android:id="@+id/main_viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vp_margin_bottom"
             android:background="@android:color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <Button
                 android:id="@+id/button_items_on_list"
@@ -80,7 +81,6 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -89,7 +89,5 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-
-
 
 </android.support.v4.widget.DrawerLayout>

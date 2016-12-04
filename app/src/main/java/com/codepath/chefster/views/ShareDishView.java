@@ -23,6 +23,7 @@ import com.codepath.chefster.adapters.PhotosAdapter;
 import com.codepath.chefster.client.FirebaseClient;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Review;
+import com.codepath.chefster.models.User;
 import com.codepath.chefster.utils.ItemClickSupport;
 
 import java.util.ArrayList;
@@ -138,6 +139,12 @@ public class ShareDishView extends RelativeLayout {
             review.setDescription(getReviewEditText().getText().toString());
             review.setMealId(Long.valueOf(dish.getUid()));
             review.setRating(Double.valueOf(getRatingBar().getRating()));
+
+            List<User> userArray = new ArrayList<>();
+            User user = FirebaseClient.getUserInformation();
+            if ( user != null )
+                userArray.add(user);
+            //review.setUser(userArray);
 
             List<Review> reviews = dish.getReviews();
             if (reviews == null)

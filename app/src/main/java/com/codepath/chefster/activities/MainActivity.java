@@ -1,11 +1,15 @@
 package com.codepath.chefster.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +23,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -28,6 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.DishesAdapter;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
@@ -62,6 +70,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static com.codepath.chefster.R.id.tvHeaderEmail;
 import static com.codepath.chefster.R.id.tvHeaderName;
 
 public class MainActivity extends BaseActivity implements
@@ -92,8 +101,6 @@ public class MainActivity extends BaseActivity implements
     private Dishes dishes;
     List<Dish> search_result;
     public List<Dish> selectedDishes;
-
-
     private FirebaseClient firebaseClient;
 
     @Override
@@ -106,7 +113,7 @@ public class MainActivity extends BaseActivity implements
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+     //   getSupportActionBar().setIcon(R.mipmap.ic_launcher);
  /*       mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this *//* FragmentActivity *//*, this /* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
@@ -114,13 +121,10 @@ public class MainActivity extends BaseActivity implements
                 */
         handleUserLogIn();
 
-        //FirebaseClient.updateUserInformation("Hezi","https://avatars3.githubusercontent.com/u/5735246?v=3&s=460");
-        User user = FirebaseClient.getUserInformation();
 
         drawerInit();
         // Use this call only if you have new Data stored in .json and you want to update the DB.
       //   loadDataToDatabase();
-
         // Get all dishes from database.
         loadDishes();
 
@@ -131,6 +135,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void drawerInit(){
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -224,7 +229,12 @@ public class MainActivity extends BaseActivity implements
                 return true;
             case R.id.action_search:
                 autocompleteView.setVisibility(View.VISIBLE);
-
+                autocompleteView.requestFocus();
+                autocompleteView.setCursorVisible(true);
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(autocompleteView ,
+                        InputMethodManager.SHOW_IMPLICIT);
                 searchViewHandler("");
                 return true;
             default:
@@ -237,6 +247,32 @@ public class MainActivity extends BaseActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
 
+        //FirebaseClient.updateUserInformation("Hezi","https://avatars3.githubusercontent.com/u/5735246?v=3&s=460");
+
+        User user = FirebaseClient.getUserInformation();
+
+        if ( user != null) {
+            final ImageView ivHeader = (ImageView) findViewById(R.id.ivHeader);
+            TextView tvHeaderName = (TextView) findViewById(R.id.tvHeaderName);
+            TextView tvHeaderEmail = (TextView) findViewById(R.id.tvHeaderEmail);
+
+            tvHeaderName.setText(user.getFirstName());
+            tvHeaderEmail.setText(user.getEmail());
+
+            if (user.getImageUrl() != "" ) {
+                Glide.with(this).load(user.getImageUrl()).asBitmap().centerCrop()
+                        .placeholder(R.drawable.profile_avatar_placeholder_large)
+                        .into(new BitmapImageViewTarget(ivHeader) {
+                            @Override
+                            protected void setResource(Bitmap resource) {
+                                RoundedBitmapDrawable circularBitmapDrawable =
+                                        RoundedBitmapDrawableFactory.create(getResources(), resource);
+                                circularBitmapDrawable.setCircular(true);
+                                ivHeader.setImageDrawable(circularBitmapDrawable);
+                            }
+                        });
+            }
+        }
         return true;
     }
 
@@ -262,7 +298,7 @@ public class MainActivity extends BaseActivity implements
                     }
 
                     autocompleteView.setText("");
-                    autocompleteView.setVisibility(View.INVISIBLE);
+                    autocompleteView.setVisibility(View.GONE);
 
                     Intent intent = new Intent(getApplication(), DishDetailsActivity.class);
                     intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -296,12 +332,10 @@ public class MainActivity extends BaseActivity implements
         autocompleteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("clicked", "clicked");
+                autocompleteView.setVisibility(View.GONE);
                 autocompleteView.setText("");
-                autocompleteView.setCursorVisible(true);
             }
         });
-
 
         search_result = SQLite.select().from(Dish.class)
                 .where(Dish_Table.title.like("%" + newText + "%")).queryList();

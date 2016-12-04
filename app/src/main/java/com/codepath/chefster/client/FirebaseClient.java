@@ -122,10 +122,13 @@ public class FirebaseClient {
                 String email = profile.getEmail();
                 myUser.setEmail(email);
                 Uri photoUrl = profile.getPhotoUrl();
-                myUser.setImageUrl(photoUrl.toString());
+                if ( photoUrl != null)
+                    myUser.setImageUrl(photoUrl.toString());
+                return myUser;
             };
+            return myUser;
         }
-        return myUser;
+        return null;
     }
 
 

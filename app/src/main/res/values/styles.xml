@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
     </style>
 
     <style name="bold_text">
@@ -91,5 +97,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:drawablePadding">-4dp</item>
     </style>
+
+    Theme.AppCompat.Light.DarkActionBar
 
 </resources>

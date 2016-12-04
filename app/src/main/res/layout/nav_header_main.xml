@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:background="@drawable/side_nav_bar"
-    android:gravity="bottom"
+    android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -14,16 +14,20 @@
 
     <ImageView
         android:id="@+id/ivHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:baselineAlignBottom="true"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:layout_alignParentBottom="true"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
 
     <TextView
         android:id="@+id/tvHeaderName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:layout_toRightOf="@id/ivHeader"
+        android:paddingTop="68dp"
         android:text="Your Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -31,6 +35,11 @@
         android:id="@+id/tvHeaderEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ivHeader"
+        android:layout_below="@+id/tvHeaderName"
+        android:textAlignment="center"
+        android:paddingTop="5dp"
+       android:paddingBottom="10dp"
         android:text="email@gmail.com" />
 
-</LinearLayout>
+</RelativeLayout>

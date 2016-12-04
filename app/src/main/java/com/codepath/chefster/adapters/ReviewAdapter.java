@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
 import com.codepath.chefster.models.Review;
 import com.codepath.chefster.models.User;
@@ -35,12 +37,23 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
     @Override
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
         Review review = reviewList.get(position);
-        User user = review.getUser();
+        List<User> reviewUser = review.getUser();
+        User user = null;
+        if ( reviewUser != null )
+            user = reviewUser.get(0);
 
         holder.getTvReviewName().setText("Anonymous");
         holder.getTvReview().setText(review.getDescription());
         if (review.getRating() != null)
             holder.getRbReview().setRating(review.getRating().floatValue());
+        if ( user != null ) {
+            String userPhoto = user.getImageUrl();
+            holder.getTvReviewName().setText(user.getFirstName());
+            if (userPhoto != "") {
+                Glide.with(getContext()).load(user.getImageUrl()).asBitmap()
+                        .into(holder.getIvReviewProfile());
+            }
+        }
     }
 
     @Override
