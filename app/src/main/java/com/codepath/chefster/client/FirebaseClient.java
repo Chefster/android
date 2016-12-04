@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.models.Review;
 import com.codepath.chefster.utils.LocalStorage;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -83,7 +84,7 @@ public class FirebaseClient {
     }
 
     // Upload the ArrayList into Database.
-    public static void uploadDishReviewToFireBase(Review review,int dishUid) {
+    public static void uploadDishReviewToFireBase(Review review, int dishUid) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mDatabase.child("dishes").child(String.valueOf(dishUid)).

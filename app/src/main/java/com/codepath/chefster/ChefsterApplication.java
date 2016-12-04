@@ -3,10 +3,13 @@ package com.codepath.chefster;
 import android.app.Application;
 import android.content.Context;
 
+import com.codepath.chefster.models.Ingredient;
 import com.codepath.chefster.utils.LocalStorage;
 import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
+
+import java.util.HashMap;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -15,6 +18,7 @@ public class ChefsterApplication extends Application {
 
     private static Context context;
     private static LocalStorage localStorage;
+    public static HashMap<Ingredient, Double> shoppingList;
 
     public ChefsterApplication() {
         context = this;
