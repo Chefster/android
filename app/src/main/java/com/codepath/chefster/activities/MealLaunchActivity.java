@@ -46,6 +46,7 @@ public class MealLaunchActivity extends BaseActivity implements
     @BindView(R.id.text_view_regular_time_calc) TextView regularTimeTextView;
     @BindView(R.id.text_view_app_time_calc) TextView appTimeTextView;
     @BindView(R.id.text_view_list_tools_needed) TextView listOfToolsNeededTextView;
+    @BindView(R.id.text_view_list_tools_using) TextView listOfToolsUsingTextView;
     @BindView(R.id.text_view_tools_warning) TextView toolsWarningTextView;
     @BindView(R.id.linear_layout_shopping_list) LinearLayout shoppingListLinearLayout;
 
@@ -105,6 +106,10 @@ public class MealLaunchActivity extends BaseActivity implements
         toolsNeededStr.setLength(toolsNeededStr.length() - 2);
 
         listOfToolsNeededTextView.setText(toolsNeededStr.toString());
+        String toolsUsingStr = numberOfPeople + " " + getQuant(R.plurals.people, numberOfPeople) +
+                ", using " + numberOfPans + " " + getQuant(R.plurals.pans, numberOfPans) + ", " +
+                numberOfPots + " " + getQuant(R.plurals.pots, numberOfPots) + ".";
+        listOfToolsUsingTextView.setText(toolsUsingStr);
     }
 
     private void setupRecyclerView() {
@@ -233,7 +238,11 @@ public class MealLaunchActivity extends BaseActivity implements
         numberOfPans = pans;
         numberOfPots = pots;
         numberOfPeople = people;
-
+        countToolsNeeded();
         calculateCookingTime();
+    }
+
+    public String getQuant(int id, int quantity) {
+        return getResources().getQuantityString(id, quantity);
     }
 }

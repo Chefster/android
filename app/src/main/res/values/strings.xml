@@ -64,5 +64,21 @@
     <string name="ok">OK</string>
     <string name="skip">SKIP</string>
     <string name="shooping_list">Shopping List</string>
+    <string name="tools_you_are_using">Tools you are using:</string>
+
+    <plurals name="people">
+        <item quantity="one">person</item>
+        <item quantity="other">people</item>
+    </plurals>
+
+    <plurals name="pans">
+        <item quantity="one">pan</item>
+        <item quantity="other">pans</item>
+    </plurals>
+
+    <plurals name="pots">
+        <item quantity="one">pot</item>
+        <item quantity="other">pots</item>
+    </plurals>
 
 </resources>
