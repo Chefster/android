@@ -17,13 +17,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,10 +29,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.DishesAdapter;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
@@ -60,18 +55,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-import static com.codepath.chefster.R.id.tvHeaderEmail;
-import static com.codepath.chefster.R.id.tvHeaderName;
 
 public class MainActivity extends BaseActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -102,6 +92,7 @@ public class MainActivity extends BaseActivity implements
     List<Dish> search_result;
     public List<Dish> selectedDishes;
     private FirebaseClient firebaseClient;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,11 +135,23 @@ public class MainActivity extends BaseActivity implements
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                selectDrawerItem(item);
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        switch(menuItem.getItemId()) {
+            case R.id.nav_profile:
+                Intent intent = new Intent(this, ProfileActivity.class);
+                intent.putExtra("user", Parcels.wrap(user));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                getApplication().startActivity(intent);
+                break;
+         }
     }
 
     @Override
@@ -247,10 +250,16 @@ public class MainActivity extends BaseActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
 
-        //FirebaseClient.updateUserInformation("Hezi","https://avatars3.githubusercontent.com/u/5735246?v=3&s=460");
+        user = FirebaseClient.getUserInformation();
+        userHandler(user);
 
-        User user = FirebaseClient.getUserInformation();
+        return true;
+    }
 
+    /*
+    *   This Method Handle the user profile
+    */
+    private void userHandler(User user) {
         if ( user != null) {
             final ImageView ivHeader = (ImageView) findViewById(R.id.ivHeader);
             TextView tvHeaderName = (TextView) findViewById(R.id.tvHeaderName);
@@ -273,7 +282,6 @@ public class MainActivity extends BaseActivity implements
                         });
             }
         }
-        return true;
     }
 
     /*
