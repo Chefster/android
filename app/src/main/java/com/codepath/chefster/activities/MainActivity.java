@@ -265,7 +265,8 @@ public class MainActivity extends BaseActivity implements
             TextView tvHeaderName = (TextView) findViewById(R.id.tvHeaderName);
             TextView tvHeaderEmail = (TextView) findViewById(R.id.tvHeaderEmail);
 
-            tvHeaderName.setText(user.getFirstName());
+            if ( user.getFirstName() != null)
+                tvHeaderName.setText(user.getFirstName());
             tvHeaderEmail.setText(user.getEmail());
 
             if (user.getImageUrl() != "" ) {

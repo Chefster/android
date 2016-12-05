@@ -32,6 +32,7 @@ public class FirebaseClient {
     private InputStream inputStream;
     private static List<Dish> dishesArray;
     private static DatabaseReference mDatabase;
+    private static FirebaseUser user;
 
     // empty constructor
     public FirebaseClient() {
@@ -105,7 +106,7 @@ public class FirebaseClient {
     /*
     *   getting the user information from firebase.
     */
-    public static User getUserInformation(){
+    public static User getUserInformation() {
         User myUser = new User();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -122,10 +123,11 @@ public class FirebaseClient {
                 String email = profile.getEmail();
                 myUser.setEmail(email);
                 Uri photoUrl = profile.getPhotoUrl();
-                if ( photoUrl != null)
+                if (photoUrl != null)
                     myUser.setImageUrl(photoUrl.toString());
                 return myUser;
-            };
+            }
+            ;
             return myUser;
         }
         return null;
@@ -135,14 +137,30 @@ public class FirebaseClient {
     /*
     *  Updating the information of a user in Firebase
      */
-    public static void updateUserInformation(String displayName, String photoUri){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    public static void updateUserInformation(String displayName, String photoUri) {
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(displayName)
-                .setPhotoUri(Uri.parse(photoUri))
-                .build();
+        if ( displayName != null && photoUri == null ){
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(displayName)
+                    .build();
+            updateProfile(profileUpdates);
+        }
+        else if (displayName == null && photoUri != null){
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setPhotoUri(Uri.parse(photoUri))
+                    .build();
+            updateProfile(profileUpdates);
+        }else{
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setPhotoUri(Uri.parse(photoUri))
+                    .setDisplayName(displayName)
+                    .build();
+            updateProfile(profileUpdates);
+        }
+    }
 
+    public static void updateProfile(UserProfileChangeRequest profileUpdates) {
         user.updateProfile(profileUpdates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
