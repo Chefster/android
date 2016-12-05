@@ -21,6 +21,8 @@ import com.codepath.chefster.fragments.IngredientsFragment;
 import com.codepath.chefster.fragments.ReviewFragment;
 import com.codepath.chefster.fragments.StepsFragment;
 import com.codepath.chefster.models.Dish;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.pierfrancescosoffritti.youtubeplayer.AbstractYouTubeListener;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
 
@@ -52,6 +54,9 @@ public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.detailsToolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.sliderDetail)
+    SliderLayout sliderDetail;
+
     final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
     final static private int SECOND = 1;
@@ -74,6 +79,8 @@ public class DishDetailsActivity extends BaseActivity {
         stepsFragment = new StepsFragment();
 
         dish = Parcels.unwrap(getIntent().getParcelableExtra(DISH_KEY));
+
+        setSliderDetails();
 
         //Add support For ActionBar And collapsingToolbar
         toolbar.setTitle(dish.getTitle());
@@ -173,6 +180,20 @@ public class DishDetailsActivity extends BaseActivity {
         @Override
         public int getCount() {
             return tabTitles.length;
+        }
+    }
+
+
+    private void setSliderDetails() {
+
+        if (dish.getThumbnails() != null) {
+            for (String str : dish.getThumbnails()) {
+                DefaultSliderView sliderView = new DefaultSliderView(this);
+                //Glide.with(this).load(str).asBitmap().into((ImageView) sliderView.getView());
+                sliderView.image(str);
+                sliderDetail.addSlider(sliderView);
+            }
+            sliderDetail.startAutoCycle();
         }
     }
 }
