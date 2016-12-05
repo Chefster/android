@@ -27,6 +27,7 @@ import com.codepath.chefster.views.ShoppingInredientView;
 
 import org.parceler.Parcels;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -158,7 +159,16 @@ public class MealLaunchActivity extends BaseActivity implements
         ingredients = new ArrayList<>();
         shoppingListStr = new StringBuilder();
         for (Ingredient ingredient : ChefsterApplication.shoppingList.keySet()) {
-            ingredients.add(ingredient);
+            boolean found = false;
+            for (int i = 0; i < ingredients.size(); i++) {
+                if (ingredient.getName().equals(ingredients.get(i).getName())) {
+                    ingredients.get(i).setAmount(ingredients.get(i).getAmount() + ingredient.getAmount());
+                    ingredients.get(i).setPrice(ingredients.get(i).getPrice() + ingredient.getPrice());
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) ingredients.add(ingredient);
         }
         Collections.sort(ingredients);
         String lastCategory = "jibrish";
@@ -177,8 +187,10 @@ public class MealLaunchActivity extends BaseActivity implements
                     shoppingListStr.append('\n').append(lastCategory).append('\n');
                 }
             }
-            double amount = ChefsterApplication.shoppingList.get(ingredient);
+            double amount = ingredient.getAmount();
             String amountStr = amount + " " + ingredient.getAmountType();
+            DecimalFormat df2 = new DecimalFormat(".##");
+            ingredient.setPrice(Double.valueOf(df2.format(ingredient.getPrice())));
             ShoppingInredientView shoppingInredientView = new ShoppingInredientView(this);
             shoppingInredientView.setTextViews(amountStr, ingredient.getName(), ingredient.getPrice());
             shoppingListLinearLayout.addView(shoppingInredientView);

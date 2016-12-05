@@ -37,8 +37,16 @@ public class Ingredient implements Comparable {
         return amount;
     }
 
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
     public Double getPrice() {
         return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getAmountType() {
