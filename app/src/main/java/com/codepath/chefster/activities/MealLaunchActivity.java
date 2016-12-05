@@ -82,6 +82,8 @@ public class MealLaunchActivity extends BaseActivity implements
         countToolsNeeded();
         calculateCookingTime();
         fillShoppingList();
+        // Slide in from right
+        //overridePendingTransition(R.anim.transition_from_right, R.anim.transition_to_left);
     }
 
     private void launchSettingsDialog() {
@@ -233,7 +235,7 @@ public class MealLaunchActivity extends BaseActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                onBackPressed();
                 return true;
 
             case R.id.action_settings:
