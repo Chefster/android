@@ -17,7 +17,7 @@ import com.codepath.chefster.viewholders.StepViewHolder;
 import java.util.List;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepViewHolder> {
-    final static private int MIN_HEIGHT = 200;
+    final static private int MIN_HEIGHT = 250;
 
     private Context context;
     private List<Step> stepList;
