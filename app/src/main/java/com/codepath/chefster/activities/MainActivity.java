@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.DishesAdapter;
 import com.codepath.chefster.adapters.ViewPagerAdapter;
@@ -42,6 +43,7 @@ import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Dish_Table;
 import com.codepath.chefster.models.Dishes;
 import com.codepath.chefster.models.User;
+import com.codepath.chefster.models.Ingredient;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -57,6 +59,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,7 +107,7 @@ public class MainActivity extends BaseActivity implements
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-     //   getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
  /*       mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this *//* FragmentActivity *//*, this /* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
@@ -141,6 +144,7 @@ public class MainActivity extends BaseActivity implements
                 return true;
             }
         });
+
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -148,8 +152,8 @@ public class MainActivity extends BaseActivity implements
             case R.id.nav_profile:
                 Intent intent = new Intent(this, ProfileActivity.class);
                 intent.putExtra("user", Parcels.wrap(user));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                getApplication().startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivity(intent);
                 break;
          }
     }
@@ -231,9 +235,13 @@ public class MainActivity extends BaseActivity implements
                 finish();
                 return true;
             case R.id.action_search:
+                toolbar.setTitle("");
                 autocompleteView.setVisibility(View.VISIBLE);
                 autocompleteView.requestFocus();
                 autocompleteView.setCursorVisible(true);
+                getSupportActionBar().setIcon(null);
+                getSupportActionBar().setTitle(R.string.app_name);
+                itemsOnListButton.setVisibility(View.GONE);
                 InputMethodManager imm = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(autocompleteView ,
@@ -343,6 +351,11 @@ public class MainActivity extends BaseActivity implements
             public void onClick(View view) {
                 autocompleteView.setVisibility(View.GONE);
                 autocompleteView.setText("");
+                getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                itemsOnListButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -372,6 +385,19 @@ public class MainActivity extends BaseActivity implements
         if (selectedDishes == null || selectedDishes.isEmpty()) {
             Toast.makeText(this, "There are 0 dishes on your list!", Toast.LENGTH_SHORT).show();
         } else {
+            // Create the shopping list
+            HashMap<Ingredient, Double> shoppingList = new HashMap<>();
+            for (Dish dish : selectedDishes) {
+                for (Ingredient ingredient : dish.getIngredients()) {
+                    if (shoppingList.get(ingredient) == null) {
+                        shoppingList.put(ingredient, ingredient.getAmount());
+                    } else {
+                        shoppingList.put(ingredient, shoppingList.get(ingredient) + ingredient.getAmount());
+                    }
+                }
+            }
+            ChefsterApplication.shoppingList = shoppingList;
+
             Intent intent = new Intent(this, MealLaunchActivity.class);
             intent.putExtra("selected_dishes", Parcels.wrap(selectedDishes));
             startActivity(intent);
@@ -392,7 +418,7 @@ public class MainActivity extends BaseActivity implements
             if (!selectedDishes.contains(dish)) {
                 selectedDishes.add(dish);
             }
-            itemsOnListButton.setText("Continue (" + selectedDishes.size() + " items)");
+            itemsOnListButton.setText("Continue (" + selectedDishes.size() + " dishes)");
             adapter.replaceFragment(DishesFragment.newInstance(null), 1);
             adapter.notifyDataSetChanged();
         }
@@ -401,7 +427,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onDishRemoved(Dish dish) {
         selectedDishes.remove(dish);
-        itemsOnListButton.setText("Dishes On List (" + selectedDishes.size() + ")");
+        itemsOnListButton.setText("Continue (" + selectedDishes.size() + " dishes)");
         adapter.replaceFragment(DishesFragment.newInstance(null), 1);
         adapter.notifyDataSetChanged();
     }

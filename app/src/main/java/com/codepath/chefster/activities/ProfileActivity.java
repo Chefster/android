@@ -168,8 +168,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent= new Intent(this,MainActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
     }
 
     /* Take a Photo with the Camera App */

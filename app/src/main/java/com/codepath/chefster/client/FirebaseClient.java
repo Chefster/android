@@ -5,7 +5,6 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.models.Dish;
