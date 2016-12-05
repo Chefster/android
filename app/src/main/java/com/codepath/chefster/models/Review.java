@@ -10,7 +10,9 @@ import com.raizlabs.android.dbflow.annotation.Table;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This class represents a review with its description, author, date, cooking time and rating
@@ -21,8 +23,6 @@ public class Review {
     @Column
     @PrimaryKey(autoincrement = true)
     private Long reviewId;
-    @Column
-    @ForeignKey
     private User user;
     @Column
     private String description;
@@ -47,7 +47,7 @@ public class Review {
     }
 
     public User getUser() {
-        return user;
+        return  this.user;
     }
 
     public String getDescription() {

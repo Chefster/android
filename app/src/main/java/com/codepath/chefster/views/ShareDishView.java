@@ -23,9 +23,13 @@ import com.codepath.chefster.adapters.PhotosAdapter;
 import com.codepath.chefster.client.FirebaseClient;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Review;
+import com.codepath.chefster.models.User;
 import com.codepath.chefster.utils.ItemClickSupport;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -138,6 +142,13 @@ public class ShareDishView extends RelativeLayout {
             review.setDescription(getReviewEditText().getText().toString());
             review.setMealId(Long.valueOf(dish.getUid()));
             review.setRating(Double.valueOf(getRatingBar().getRating()));
+
+            Date date = new Date();
+            review.setDate(date);
+
+            User user = FirebaseClient.getUserInformation();
+            if ( user != null )
+                review.setUser(user);
 
             List<Review> reviews = dish.getReviews();
             if (reviews == null)

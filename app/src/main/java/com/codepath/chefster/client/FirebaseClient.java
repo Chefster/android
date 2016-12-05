@@ -2,12 +2,21 @@ package com.codepath.chefster.client;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Review;
+import com.codepath.chefster.models.User;
 import com.codepath.chefster.utils.LocalStorage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,6 +31,7 @@ public class FirebaseClient {
     private InputStream inputStream;
     private static List<Dish> dishesArray;
     private static DatabaseReference mDatabase;
+    private static FirebaseUser user;
 
     // empty constructor
     public FirebaseClient() {
@@ -92,5 +102,72 @@ public class FirebaseClient {
                 setValue(review);
     }
 
+    /*
+    *   getting the user information from firebase.
+    */
+    public static User getUserInformation() {
+        User myUser = new User();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                // Id of the provider (ex: google.com)
+                String providerId = profile.getProviderId();
 
+                // UID specific to the provider
+                String uid = profile.getUid();
+
+                // Name, email address, and profile photo Url
+                String name = profile.getDisplayName();
+                myUser.setFirstName(name);
+                String email = profile.getEmail();
+                myUser.setEmail(email);
+                Uri photoUrl = profile.getPhotoUrl();
+                if (photoUrl != null)
+                    myUser.setImageUrl(photoUrl.toString());
+                return myUser;
+            }
+            ;
+            return myUser;
+        }
+        return null;
+    }
+
+
+    /*
+    *  Updating the information of a user in Firebase
+     */
+    public static void updateUserInformation(String displayName, String photoUri) {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if ( displayName != null && photoUri == null ){
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(displayName)
+                    .build();
+            updateProfile(profileUpdates);
+        }
+        else if (displayName == null && photoUri != null){
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setPhotoUri(Uri.parse(photoUri))
+                    .build();
+            updateProfile(profileUpdates);
+        }else{
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setPhotoUri(Uri.parse(photoUri))
+                    .setDisplayName(displayName)
+                    .build();
+            updateProfile(profileUpdates);
+        }
+    }
+
+    public static void updateProfile(UserProfileChangeRequest profileUpdates) {
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("FirebaseClient", "User profile updated.");
+                        }
+                    }
+                });
+    }
 }

@@ -74,6 +74,10 @@
     <string name="login_button_text">Login</string>
     <string name="or">OR</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="snackbar_text">Please SignOut and SignIn To See Changes</string>
+
     <plurals name="people">
         <item quantity="one">person</item>
         <item quantity="other">people</item>

@@ -2,6 +2,7 @@ package com.codepath.chefster.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import com.codepath.chefster.R;
@@ -23,6 +24,12 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.rbReview)
     RatingBar rbReview;
 
+    @BindView(R.id.ivReviewProfile)
+    ImageView ivReviewProfile;
+
+    @BindView(R.id.tvReviewDate)
+    TextView tvReviewDate;
+
     public TextView getTvReviewName() {
         return tvReviewName;
     }
@@ -33,6 +40,14 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
 
     public RatingBar getRbReview() {
         return rbReview;
+    }
+
+    public ImageView getIvReviewProfile() {
+        return ivReviewProfile;
+    }
+
+    public TextView getTvReviewDate() {
+        return tvReviewDate;
     }
 
     public ReviewViewHolder(View itemView) {
