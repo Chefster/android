@@ -21,7 +21,6 @@ import com.codepath.chefster.fragments.IngredientsFragment;
 import com.codepath.chefster.fragments.ReviewFragment;
 import com.codepath.chefster.fragments.StepsFragment;
 import com.codepath.chefster.models.Dish;
-import com.codepath.chefster.models.Tool$$Parcelable;
 import com.pierfrancescosoffritti.youtubeplayer.AbstractYouTubeListener;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
 

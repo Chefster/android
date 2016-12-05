@@ -24,4 +24,9 @@
     <dimen name="fb_margin_bottom">30dp</dimen>
     <dimen name="fb_margin_top">40dp</dimen>
     <dimen name="fb_text_size">18sp</dimen>
+    <dimen name="vp_margin_bottom">110dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
 </resources>

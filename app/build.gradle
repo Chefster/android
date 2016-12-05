@@ -115,6 +115,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'org.parceler:parceler:1.1.6'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 // Add to the bottom of the file

@@ -1,26 +1,36 @@
 package com.codepath.chefster.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.DishesAdapter;
@@ -32,6 +42,7 @@ import com.codepath.chefster.fragments.MainFragment;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Dish_Table;
 import com.codepath.chefster.models.Dishes;
+import com.codepath.chefster.models.User;
 import com.codepath.chefster.models.Ingredient;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
@@ -46,16 +57,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends BaseActivity implements
@@ -71,6 +79,8 @@ public class MainActivity extends BaseActivity implements
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.button_items_on_list) Button itemsOnListButton;
     @BindView(R.id.autoComplete) AutoCompleteTextView autocompleteView;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
 
     // Firebase instance variables
     private FirebaseAuth firebaseAuth;
@@ -84,9 +94,8 @@ public class MainActivity extends BaseActivity implements
     private Dishes dishes;
     List<Dish> search_result;
     public List<Dish> selectedDishes;
-
-
     private FirebaseClient firebaseClient;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,15 +115,56 @@ public class MainActivity extends BaseActivity implements
                 */
         handleUserLogIn();
 
+
+        drawerInit();
         // Use this call only if you have new Data stored in .json and you want to update the DB.
       //   loadDataToDatabase();
-
         // Get all dishes from database.
         loadDishes();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = {"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
             requestPermissions(permissions, 0);
+        }
+    }
+
+    public void drawerInit(){
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                selectDrawerItem(item);
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        switch(menuItem.getItemId()) {
+            case R.id.nav_profile:
+                Intent intent = new Intent(this, ProfileActivity.class);
+                intent.putExtra("user", Parcels.wrap(user));
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivity(intent);
+                break;
+         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -187,7 +237,15 @@ public class MainActivity extends BaseActivity implements
             case R.id.action_search:
                 toolbar.setTitle("");
                 autocompleteView.setVisibility(View.VISIBLE);
-
+                autocompleteView.requestFocus();
+                autocompleteView.setCursorVisible(true);
+                getSupportActionBar().setIcon(null);
+                getSupportActionBar().setTitle(R.string.app_name);
+                itemsOnListButton.setVisibility(View.GONE);
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(autocompleteView ,
+                        InputMethodManager.SHOW_IMPLICIT);
                 searchViewHandler("");
                 return true;
             default:
@@ -200,7 +258,39 @@ public class MainActivity extends BaseActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
 
+        user = FirebaseClient.getUserInformation();
+        userHandler(user);
+
         return true;
+    }
+
+    /*
+    *   This Method Handle the user profile
+    */
+    private void userHandler(User user) {
+        if ( user != null) {
+            final ImageView ivHeader = (ImageView) findViewById(R.id.ivHeader);
+            TextView tvHeaderName = (TextView) findViewById(R.id.tvHeaderName);
+            TextView tvHeaderEmail = (TextView) findViewById(R.id.tvHeaderEmail);
+
+            if ( user.getFirstName() != null)
+                tvHeaderName.setText(user.getFirstName());
+            tvHeaderEmail.setText(user.getEmail());
+
+            if (user.getImageUrl() != "" ) {
+                Glide.with(this).load(user.getImageUrl()).asBitmap().centerCrop()
+                        .placeholder(R.drawable.profile_avatar_placeholder_large)
+                        .into(new BitmapImageViewTarget(ivHeader) {
+                            @Override
+                            protected void setResource(Bitmap resource) {
+                                RoundedBitmapDrawable circularBitmapDrawable =
+                                        RoundedBitmapDrawableFactory.create(getResources(), resource);
+                                circularBitmapDrawable.setCircular(true);
+                                ivHeader.setImageDrawable(circularBitmapDrawable);
+                            }
+                        });
+            }
+        }
     }
 
     /*
@@ -225,7 +315,7 @@ public class MainActivity extends BaseActivity implements
                     }
 
                     autocompleteView.setText("");
-                    autocompleteView.setVisibility(View.INVISIBLE);
+                    autocompleteView.setVisibility(View.GONE);
 
                     Intent intent = new Intent(getApplication(), DishDetailsActivity.class);
                     intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -259,12 +349,15 @@ public class MainActivity extends BaseActivity implements
         autocompleteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("clicked", "clicked");
+                autocompleteView.setVisibility(View.GONE);
                 autocompleteView.setText("");
-                autocompleteView.setCursorVisible(true);
+                getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                itemsOnListButton.setVisibility(View.VISIBLE);
             }
         });
-
 
         search_result = SQLite.select().from(Dish.class)
                 .where(Dish_Table.title.like("%" + newText + "%")).queryList();
