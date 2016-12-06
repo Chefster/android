@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
@@ -50,6 +51,9 @@ public class ProgressActivity extends ListeningActivity implements
     List<HorizontalScrollView> horizScrollViewsList;
     @Nullable @BindViews({ R.id.linear_layout_dish_progress_1, R.id.linear_layout_dish_progress_2, R.id.linear_layout_dish_progress_3 })
     List<LinearLayout> linearLayoutsList;
+    @Nullable @BindViews({ R.id.text_view_title_1, R.id.text_view_title_2, R.id.text_view_title_3 })
+    List<TextView> titlesList;
+
     @BindView(R.id.button_finish_cooking) Button finishCookingButton;
 
     private TextToSpeech tts;
@@ -155,6 +159,7 @@ public class ProgressActivity extends ListeningActivity implements
                     stepProgressView.setStepStatus(READY);
                     linearLayoutsList.get(i).addView(stepProgressView);
                 }
+                titlesList.get(i).setText(stepsLists.get(i).get(0).getDishName());
                 // If we got to this index, show the horizontal scroll view
                 horizScrollViewsList.get(i).setVisibility(View.VISIBLE);
             }
