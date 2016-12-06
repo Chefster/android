@@ -141,7 +141,7 @@ public class DishDetailsActivity extends BaseActivity {
 
     // This Class is for Fragments Adapter.
     public class DishDetailsPagerAdapter extends FragmentPagerAdapter {
-        private String tabTitles[] = {getString(R.string.steps), getString(R.string.ingredients), getString(R.string.reviews)};
+        private String tabTitles[] = {"STEPS","INGREDIENTS","REVIEWS"};
 
         public DishDetailsPagerAdapter(FragmentManager fm) {
             super(fm);

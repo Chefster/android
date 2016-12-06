@@ -81,10 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivDishDetails"
                 android:layout_gravity="bottom"
-                android:background="@color/colorPrimary"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/cpb_white"
-                app:tabTextColor="@android:color/black" />
+        />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
