@@ -15,7 +15,7 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorBackground">#EAF0F2</color>
-    <color name="colorBackgroundLoginActivity">#66000000</color>
+    <color name="colorBackgroundLoginActivity">#4D000000</color>
     <!--Step color-->
     <color name="white_translucent">#CCFFFFFF</color>
     <color name="light_blue_translucent">#CC00AAFF</color>

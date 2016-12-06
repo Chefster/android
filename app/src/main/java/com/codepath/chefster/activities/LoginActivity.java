@@ -35,8 +35,8 @@ import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
+
     private static final String TAG = "LoginActivity";
-    private static final int RC_SIGN_IN = 100;
 
     @BindView(R.id.edit_text_email_input)
     EditText emailInputEditText;
@@ -45,7 +45,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     @BindView(R.id.slider)
     SliderLayout sliderLayout;
 
-    private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -73,13 +72,13 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
         //Facebook Login
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+
         loginButton.setReadPermissions("email", "public_profile");
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -125,7 +124,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                             startActivity(i);
                             finish();
                         }
-                        // ...
                     }
                 });
     }
@@ -142,15 +140,11 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-//            GoogleSignInAccount acct = result.getSignInAccount();
-//            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
         } else {
             // Signed out, show unauthenticated UI.
-            Toast.makeText(LoginActivity.this, R.string.auth_failed,
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
         }
     }
 
