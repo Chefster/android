@@ -2,10 +2,6 @@ package com.codepath.chefster.views;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AlertDialog;
@@ -14,13 +10,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.codepath.chefster.R;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Step;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,14 +22,15 @@ import butterknife.OnClick;
 public class StepProgressView extends CardView {
     @BindView(R.id.card_view_progress_item) CardView mainCardView;
     @BindView(R.id.relative_layout_step_item) RelativeLayout mainLayout;
-    @BindView(R.id.text_view_dish_title) TextView stepDishTextView;
     @BindView(R.id.text_view_step_description) TextView stepDescriptionTextView;
     @BindView(R.id.text_view_step_type) TextView stepTypeTextView;
     @BindView(R.id.text_view_running_timer) TextView runningTimerTextView;
-    @BindView(R.id.button_step_details) ImageView stepDetailsButton;
     @BindView(R.id.button_play_pause_step) ImageView playPauseStepButton;
     @BindView(R.id.button_finish_step) TextView finishStepButton;
     @BindView(R.id.pause_step_layout) ImageView pauseStepLayout;
+
+    @BindColor(R.color.colorPrimary) int activeStepColor;
+    @BindColor(R.color.colorPrimaryDark) int finishedStepColor;
 
     boolean isExpanded;
     boolean isTimerRunning;
@@ -63,22 +58,12 @@ public class StepProgressView extends CardView {
         shouldUseVoiceHelp = true;
         timeLeftInSeconds = step.getDurationTime() * 60;
 
-        Glide.with(context).load(dish.getThumbnails().get(0)).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                Drawable drawable = new BitmapDrawable(resource);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mainCardView.setBackground(drawable);
-                }
-            }
-        });
-
         setViewsText();
     }
 
     private void setViewsText() {
-        stepDishTextView.setText(step.getDishName());
         stepDescriptionTextView.setText(step.getDescription());
+        stepDescriptionTextView.setMaxLines(4);
         stepTypeTextView.setText(step.getType());
         if (step.getDurationTime() != 0) {
             runningTimerTextView.setText(getTimerFormat(step.getDurationTime() * 60));
@@ -99,7 +84,7 @@ public class StepProgressView extends CardView {
             isTimerRunning = true;
             pauseStepLayout.setVisibility(GONE);
             playPauseStepButton.setImageResource(R.drawable.ic_pause);
-            countDownTimer = new CountDownTimer(/*timeLeftInSeconds */ 5 * 1000, 1000) {
+            countDownTimer = new CountDownTimer(/*timeLeftInSeconds */ 20 * 1000, 1000) {
                 @Override
                 public void onTick(long l) {
                     timeLeftInSeconds = l / 1000;
@@ -109,8 +94,8 @@ public class StepProgressView extends CardView {
                 @Override
                 public void onFinish() {
                     runningTimerTextView.setText("Done!");
-                    tts.speak(step.getDishName() + " timer is done", TextToSpeech.QUEUE_FLUSH, null);
-                    playPauseStepButton.setVisibility(GONE);
+                    tts.speak(step.getDishName() + " timer is done. I repeat, " + step.getDishName() + " timer is done.", TextToSpeech.QUEUE_FLUSH, null);
+                    playPauseStepButton.setImageResource(R.drawable.ic_play);
                 }
             }.start();
         }
@@ -134,25 +119,24 @@ public class StepProgressView extends CardView {
 
         switch (step.getStatus()) {
             case READY:
-                mainLayout.setBackgroundResource(R.color.white_translucent);
                 finishStepButton.setVisibility(GONE);
                 playPauseStepButton.setVisibility(GONE);
                 break;
             case ACTIVE:
-                mainLayout.setBackgroundResource(R.color.light_blue_translucent);
+                mainLayout.setBackgroundResource(R.drawable.round_white_background_primary_border);
                 finishStepButton.setVisibility(VISIBLE);
-                if (shouldUseVoiceHelp) {
-                    String text = "now, for " + step.getDishName() + ", a " + step.getDurationTime() + " minutes step, " + step.getDescription();
-                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-                }
                 if (step.getDurationTime() != 0) {
                     playPauseStepButton.setVisibility(VISIBLE);
                 }
                 break;
             case DONE:
-                mainLayout.setBackgroundResource(R.color.light_orange_translucent);
+                mainLayout.setBackgroundResource(R.drawable.round_white_background_primarydark_border);
                 playPauseStepButton.setVisibility(GONE);
                 finishStepButton.setVisibility(GONE);
+                stepTypeTextView.setText("DONE");
+                pauseStepLayout.setImageResource(R.drawable.ic_added_dish);
+                pauseStepLayout.setBackground(null);
+                pauseStepLayout.setVisibility(VISIBLE);
         }
     }
 
@@ -166,7 +150,11 @@ public class StepProgressView extends CardView {
         // the user might be able to keep doing things while a long not busy step is happening
         if (step.getType().equals("Prep") || (step.getType().equals("Cook") && step.getDurationTime() < 8)) {
             setStepStatus(Step.Status.DONE);
-            countDownTimer = null;
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+                countDownTimer = null;
+            }
+            runningTimerTextView.setVisibility(GONE);
             listener.showNextStep(step.getDishName(), step.getOrder(), true);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -180,6 +168,9 @@ public class StepProgressView extends CardView {
                     })
                     .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            if (!isTimerRunning) {
+                                toggleStepTimer();
+                            }
                             listener.showNextStep(step.getDishName(), step.getOrder(), false);
                         }
                     });
@@ -189,18 +180,17 @@ public class StepProgressView extends CardView {
 
     @OnClick(R.id.button_step_description_audio)
     public void playStepDescription() {
-        tts.speak(step.getDescription(), TextToSpeech.QUEUE_FLUSH, null);
+        String text = "A " + step.getDurationTime() + " minutes step, " + step.getDescription();
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
-    @OnClick(R.id.button_step_details)
+    @OnClick(R.id.relative_layout_step_item)
     public void expandStepItem() {
         isExpanded = !isExpanded;
         if (isExpanded) {
-            stepDetailsButton.setImageResource(R.drawable.ic_less);
             stepDescriptionTextView.setMaxLines(12);
         } else {
-            stepDetailsButton.setImageResource(R.drawable.ic_more);
-            stepDescriptionTextView.setMaxLines(2);
+            stepDescriptionTextView.setMaxLines(4);
         }
         listener.expandStepItem(step.getDishName(), isExpanded);
     }

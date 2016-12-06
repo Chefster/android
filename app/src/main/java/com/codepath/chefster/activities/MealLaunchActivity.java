@@ -180,7 +180,7 @@ public class MealLaunchActivity extends BaseActivity implements
                     lastCategory = ingredient.getCategory();
                     TextView categoryTextView = new TextView(this);
                     categoryTextView.setTextSize(23f);
-                    categoryTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+                    categoryTextView.setTextColor(getResources().getColor(R.color.colorPrimary));
                     SpannableString content = new SpannableString(lastCategory);
                     content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
                     categoryTextView.setText(content);
