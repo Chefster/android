@@ -51,7 +51,7 @@
     <string name="leave_review">Leave a review!</string>
     <string name="review_hint">Did you like the dish? Would you make it again? Let other people know!</string>
     <string name="post_review">Post Review</string>
-    <string name="tools_needed">Tools needed for best time optimization:</string>
+    <string name="tools_needed">Best tools needed:</string>
     <string name="meal_summary">Meal Summary</string>
     <string name="tools_warning">* You currently do not have the right tool set for an optimized cooking time</string>
     <string name="future">Future</string>

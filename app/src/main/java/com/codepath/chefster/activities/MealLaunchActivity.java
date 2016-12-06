@@ -19,10 +19,12 @@ import android.widget.TextView;
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
 import com.codepath.chefster.adapters.CompactLayoutDishAdapter;
+import com.codepath.chefster.adapters.DishesAdapter;
 import com.codepath.chefster.fragments.MealLaunchSettingsFragment;
 import com.codepath.chefster.models.Dish;
 import com.codepath.chefster.models.Ingredient;
 import com.codepath.chefster.models.Tool;
+import com.codepath.chefster.utils.RecyclerViewVerticalSpacing;
 import com.codepath.chefster.views.ShoppingInredientView;
 
 import org.parceler.Parcels;
@@ -123,6 +125,7 @@ public class MealLaunchActivity extends BaseActivity implements
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         // Attach layout manager to the RecyclerView
         dishesRecyclerView.setLayoutManager(layoutManager);
+        dishesRecyclerView.addItemDecoration(new RecyclerViewVerticalSpacing(20, false));
     }
 
     /**
