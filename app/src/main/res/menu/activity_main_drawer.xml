@@ -11,10 +11,6 @@
             android:icon="@drawable/ic_category_black"
             android:title="Categories" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Settings" />

@@ -94,7 +94,7 @@ public class DishDetailsActivity extends BaseActivity {
         if (!dish.getVideoUrl().isEmpty()) {
             videoManager();
         } else {
-            ivPlayer.setVisibility(View.INVISIBLE);
+            Glide.with(this).load("").asBitmap().into(ivPlayer);
         }
 
         setViewPager();

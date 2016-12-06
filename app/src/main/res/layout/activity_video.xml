@@ -21,13 +21,14 @@
         draggable_view:top_view_margin_bottom="@dimen/top_fragment_margin"
         draggable_view:enable_minimized_horizontal_alpha_effect="false"
         draggable_view:top_view_resize="true"
-        android:background="@color/black">
+        android:background="@color/transparent">
 
         <ImageView
             android:id="@+id/iv_thumbnail"
             android:layout_below="@+id/dragView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:visibility="gone"
             android:scaleType="centerCrop"/>
 
 
