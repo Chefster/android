@@ -7,10 +7,13 @@ import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -35,22 +38,25 @@ import java.util.PriorityQueue;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-import static com.codepath.chefster.models.Step.Status.*;
+import static com.codepath.chefster.models.Step.Status.ACTIVE;
+import static com.codepath.chefster.models.Step.Status.READY;
 
-public class ProgressActivity extends ListeningActivity implements
-        StepProgressView.OnStepProgressListener,
-        TextToSpeech.OnInitListener {
+public class ProgressActivity extends ListeningActivity implements StepProgressView.OnStepProgressListener, TextToSpeech.OnInitListener {
     private final int START_COOKING = 0;
     private final int MID_COOKING = 1;
     private final int DONE_COOKING = 2;
 
     @Nullable @BindViews({ R.id.horiz_scroll_view_1, R.id.horiz_scroll_view_2, R.id.horiz_scroll_view_3 })
     List<HorizontalScrollView> horizScrollViewsList;
+
     @Nullable @BindViews({ R.id.linear_layout_dish_progress_1, R.id.linear_layout_dish_progress_2, R.id.linear_layout_dish_progress_3 })
     List<LinearLayout> linearLayoutsList;
-    @BindView(R.id.button_finish_cooking) Button finishCookingButton;
+
+    //@BindView(R.id.button_finish_cooking) Button finishCookingButton;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private TextToSpeech tts;
     private boolean shouldUseVoiceHelp;
@@ -73,10 +79,14 @@ public class ProgressActivity extends ListeningActivity implements
         setContentView(R.layout.activity_progress);
         ButterKnife.bind(this);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            String[] permissions = {"android.permission.RECORD_AUDIO"};
-//            requestPermissions(permissions, 0);
-//        }
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow);
+            getSupportActionBar().setTitle("Cooking");
+        }
 
         mealProgress = START_COOKING;
         tts = new TextToSpeech(this, this);
@@ -174,7 +184,6 @@ public class ProgressActivity extends ListeningActivity implements
         return true;
     }
 
-    @OnClick(R.id.button_finish_cooking)
     public void finishCooking() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.finish_cooking_message)
@@ -211,7 +220,6 @@ public class ProgressActivity extends ListeningActivity implements
                         .playOn(linearLayoutsList.get(index).getChildAt(step));
                 if (mealIsFinished()) {
                     finishCooking();
-                    finishCookingButton.setText(R.string.share);
                 }
             } else {
                 // When there are 2 people cooking, there could be 2 steps that should be done in the
@@ -342,6 +350,31 @@ public class ProgressActivity extends ListeningActivity implements
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_meal_inprogress, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            case R.id.action_finish:
+                finishCooking();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode,
