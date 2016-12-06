@@ -77,7 +77,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="snackbar_text">Please SignOut and SignIn To See Changes</string>
-    <string name="fb_login">Facebook Login</string>
+    <string name="fb_login">FACEBOOK LOGIN</string>
 
     <plurals name="people">
         <item quantity="one">person</item>
