@@ -5,7 +5,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
@@ -32,8 +30,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.codepath.chefster.R.id.ivPlayer;
 
 public class DishDetailsActivity extends BaseActivity {
     @BindView(R.id.vpDish)
@@ -94,10 +90,9 @@ public class DishDetailsActivity extends BaseActivity {
 
         Glide.with(this).load(dish.getThumbnails().get(0)).into(ivDishDetails);
 
-        if (! dish.getVideoUrl().isEmpty()) {
+        if (!dish.getVideoUrl().isEmpty()) {
             videoManager();
-        }
-        else {
+        } else {
             ivPlayer.setVisibility(View.INVISIBLE);
         }
 
@@ -114,22 +109,32 @@ public class DishDetailsActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-       private void videoManager() {
+    private void videoManager() {
         ivDishDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                videoPlayer.setVisibility(View.VISIBLE);
-                ivPlayer.setVisibility(View.INVISIBLE);
-                videoPlayer.initialize(new AbstractYouTubeListener() {
-                    @Override
-                    public void onReady() {
-                        String videoUrl = dish.getVideoUrl();
-                        videoPlayer.loadVideo(videoUrl, 0);
-                    }
-                }, true);
+                playVideo();
             }
-
         });
+        ivPlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playVideo();
+            }
+        });
+    }
+
+    public void playVideo() {
+        videoPlayer.setVisibility(View.VISIBLE);
+        ivPlayer.setVisibility(View.INVISIBLE);
+        sliderDetail.setVisibility(View.INVISIBLE);
+        videoPlayer.initialize(new AbstractYouTubeListener() {
+            @Override
+            public void onReady() {
+                String videoUrl = dish.getVideoUrl();
+                videoPlayer.loadVideo(videoUrl, 0);
+            }
+        }, true);
     }
 
     private void setViewPager() {
@@ -141,7 +146,7 @@ public class DishDetailsActivity extends BaseActivity {
 
     // This Class is for Fragments Adapter.
     public class DishDetailsPagerAdapter extends FragmentPagerAdapter {
-        private String tabTitles[] = {"STEPS","INGREDIENTS","REVIEWS"};
+        private String tabTitles[] = {"STEPS", "INGREDIENTS", "REVIEWS"};
 
         public DishDetailsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -185,7 +190,6 @@ public class DishDetailsActivity extends BaseActivity {
 
 
     private void setSliderDetails() {
-
         if (dish.getThumbnails() != null) {
             for (String str : dish.getThumbnails()) {
                 DefaultSliderView sliderView = new DefaultSliderView(this);
@@ -195,5 +199,6 @@ public class DishDetailsActivity extends BaseActivity {
             }
             sliderDetail.startAutoCycle();
         }
+
     }
 }
