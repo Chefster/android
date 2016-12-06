@@ -1,5 +1,6 @@
 package com.codepath.chefster.activities;
 
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -119,7 +120,11 @@ public class DishDetailsActivity extends BaseActivity {
         ivPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playVideo();
+                //playVideo();
+                Intent intent = new Intent(getBaseContext(),VideoActivity.class);
+                intent.putExtra("uri",Parcels.wrap(dish.getVideoUrl()));
+                intent.putExtra("image",Parcels.wrap(dish.getThumbnail()));
+                startActivity(intent);
             }
         });
     }
