@@ -49,7 +49,7 @@ public class CompactLayoutDishAdapter extends RecyclerView.Adapter<CompactLayout
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Dish dish = dishes.get(position);
-        Glide.with(context).load(dish.getThumbnails().get(0)).centerCrop().into(holder.getDishImageView());
+        Glide.with(context).load(dish.getThumbnails().get(0)).animate(R.anim.image_zoom_in).centerCrop().into(holder.getDishImageView());
         holder.getDishTitleTextView().setText(dish.getTitle());
         StringBuilder tools = new StringBuilder();
         for (Tool tool : dish.getTools()) {

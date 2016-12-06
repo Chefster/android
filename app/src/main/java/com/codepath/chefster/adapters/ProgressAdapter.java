@@ -51,7 +51,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressItemViewHolder
     @Override
     public void onBindViewHolder(final ProgressItemViewHolder holder, int position) {
         final Step step = steps.get(position);
-        Glide.with(context).load(dish.getThumbnails().get(0)).asBitmap().into(new SimpleTarget<Bitmap>() {
+        Glide.with(context).load(dish.getThumbnails().get(0)).asBitmap().animate(R.anim.image_zoom_in).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 Drawable drawable = new BitmapDrawable(resource);

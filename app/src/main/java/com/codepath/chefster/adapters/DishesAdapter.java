@@ -61,7 +61,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishViewHolder> {
         holder.tvCookingTime.setText("Est." + String.valueOf(dish.getPrepTime() + dish.getCookingTime()) + " mins");
         holder.tvMealRating.setText(String.valueOf(dish.getRating()));
         if (dish.getThumbnails() != null && !dish.getThumbnails().isEmpty()) {
-            Glide.with(context).load(dish.getThumbnails().get(0)).into(holder.ivMealImage);
+            Glide.with(context).load(dish.getThumbnails().get(0)).animate(R.anim.image_zoom_in).into(holder.ivMealImage);
         }
 
         // when user Click on ItemImage it Will take Him To Dish Details

@@ -63,7 +63,7 @@ public class StepProgressView extends CardView {
         shouldUseVoiceHelp = true;
         timeLeftInSeconds = step.getDurationTime() * 60;
 
-        Glide.with(context).load(dish.getThumbnails().get(0)).asBitmap().into(new SimpleTarget<Bitmap>() {
+        Glide.with(context).load(dish.getThumbnails().get(0)).asBitmap().animate(R.anim.image_zoom_in).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 Drawable drawable = new BitmapDrawable(resource);
