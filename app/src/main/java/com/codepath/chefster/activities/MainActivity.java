@@ -156,7 +156,14 @@ public class MainActivity extends BaseActivity implements
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 this.startActivity(intent);
                 break;
+            case R.id.nav_category:
+                setViewPager();
+                break;
+            case R.id.sign_out:
+
+                break;
          }
+        menuItem.setChecked(false);
     }
 
     @Override
