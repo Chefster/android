@@ -56,10 +56,6 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
     @Nullable @BindViews({ R.id.text_view_title_1, R.id.text_view_title_2, R.id.text_view_title_3 })
     List<TextView> titlesList;
 
-   // @BindView(R.id.button_finish_cooking) Button finishCookingButton;
-
-    //@BindView(R.id.button_finish_cooking) Button finishCookingButton;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -90,7 +86,7 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow);
-            getSupportActionBar().setTitle("Cooking");
+            getSupportActionBar().setTitle("Cooking Progress");
         }
 
         mealProgress = START_COOKING;
@@ -247,16 +243,6 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
     }
 
     @Override
-    public void pauseStep(String dishName, int step) {
-
-    }
-
-    @Override
-    public void resumeStep(String dishName, int step) {
-
-    }
-
-    @Override
     public void expandStepItem(String dishName, boolean expand) {
         int index = dishNameToIndexHashMap.get(dishName);
         if (expand) {
@@ -280,7 +266,6 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-
             int result = tts.setLanguage(Locale.US);
 
             if (result == TextToSpeech.LANG_MISSING_DATA
@@ -297,29 +282,25 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
     }
 
     private void speakOut(String text) {
-//        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-//            @Override
-//            public void onStart(String s) {
-//                stopListening();
-//            }
-//
-//            @Override
-//            public void onDone(String s) {
-//                restartListeningService();
-//            }
-//
-//            @Override
-//            public void onError(String s) {
-//                restartListeningService();
-//            }
-//        });
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    protected void onPause() {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            speakOut(" ");
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         // Don't forget to shutdown tts!
         if (tts != null) {
+            speakOut(" ");
             tts.stop();
             tts.shutdown();
         }
@@ -373,6 +354,12 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
                 onBackPressed();
                 return true;
 
+            case R.id.action_home:
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                return true;
+
             case R.id.action_finish:
                 finishCooking();
                 return true;
@@ -381,34 +368,4 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           String permissions[], int[] grantResults) {
-//        switch (requestCode) {
-//            case 0: {
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    // permission was granted, yay! Do the
-//                    // Start continuous listening for commands
-//                    while (tts.isSpeaking());
-//                    context = getApplicationContext(); // Needs to be set
-//                    VoiceRecognitionListener.getInstance().setListener(this); // Here we set the current listener
-//                    startListening(); // starts listening
-//
-//                } else {
-//
-//                    // permission denied, boo! Disable the
-//                    // functionality that depends on this permission.
-//                }
-//                return;
-//            }
-//
-//            // other 'case' lines to check for other
-//            // permissions this app might request
-//        }
-//    }
 }

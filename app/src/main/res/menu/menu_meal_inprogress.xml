@@ -2,8 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_finish"
+    <item android:id="@+id/action_home"
         android:orderInCategory="1"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/action_finish"
+        android:orderInCategory="2"
         android:title="@string/finish"
+        android:icon="@drawable/ic_done"
         app:showAsAction="always" />
 </menu>

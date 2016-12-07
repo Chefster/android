@@ -200,8 +200,6 @@ public class StepProgressView extends CardView {
 
     public interface OnStepProgressListener {
         void showNextStep(String dishName, int step, boolean isFinished);
-        void pauseStep(String dishName, int step);
-        void resumeStep(String dishName, int step);
         void expandStepItem(String dishName, boolean expand);
     }
 }
