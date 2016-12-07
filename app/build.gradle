@@ -74,8 +74,11 @@ dependencies {
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
     // Like Button
+
     // Search
+
     //compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -117,6 +120,8 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'org.parceler:parceler:1.1.6'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.github.pedrovgs:draggablepanel:1.9'
+    compile 'com.squareup.picasso:picasso:2.3.2'
 }
 
 // Add to the bottom of the file
