@@ -44,7 +44,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
         //for now hardcoding as we dont have any data model for category
         Category category = categoriesList.get(position);
 
-        Glide.with(context).load(category.getImage()).into(holder.ivCategory);
+        Glide.with(context).load(category.getImage()).animate(R.anim.image_zoom_in).into(holder.ivCategory);
         holder.tvCategoryName.setText(category.getName());
     }
 

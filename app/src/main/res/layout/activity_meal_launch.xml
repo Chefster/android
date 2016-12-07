@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,11 +14,12 @@
         app:titleTextColor="#fff" />
 
     <ScrollView
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:id="@+id/main_content"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:background="@color/colorBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,166 +29,144 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_chosen_dishes"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
             <android.support.v7.widget.CardView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                xmlns:apps="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view_tools_needed"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                apps:cardElevation="2dp"
-                apps:cardCornerRadius="4dp"
                 android:layout_marginBottom="8dp"
-                >
+                android:layout_marginTop="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/orange_medium"
-                    android:padding="6dp"
                     android:orientation="vertical"
-                    >
+                    android:padding="6dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/black"
-                        android:textAppearance="@style/bold_text"
                         android:text="@string/tools_needed"
-                        />
+                        android:textAppearance="@style/bold_text"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/text_view_list_tools_needed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
                         android:textColor="@android:color/black"
-                        />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/text_view_tools_warning"
                         style="@style/launch_meal_textview"
-                        android:textColor="@android:color/white"
                         android:text="@string/tools_warning"
+                        android:textColor="@color/colorSecondaryText"
                         android:visibility="gone"
-                        tools:visibility="visible"
-                        />
+                        tools:visibility="visible" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/black"
-                        android:textAppearance="@style/bold_text"
                         android:text="@string/tools_you_are_using"
-                        />
+                        android:textAppearance="@style/bold_text"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/text_view_list_tools_using"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
                         android:textColor="@android:color/black"
-                        />
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        >
+                        android:layout_marginTop="8dp">
 
                         <TextView
                             android:id="@+id/text_view_regular_time_calc_label"
                             style="@style/launch_meal_textview_title"
-                            android:text="@string/regular_time_calc"
-                            />
+                            android:text="@string/regular_time_calc" />
 
                         <TextView
                             android:id="@+id/text_view_regular_time_calc"
                             style="@style/launch_meal_textview_content"
-                            android:layout_marginStart="8dp"
-                            />
+                            android:textColor="@color/colorPrimaryDark"
+                            android:layout_marginStart="8dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/text_view_app_time_calc_label"
                             style="@style/launch_meal_textview_title"
-                            android:text="@string/app_time_calc"
-                            />
+                            android:text="@string/app_time_calc" />
 
                         <TextView
                             android:id="@+id/text_view_app_time_calc"
                             style="@style/launch_meal_textview_content"
-                            android:layout_marginStart="8dp"
-                            />
+                            android:textColor="@color/colorPrimaryDark"
+                            android:layout_marginStart="8dp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:apps="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/card_view_shopping_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                apps:paddingStart="4dp"
-                apps:cardElevation="2dp"
-                apps:cardCornerRadius="4dp"
                 android:layout_marginBottom="8dp"
-                >
+                android:layout_marginTop="4dp"
+                apps:cardCornerRadius="4dp"
+                apps:cardElevation="2dp"
+                apps:paddingStart="4dp">
 
                 <LinearLayout
                     android:id="@+id/linear_layout_shopping_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/black"
-                    android:padding="8dp"
                     android:orientation="vertical"
-                    >
+                    android:padding="8dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/text_view_shopping_list_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/shooping_list"
-                            android:textSize="28sp"
-                            android:textAppearance="@style/bold_text"
-                            android:textColor="@color/orange_super_light"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="8dp"
-                            />
+                            android:text="@string/shooping_list"
+                            android:textAppearance="@style/bold_text"
+                            android:textColor="@color/orange_super_light"
+                            android:textSize="28sp" />
 
                         <ImageView
                             android:id="@+id/image_view_share"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:src="@drawable/ic_share"
                             android:background="?attr/selectableItemBackground"
                             android:clickable="true"
                             android:padding="2dp"
-                            />
+                            android:src="@drawable/ic_share" />
 
                     </RelativeLayout>
 
@@ -200,8 +178,7 @@
             <View
                 android:id="@+id/meal_launch_bottom_padding"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/sticky_button_height"
-                />
+                android:layout_height="@dimen/sticky_button_height" />
         </LinearLayout>
     </ScrollView>
 
@@ -209,17 +186,15 @@
         android:id="@+id/progressBarFullScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarStyle="outsideOverlay"
         android:layout_centerInParent="true"
+        android:scrollbarStyle="outsideOverlay"
         android:visibility="gone"
-        tools:visibility="visible"
-        />
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/button_start_cooking"
-        android:layout_alignParentBottom="true"
-        android:text="@string/lets_go"
         style="@style/start_cooking_sticky_button"
-        />
+        android:layout_alignParentBottom="true"
+        android:text="@string/lets_go" />
 
 </RelativeLayout>

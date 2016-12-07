@@ -6,6 +6,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunc
     private static final int RC_IMAGE_CAPTURE = 1;
 
     @BindView(R.id.linear_layout_share_dish_frames) LinearLayout mainLinearLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private UUID uuid;
     String currentPhotoPath;
@@ -46,6 +50,15 @@ public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunc
         setContentView(R.layout.activity_share);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow);
+            getSupportActionBar().setTitle("Share Dish");
+        }
+
         Intent startingIntent = getIntent();
         cookedDishes = Parcels.unwrap(startingIntent.getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
 
@@ -57,7 +70,7 @@ public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunc
         }
     }
 
-    @OnClick(R.id.text_view_share_button)
+    @OnClick(R.id.share_button)
     public void sharePhotos() {
         ArrayList<Uri> photoUrisList = new ArrayList<>();
         for (int i = 0; i < cookedDishes.size(); i++) {
@@ -141,5 +154,16 @@ public class ShareActivity extends BaseActivity implements ShareDishView.OnLaunc
     public void launchCamera(String dishName) {
         photoDish = dishName;
         dispatchTakePictureIntent();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

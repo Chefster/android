@@ -51,7 +51,7 @@
     <string name="leave_review">Leave a review!</string>
     <string name="review_hint">Did you like the dish? Would you make it again? Let other people know!</string>
     <string name="post_review">Post Review</string>
-    <string name="tools_needed">Tools needed for best time optimization:</string>
+    <string name="tools_needed">Best tools needed:</string>
     <string name="meal_summary">Meal Summary</string>
     <string name="tools_warning">* You currently do not have the right tool set for an optimized cooking time</string>
     <string name="future">Future</string>
@@ -71,12 +71,13 @@
     <string name="app_icon_content_description">app icon</string>
     <string name="email_hint">user@gmail.com</string>
     <string name="signup_text">Don\'t have an account yet? Sign Up.</string>
-    <string name="login_button_text">Login</string>
+    <string name="login_button_text">Email Login</string>
     <string name="or">OR</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="snackbar_text">Please SignOut and SignIn To See Changes</string>
+    <string name="fb_login">FACEBOOK LOGIN</string>
 
     <plurals name="people">
         <item quantity="one">person</item>

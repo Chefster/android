@@ -8,14 +8,16 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="colorPrimary">#FF9800</color>
-    <color name="colorPrimaryDark">@color/orange_super_dark</color>
+    <color name="colorPrimaryDark">#dc6f00</color>
     <color name="colorPrimaryLight">#FFE0B2</color>
     <color name="colorAccent">#FF9800</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorBackground">#EAF0F2</color>
-    <color name="colorBackgroundLoginActivity">#66000000</color>
+    <color name="colorBackgroundLoginActivity">#8C000000</color>
+
+    <color name="blackLight">#80000000</color>
     <!--Step color-->
     <color name="white_translucent">#CCFFFFFF</color>
     <color name="light_blue_translucent">#CC00AAFF</color>
