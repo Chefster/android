@@ -94,37 +94,40 @@
 
         <Button
             android:id="@+id/button_log_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
             android:layout_below="@+id/edit_text_password_input"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/login_button_text_size"
+            android:layout_marginTop="20dp"
             android:background="@color/colorPrimaryDark"
             android:text="@string/login_button_text"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:paddingRight="20dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginEnd="52dp"
             android:textSize="@dimen/fb_text_size"
-            android:paddingLeft="20dp"
             android:textColor="@color/colorBackground" />
 
         <TextView
+            android:id="@+id/text_view_or_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/button_log_in"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/or_margin"
             android:text="@string/or"
-            android:textColor="@color/colorBackground" />
+            android:textSize="17sp"
+            android:textColor="@color/colorBackground"/>
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/button_log_in"
+            android:layout_below="@id/text_view_or_label"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/fb_margin_bottom"
-            android:layout_marginTop="@dimen/fb_margin_top"
+            android:layout_marginStart="52dp"
+            android:layout_marginEnd="52dp"
             android:textSize="@dimen/fb_text_size"
             app:com_facebook_login_text="@string/fb_login"/>
     </RelativeLayout>

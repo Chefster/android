@@ -65,12 +65,7 @@ public class StepProgressView extends CardView {
         stepDescriptionTextView.setText(step.getDescription());
         stepDescriptionTextView.setMaxLines(4);
         stepTypeTextView.setText(step.getType());
-        if (step.getDurationTime() != 0) {
-            runningTimerTextView.setText(getTimerFormat(step.getDurationTime() * 60));
-            runningTimerTextView.setVisibility(VISIBLE);
-        } else {
-            runningTimerTextView.setVisibility(GONE);
-        }
+        runningTimerTextView.setText(getTimerFormat(step.getDurationTime() * 60));
     }
 
     @OnClick(R.id.button_play_pause_step)
@@ -78,11 +73,13 @@ public class StepProgressView extends CardView {
         if (isTimerRunning) {
             isTimerRunning = false;
             pauseStepLayout.setVisibility(VISIBLE);
+            runningTimerTextView.setVisibility(GONE);
             playPauseStepButton.setImageResource(R.drawable.ic_play);
             countDownTimer.cancel();
         } else {
             isTimerRunning = true;
             pauseStepLayout.setVisibility(GONE);
+            runningTimerTextView.setVisibility(VISIBLE);
             playPauseStepButton.setImageResource(R.drawable.ic_pause);
             countDownTimer = new CountDownTimer(/*timeLeftInSeconds */ 20 * 1000, 1000) {
                 @Override
@@ -189,8 +186,10 @@ public class StepProgressView extends CardView {
         isExpanded = !isExpanded;
         if (isExpanded) {
             stepDescriptionTextView.setMaxLines(12);
+            stepDescriptionTextView.setTextSize(24f);
         } else {
             stepDescriptionTextView.setMaxLines(4);
+            stepDescriptionTextView.setTextSize(18f);
         }
         listener.expandStepItem(step.getDishName(), isExpanded);
     }

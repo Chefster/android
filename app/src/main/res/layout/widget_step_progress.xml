@@ -45,26 +45,12 @@
             tools:text="PREP"
             />
 
-        <TextView
-            android:id="@+id/text_view_running_timer"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:background="@drawable/round_white_background_primary_border"
-            tools:text="0:05:12"
-            style="@style/progress_item_text_view"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@id/text_view_step_type"
-            android:padding="4dp"
-            android:layout_margin="4dp"
-            />
-
         <LinearLayout
             android:id="@+id/linear_layout_progress_buttons_layout"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/text_view_running_timer"
             android:gravity="end"
             android:layout_margin="4dp"
             >
@@ -115,6 +101,22 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/button_step_description_audio"
+            />
+
+        <TextView
+            android:id="@+id/text_view_running_timer"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:background="@drawable/black_translucent_round"
+            android:gravity="center"
+
+            android:textSize="34sp"
+            android:textColor="@color/white"
+            android:layout_alignTop="@+id/pause_step_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            tools:text="0:05:12"
             />
     </RelativeLayout>
 
