@@ -50,40 +50,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tools_needed"
-                        android:textAppearance="@style/bold_text"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        style="@style/launch_meal_textview_title" />
 
                     <TextView
                         android:id="@+id/text_view_list_tools_needed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
+                        style="@style/launch_meal_textview_content" />
 
                     <TextView
                         android:id="@+id/text_view_tools_warning"
                         style="@style/launch_meal_textview"
                         android:text="@string/tools_warning"
                         android:textColor="@color/colorSecondaryText"
+                        android:textSize="16sp"
                         android:visibility="gone"
                         tools:visibility="visible" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:text="@string/tools_you_are_using"
-                        android:textAppearance="@style/bold_text"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        style="@style/launch_meal_textview_title" />
 
                     <TextView
                         android:id="@+id/text_view_list_tools_using"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
+                        style="@style/launch_meal_textview_content" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -98,7 +93,6 @@
                         <TextView
                             android:id="@+id/text_view_regular_time_calc"
                             style="@style/launch_meal_textview_content"
-                            android:textColor="@color/colorPrimaryDark"
                             android:layout_marginStart="8dp" />
 
                     </LinearLayout>
@@ -115,7 +109,6 @@
                         <TextView
                             android:id="@+id/text_view_app_time_calc"
                             style="@style/launch_meal_textview_content"
-                            android:textColor="@color/colorPrimaryDark"
                             android:layout_marginStart="8dp" />
                     </LinearLayout>
 
@@ -139,7 +132,6 @@
                     android:id="@+id/linear_layout_shopping_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/black"
                     android:orientation="vertical"
                     android:padding="8dp">
 
@@ -155,7 +147,7 @@
                             android:layout_marginBottom="8dp"
                             android:text="@string/shooping_list"
                             android:textAppearance="@style/bold_text"
-                            android:textColor="@color/orange_super_light"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="28sp" />
 
                         <ImageView
