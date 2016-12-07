@@ -107,8 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
                     buttonEdit.setText("EDIT");
                     editClicked = false;
 
-                    photoUri = Uri.parse(user.getImageUrl());
-                    FirebaseClient.updateUserInformation(tvProfileName.getText().toString(), photoUri.toString());
+                    FirebaseClient.updateUserInformation(tvProfileName.getText().toString(), user.getImageUrl());
 
                     Snackbar.make(findViewById(R.id.activity_profile_acticity), R.string.snackbar_text, Snackbar.LENGTH_INDEFINITE)
                             .setDuration(3000).show();
