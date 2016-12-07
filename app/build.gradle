@@ -58,9 +58,10 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
-
     // Custom Progress Button
+
     // Carousel
+
     // Animations
 
     // Login Slide Show
@@ -68,6 +69,7 @@ dependencies {
     //Login through facebook
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     // Rating Bar
+
     // DBFlow
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"

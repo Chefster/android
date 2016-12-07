@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_progress"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -12,7 +14,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true"
-        app:titleTextColor="#fff" />
+        apps:titleTextColor="#fff" />
 
     <LinearLayout
         android:layout_below="@+id/toolbar"
@@ -28,39 +30,30 @@
         android:paddingTop="8dp"
         tools:context="com.codepath.chefster.activities.ProgressActivity">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view_title_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp">
+            apps:cardElevation="2dp"
+            apps:cardCornerRadius="4dp"
+            android:layout_marginBottom="4dp"
+            >
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/text_view_title_1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/light_blue_translucent"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/active" />
+                android:background="@color/colorPrimary"
+                android:textSize="22sp"
+                android:textAppearance="@style/bold_text"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                tools:text="Shakshuka"
+                />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/white_translucent"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/future" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/light_orange_translucent"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/done" />
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <HorizontalScrollView
             android:id="@+id/horiz_scroll_view_1"
@@ -80,6 +73,31 @@
 
         </HorizontalScrollView>
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view_title_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            apps:cardElevation="2dp"
+            apps:cardCornerRadius="4dp"
+            android:layout_marginBottom="4dp"
+            >
+
+            <TextView
+                android:id="@+id/text_view_title_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textSize="22sp"
+                android:textAppearance="@style/bold_text"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                tools:text="Shakshuka"
+                />
+
+        </android.support.v7.widget.CardView>
+
         <HorizontalScrollView
             android:id="@+id/horiz_scroll_view_2"
             android:layout_width="match_parent"
@@ -97,6 +115,31 @@
                 android:showDividers="middle" />
 
         </HorizontalScrollView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view_title_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            apps:cardElevation="2dp"
+            apps:cardCornerRadius="4dp"
+            android:layout_marginBottom="4dp"
+            >
+
+            <TextView
+                android:id="@+id/text_view_title_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textSize="22sp"
+                android:textAppearance="@style/bold_text"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                tools:text="Shakshuka"
+                />
+
+        </android.support.v7.widget.CardView>
 
         <HorizontalScrollView
             android:id="@+id/horiz_scroll_view_3"

@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -155,7 +156,14 @@ public class MainActivity extends BaseActivity implements
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 this.startActivity(intent);
                 break;
+            case R.id.nav_category:
+                setViewPager();
+                break;
+            case R.id.sign_out:
+
+                break;
          }
+        menuItem.setChecked(false);
     }
 
     @Override
@@ -230,7 +238,11 @@ public class MainActivity extends BaseActivity implements
         switch (item.getItemId()) {
             case R.id.sign_out:
                 firebaseAuth.signOut();
-                LoginManager.getInstance().logOut();
+                try {
+                    LoginManager.getInstance().logOut();
+                } catch (Exception e) {
+                    Log.d("MainActivity", e.toString());
+                }
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return true;

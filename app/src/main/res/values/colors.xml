@@ -22,4 +22,5 @@
     <color name="white_translucent">#CCFFFFFF</color>
     <color name="light_blue_translucent">#CC00AAFF</color>
     <color name="light_orange_translucent">#CCFFA726</color>
+    <color name="transparent">#00000000</color>
 </resources>
