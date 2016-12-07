@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:apps="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view_progress_item"
-    android:layout_width="300dp"
+    android:layout_width="340dp"
     android:layout_height="match_parent"
     apps:cardElevation="4dp"
     apps:cardCornerRadius="4dp"
