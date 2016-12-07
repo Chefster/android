@@ -27,7 +27,7 @@
             android:id="@+id/iv_thumbnail"
             android:layout_below="@+id/dragView"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="@dimen/top_fragment_height"
             android:visibility="gone"
             android:scaleType="centerCrop"/>
 

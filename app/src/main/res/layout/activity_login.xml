@@ -101,6 +101,7 @@
             android:layout_marginTop="@dimen/login_button_text_size"
             android:background="@color/colorPrimaryDark"
             android:text="@string/login_button_text"
+            android:textAllCaps="false"
             android:textStyle="bold"
             android:paddingRight="20dp"
             android:textSize="@dimen/fb_text_size"

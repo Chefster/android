@@ -171,6 +171,7 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
                     linearLayoutsList.get(i).addView(stepProgressView);
                 }
                 titlesList.get(i).setText(stepsLists.get(i).get(0).getDishName());
+                titlesList.get(i).setVisibility(View.VISIBLE);
                 // If we got to this index, show the horizontal scroll view
                 horizScrollViewsList.get(i).setVisibility(View.VISIBLE);
             }

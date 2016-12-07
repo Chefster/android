@@ -39,7 +39,7 @@
     <string name="reviews">reviews</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
-    <string name="finish_cooking_message">Are you done cooking? Ready to share your beautiful meal with your friends?</string>
+    <string name="finish_cooking_message">Amazing! Want to share your beautiful meal with your friends?</string>
     <string name="finish">Finish</string>
     <string name="start">Start</string>
     <string name="pause">Pause</string>
@@ -57,7 +57,7 @@
     <string name="future">Future</string>
     <string name="done">Done</string>
     <string name="active">Active</string>
-    <string name="finish_step_message">Are you done with this step? Clicking \'Yes\' will stop timer and mark this step as done. Clicking \'No\' will show you the next step and keep alert for this step.</string>
+    <string name="finish_step_message"> Are you done with this step? or just moving on?</string>
     <string name="whats_cooking">What\'s Cookin\'?</string>
     <string name="empty_dishes_list">Add dishes to list!</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
@@ -78,6 +78,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="snackbar_text">Please SignOut and SignIn To See Changes</string>
     <string name="fb_login">FACEBOOK LOGIN</string>
+    <string name="moving_on">Next Step</string>
 
     <plurals name="people">
         <item quantity="one">person</item>

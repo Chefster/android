@@ -123,7 +123,7 @@ public class StepProgressView extends CardView {
                 playPauseStepButton.setVisibility(GONE);
                 break;
             case ACTIVE:
-                mainLayout.setBackgroundResource(R.drawable.round_white_background_primary_border);
+                mainLayout.setBackgroundResource(R.drawable.light_orange_translucent_background);
                 finishStepButton.setVisibility(VISIBLE);
                 if (step.getDurationTime() != 0) {
                     playPauseStepButton.setVisibility(VISIBLE);
@@ -159,14 +159,14 @@ public class StepProgressView extends CardView {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage(R.string.finish_step_message)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             setStepStatus(Step.Status.DONE);
                             countDownTimer = null;
                             listener.showNextStep(step.getDishName(), step.getOrder(), true);
                         }
                     })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.moving_on, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             if (!isTimerRunning) {
                                 toggleStepTimer();
