@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.Recipes;
 import com.codepath.chefster.models.Dish;
@@ -12,13 +13,22 @@ import com.codepath.chefster.models.Review;
 import com.codepath.chefster.models.User;
 import com.codepath.chefster.utils.LocalStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +42,10 @@ public class FirebaseClient {
     private static List<Dish> dishesArray;
     private static DatabaseReference mDatabase;
     private static FirebaseUser user;
+    private static StorageReference storage;
+    private static Uri downloadUrl;
+    private static String userName;
+    private static List<Review> reviews;
 
     // empty constructor
     public FirebaseClient() {
@@ -102,6 +116,32 @@ public class FirebaseClient {
                 setValue(review);
     }
 
+    public static List<Review> getDishReviewsFromFireBase(final int dishUid) {
+        reviews = new ArrayList();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        Query reviewsQuery = mDatabase.child("dishes").child(String.valueOf(dishUid))
+                .child("reviews").orderByChild("starCount");
+
+        reviewsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dishSnapshot : dataSnapshot.getChildren()) {
+                    Review review = dishSnapshot.getValue(Review.class);
+                    reviews.add(review);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return reviews;
+    }
+
+
     /*
     *   getting the user information from firebase.
     */
@@ -139,18 +179,17 @@ public class FirebaseClient {
     public static void updateUserInformation(String displayName, String photoUri) {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if ( displayName != null && photoUri == null ){
+        if (displayName != null && photoUri == null) {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(displayName)
                     .build();
             updateProfile(profileUpdates);
-        }
-        else if (displayName == null && photoUri != null){
+        } else if (displayName == null && photoUri != null) {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setPhotoUri(Uri.parse(photoUri))
                     .build();
             updateProfile(profileUpdates);
-        }else{
+        } else {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setPhotoUri(Uri.parse(photoUri))
                     .setDisplayName(displayName)
@@ -169,5 +208,29 @@ public class FirebaseClient {
                         }
                     }
                 });
+    }
+
+    // Upload Images into Firebase.
+    public static void uploadImage(Uri uri, final Context context, String name) {
+        storage = FirebaseStorage.getInstance().getReference();
+        userName = name;
+
+        StorageReference filePath = storage.child("UsersPhotos").child(uri.getLastPathSegment());
+
+        UploadTask uploadTask = filePath.putFile(uri);
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                downloadUrl = taskSnapshot.getDownloadUrl();
+                updateUserInformation(userName, downloadUrl.toString());
+            }
+        });
     }
 }

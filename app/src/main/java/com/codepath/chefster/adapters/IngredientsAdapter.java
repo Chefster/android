@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
 import com.codepath.chefster.models.Ingredient;
 import com.codepath.chefster.viewholders.IngredientsViewHolder;
@@ -37,13 +39,25 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsViewHold
         holder.getTvIngredient().setText(ingredient.getName());
 
         int amount = ingredient.getAmount().intValue();
+        String type = ingredient.getAmountType();
 
         if ( amount != 0){
             if ( (amount*100)%100 != 0 )
-                holder.getTvIngredientAmount().setText(String.valueOf(ingredient.getAmount()));
+                holder.getTvIngredientAmount().
+                        setText(String.valueOf(ingredient.getAmount()) + " " + type);
             else
-                holder.getTvIngredientAmount().setText(String.valueOf(amount));
+                holder.getTvIngredientAmount().
+                        setText(String.valueOf(amount) + " " + type);
         }
+
+        String thumbnail = ingredient.getThumbnail();
+        if ( thumbnail != "" ){
+            Glide.with(context).load(thumbnail)
+                    .asBitmap()
+                    .placeholder(R.drawable.ingredients_icon)
+                    .into(holder.getIvIngredients());
+        }
+
     }
 
     @Override
