@@ -1,8 +1,10 @@
 package com.codepath.chefster.client;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import com.codepath.chefster.ChefsterApplication;
@@ -12,6 +14,8 @@ import com.codepath.chefster.models.Review;
 import com.codepath.chefster.models.User;
 import com.codepath.chefster.utils.LocalStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,11 +23,18 @@ import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FirebaseClient {
 
@@ -32,6 +43,8 @@ public class FirebaseClient {
     private static List<Dish> dishesArray;
     private static DatabaseReference mDatabase;
     private static FirebaseUser user;
+    private static StorageReference storage;
+    private static Uri downloadUrl;
 
     // empty constructor
     public FirebaseClient() {
@@ -170,4 +183,34 @@ public class FirebaseClient {
                     }
                 });
     }
+
+    // Upload Images into Firebase.
+    public static void uploadImage(Uri uri, final Context context) {
+        storage = FirebaseStorage.getInstance().getReference();
+
+        StorageReference filePath = storage.child("UsersPhotos").child(uri.getLastPathSegment());
+
+        UploadTask uploadTask = filePath.putFile(uri);
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                downloadUrl = taskSnapshot.getDownloadUrl();
+                SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("uri", downloadUrl.toString());
+                editor.commit();
+                Log.d("OnSuccess", downloadUrl.toString());
+            }
+        });
+    }
+
+
 }

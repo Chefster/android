@@ -3,6 +3,7 @@ package com.codepath.chefster.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -65,13 +66,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-/*        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.getBackground().setAlpha(0);*/
-/*
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);*/
-
         Intent intent = getIntent();
         user = Parcels.unwrap(intent.getParcelableExtra("user"));
 
@@ -118,7 +112,16 @@ public class ProfileActivity extends AppCompatActivity {
                     ivProfileCamera.setVisibility(View.INVISIBLE);
                     buttonEdit.setText("EDIT");
                     editClicked = false;
-                    FirebaseClient.updateUserInformation(tvProfileName.getText().toString(), photoUri.toString());
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    String uri = pref.getString("uri", "empty");//"No name defined" is the default value.
+
+                    if (uri != "empty") {
+                        FirebaseClient.updateUserInformation(tvProfileName.getText().toString(), uri);
+                    }else{
+                        FirebaseClient.updateUserInformation(tvProfileName.getText().toString(), photoUri.toString());
+                    }
+
                     Snackbar.make(findViewById(R.id.activity_profile_acticity), R.string.snackbar_text, Snackbar.LENGTH_INDEFINITE)
                             .setDuration(3000).show();
                 }
@@ -152,7 +155,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String name = edittext.getText().toString();
                 tvProfileName.setText(name);
-                //FirebaseClient.updateUserInformation(name,user.getImageUrl());
                 Toast.makeText(getApplication(),"Name Changed",Toast.LENGTH_SHORT).show();
             }
         });
@@ -217,10 +219,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
            photoUri = FileProvider.getUriForFile(this, "com.codepath.chefster.fileprovider", new File(mCurrentPhotoPath));
-       //    Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-      //     Bitmap mImageBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 20, bitmap.getHeight() / 20, true);
+           FirebaseClient.uploadImage(photoUri,getApplicationContext());
            Glide.with(this).load(photoUri).asBitmap().into(ivProfilePhoto);
-
        }
     }
 }
