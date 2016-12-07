@@ -45,6 +45,7 @@ public class FirebaseClient {
     private static FirebaseUser user;
     private static StorageReference storage;
     private static Uri downloadUrl;
+    private static String userName;
 
     // empty constructor
     public FirebaseClient() {
@@ -185,8 +186,9 @@ public class FirebaseClient {
     }
 
     // Upload Images into Firebase.
-    public static void uploadImage(Uri uri, final Context context) {
+    public static void uploadImage(Uri uri, final Context context, String name ) {
         storage = FirebaseStorage.getInstance().getReference();
+        userName = name ;
 
         StorageReference filePath = storage.child("UsersPhotos").child(uri.getLastPathSegment());
 
@@ -201,16 +203,9 @@ public class FirebaseClient {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 downloadUrl = taskSnapshot.getDownloadUrl();
-                SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("uri", downloadUrl.toString());
-                editor.commit();
-                Log.d("OnSuccess", downloadUrl.toString());
+                updateUserInformation(userName, downloadUrl.toString());
             }
         });
     }
-
-
 }
