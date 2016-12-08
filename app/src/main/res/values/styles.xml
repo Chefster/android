@@ -84,8 +84,8 @@
     </style>
 
     <style name="Widget.MaterialRatingBar.RatingBar" parent="android:Widget.RatingBar">
-        <item name="android:minHeight">16dp</item>
-        <item name="android:maxHeight">16dp</item>
+        <item name="android:minHeight">24dp</item>
+        <item name="android:maxHeight">24dp</item>
     </style>
 
     <style name="progress_item_text_view">
