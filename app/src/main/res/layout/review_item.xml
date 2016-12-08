@@ -34,7 +34,8 @@
             android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"
             android:layout_toEndOf="@+id/ivReviewProfile"
-            android:layout_alignTop="@id/ivReviewProfile"
+            android:layout_marginTop="-4dp"
+            android:layout_marginBottom="4dp"
             tools:text="Hillary Clinton"
             />
 
@@ -42,11 +43,10 @@
             android:id="@+id/tvReviewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:layout_toEndOf="@+id/ivReviewProfile"
-            android:layout_below="@+id/tvReviewName"
+            android:layout_alignParentEnd="true"
             tools:text="mm/dd/yyyy" />
 
         <RatingBar
@@ -54,10 +54,11 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:isIndicator="true"
             android:numStars="5"
-            android:stepSize="0.1" />
+            android:stepSize="0.1"
+            android:layout_toEndOf="@+id/ivReviewProfile"
+            android:layout_below="@+id/tvReviewName" />
 
         <TextView
             android:id="@+id/tvReview"
@@ -65,7 +66,9 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="@android:color/black"
-            android:layout_below="@+id/ivReviewProfile"
+            android:layout_below="@+id/rbReview"
+            android:layout_toEndOf="@id/ivReviewProfile"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="4dp"
             tools:text="Great meal, loved it, and it was super super easy to make! I recommend anyone to try it. Thanks Chefster!" />
 

@@ -1,8 +1,6 @@
 package com.codepath.chefster.fragments;
 
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,23 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.chefster.R;
-import com.codepath.chefster.adapters.CategoryAdapter;
 import com.codepath.chefster.adapters.IngredientsAdapter;
 import com.codepath.chefster.models.Ingredient;
-import com.codepath.chefster.utils.SpacesItemDecoration;
 
-import org.parceler.Parcels;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
-
-/**
- * Created by Hezi Eliyahu on 16/11/2016.
- */
 
 public class IngredientsFragment extends BaseFragment {
     @BindView(R.id.rvIngredients)
@@ -35,7 +23,6 @@ public class IngredientsFragment extends BaseFragment {
 
     final static private String ARGUMENT = "ingredients";
 
-    private CategoryAdapter IngredientsAdapter;
     private List<Ingredient> ingredientList;
     private IngredientsAdapter adapter;
 
