@@ -1,6 +1,7 @@
 package com.codepath.chefster.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -37,26 +38,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DishDetailsActivity extends BaseActivity {
-    @BindView(R.id.vpDish)
-    ViewPager viewPagerDish;
-
-    @BindView(R.id.tlDish)
-    TabLayout tabLayoutDish;
-
-    @BindView(R.id.ivDishDetails)
-    ImageView ivDishDetails;
-
-    @BindView(R.id.ivPlayer)
-    ImageView ivPlayer;
-
-    @BindView(R.id.videoPlayer)
-    YouTubePlayerView videoPlayer;
-
-    @BindView(R.id.detailsToolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.sliderDetail)
-    SliderLayout sliderDetail;
+    @BindView(R.id.vpDish) ViewPager viewPagerDish;
+    @BindView(R.id.tlDish) TabLayout tabLayoutDish;
+    @BindView(R.id.ivDishDetails) ImageView ivDishDetails;
+    @BindView(R.id.ivPlayer) ImageView ivPlayer;
+    @BindView(R.id.videoPlayer) YouTubePlayerView videoPlayer;
+    @BindView(R.id.detailsToolbar) Toolbar toolbar;
+    @BindView(R.id.sliderDetail) SliderLayout sliderDetail;
 
     final static public String DISH_KEY = "selected_dish";
     final static private int FIRST = 0;
@@ -74,8 +62,14 @@ public class DishDetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_details);
-
         ButterKnife.bind(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            View decorView = getWindow().getDecorView();
+            // Hide the status bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
 
         ingredientsFragment = new IngredientsFragment();
         reviewFragment = new ReviewFragment();

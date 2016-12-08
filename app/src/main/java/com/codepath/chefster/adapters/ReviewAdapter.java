@@ -51,7 +51,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
             String userPhoto = user.getImageUrl();
             holder.getTvReviewName().setText(user.getFirstName());
             if (userPhoto != "") {
-                Glide.with(getContext()).load(user.getImageUrl()).asBitmap()
+                Glide.with(getContext()).load(user.getImageUrl()).asBitmap().centerCrop()
                         .into(holder.getIvReviewProfile());
             }
         }
@@ -61,12 +61,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
         if (date != null) {
             String reviewDate = dateFormat.format(review.getDate());
             holder.getTvReviewDate().setText(reviewDate);
+        } else {
+            holder.getTvReviewDate().setText("12/03/2016");
         }
     }
 
     @Override
     public int getItemCount() {
-        if (reviewList != null && ! reviewList.isEmpty()) {
+        if (reviewList != null && !reviewList.isEmpty()) {
             return reviewList.size();
         }
         return 0;
