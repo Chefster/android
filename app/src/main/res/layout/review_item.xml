@@ -43,9 +43,12 @@
             android:id="@+id/tvReviewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"
+            android:gravity="right"
+            android:layout_toRightOf="@+id/rbReview"
+            android:layout_alignBottom="@id/rbReview"
             android:layout_alignParentEnd="true"
             tools:text="mm/dd/yyyy" />
 
