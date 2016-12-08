@@ -65,12 +65,7 @@ public class StepProgressView extends CardView {
         stepDescriptionTextView.setText(step.getDescription());
         stepDescriptionTextView.setMaxLines(4);
         stepTypeTextView.setText(step.getType());
-        if (step.getDurationTime() != 0) {
-            runningTimerTextView.setText(getTimerFormat(step.getDurationTime() * 60));
-            runningTimerTextView.setVisibility(VISIBLE);
-        } else {
-            runningTimerTextView.setVisibility(GONE);
-        }
+        runningTimerTextView.setText(getTimerFormat(step.getDurationTime() * 60));
     }
 
     @OnClick(R.id.button_play_pause_step)
@@ -78,11 +73,13 @@ public class StepProgressView extends CardView {
         if (isTimerRunning) {
             isTimerRunning = false;
             pauseStepLayout.setVisibility(VISIBLE);
+            runningTimerTextView.setVisibility(GONE);
             playPauseStepButton.setImageResource(R.drawable.ic_play);
             countDownTimer.cancel();
         } else {
             isTimerRunning = true;
             pauseStepLayout.setVisibility(GONE);
+            runningTimerTextView.setVisibility(VISIBLE);
             playPauseStepButton.setImageResource(R.drawable.ic_pause);
             countDownTimer = new CountDownTimer(/*timeLeftInSeconds */ 20 * 1000, 1000) {
                 @Override
@@ -123,7 +120,7 @@ public class StepProgressView extends CardView {
                 playPauseStepButton.setVisibility(GONE);
                 break;
             case ACTIVE:
-                mainLayout.setBackgroundResource(R.drawable.round_white_background_primary_border);
+                mainLayout.setBackgroundResource(R.drawable.light_orange_translucent_background);
                 finishStepButton.setVisibility(VISIBLE);
                 if (step.getDurationTime() != 0) {
                     playPauseStepButton.setVisibility(VISIBLE);
@@ -159,14 +156,14 @@ public class StepProgressView extends CardView {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage(R.string.finish_step_message)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             setStepStatus(Step.Status.DONE);
                             countDownTimer = null;
                             listener.showNextStep(step.getDishName(), step.getOrder(), true);
                         }
                     })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.moving_on, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             if (!isTimerRunning) {
                                 toggleStepTimer();
@@ -189,8 +186,10 @@ public class StepProgressView extends CardView {
         isExpanded = !isExpanded;
         if (isExpanded) {
             stepDescriptionTextView.setMaxLines(12);
+            stepDescriptionTextView.setTextSize(24f);
         } else {
             stepDescriptionTextView.setMaxLines(4);
+            stepDescriptionTextView.setTextSize(18f);
         }
         listener.expandStepItem(step.getDishName(), isExpanded);
     }
@@ -201,8 +200,6 @@ public class StepProgressView extends CardView {
 
     public interface OnStepProgressListener {
         void showNextStep(String dishName, int step, boolean isFinished);
-        void pauseStep(String dishName, int step);
-        void resumeStep(String dishName, int step);
         void expandStepItem(String dishName, boolean expand);
     }
 }

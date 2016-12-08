@@ -16,18 +16,22 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.chefster.R;
+import com.codepath.chefster.client.FirebaseClient;
 import com.codepath.chefster.fragments.IngredientsFragment;
 import com.codepath.chefster.fragments.ReviewFragment;
 import com.codepath.chefster.fragments.StepsFragment;
 import com.codepath.chefster.models.Dish;
+import com.codepath.chefster.models.Review;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.google.firebase.database.DatabaseReference;
 import com.pierfrancescosoffritti.youtubeplayer.AbstractYouTubeListener;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +67,8 @@ public class DishDetailsActivity extends BaseActivity {
     private IngredientsFragment ingredientsFragment;
     private ReviewFragment reviewFragment;
     private StepsFragment stepsFragment;
+    private DatabaseReference mDatabase;
+    private  List<Review> reviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +82,8 @@ public class DishDetailsActivity extends BaseActivity {
         stepsFragment = new StepsFragment();
 
         dish = Parcels.unwrap(getIntent().getParcelableExtra(DISH_KEY));
+
+        loadDishes(dish.getUid());
 
         setSliderDetails();
 
@@ -175,7 +183,7 @@ public class DishDetailsActivity extends BaseActivity {
                 ingredientsFragment.setArguments(bundle);
                 return ingredientsFragment;
             } else if (position == THIRD) {
-                bundle.putParcelableArrayList(getString(R.string.reviews), (ArrayList) dish.getReviews());
+                bundle.putParcelableArrayList(getString(R.string.reviews), (ArrayList) reviews);
                 reviewFragment.setArguments(bundle);
                 return reviewFragment;
             } else
@@ -205,5 +213,9 @@ public class DishDetailsActivity extends BaseActivity {
             sliderDetail.startAutoCycle();
         }
 
+    }
+
+    public void loadDishes(int dishUid) {
+        reviews = FirebaseClient.getDishReviewsFromFireBase(dishUid);
     }
 }
