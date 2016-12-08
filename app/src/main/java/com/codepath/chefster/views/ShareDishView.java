@@ -1,10 +1,13 @@
 package com.codepath.chefster.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -25,6 +28,7 @@ import com.codepath.chefster.models.Review;
 import com.codepath.chefster.models.User;
 import com.codepath.chefster.utils.ItemClickSupport;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,7 +81,7 @@ public class ShareDishView extends RelativeLayout {
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 Drawable drawable = new BitmapDrawable(resource);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mainLayout.setBackground(drawable);
+                    //mainLayout.setBackground(drawable);
                 }
             }
         });
@@ -135,7 +139,7 @@ public class ShareDishView extends RelativeLayout {
         Review review = new Review();
         String desc = getReviewEditText().getText().toString();
 
-        if  (! desc.isEmpty()) {
+        if (!desc.isEmpty()) {
             review.setDescription(getReviewEditText().getText().toString());
             review.setMealId(Long.valueOf(dish.getUid()));
             review.setRating(Double.valueOf(getRatingBar().getRating()));
@@ -144,7 +148,7 @@ public class ShareDishView extends RelativeLayout {
             review.setDate(date);
 
             User user = FirebaseClient.getUserInformation();
-            if ( user != null )
+            if (user != null)
                 review.setUser(user);
 
             List<Review> reviews = dish.getReviews();
@@ -157,10 +161,35 @@ public class ShareDishView extends RelativeLayout {
                 FirebaseClient.uploadDishReviewToFireBase(review, review.getMealId().intValue());
 
             Toast.makeText(getContext(), "Review posted!", Toast.LENGTH_SHORT).show();
-        }
-        else
+        } else
             Toast.makeText(getContext(), "Description Missing", Toast.LENGTH_SHORT).show();
 
+    }
+
+    //share an individual dish
+    @OnClick(R.id.image_view_share_photos)
+    public void shareSingleDish() {
+        ArrayList<Uri> photoUrisList = new ArrayList<>();
+        List<String> pathList = getImagesList();
+        for (String path : pathList) {
+            Uri photoUri = FileProvider.getUriForFile(getContext(), "com.codepath.chefster.fileprovider", new File(path));
+            photoUrisList.add(photoUri);
+        }
+        if (photoUrisList.size() == 0) {
+            Toast.makeText(getContext(), "There's nothing to share!", Toast.LENGTH_SHORT).show();
+        } else {
+            final Intent shareIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+            shareIntent.setType("image/jpg");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Look what I cooked with Chefster!");
+            StringBuilder mealString = new StringBuilder();
+            mealString.append(dish.getTitle() + ", ");
+            mealString.setLength(mealString.length() - 2);
+            mealString.append(". Totally recommend it!");
+
+            shareIntent.putExtra(Intent.EXTRA_TEXT, mealString.toString());
+            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, photoUrisList);
+            getContext().startActivity(Intent.createChooser(shareIntent, "Share image using"));
+        }
     }
 
     public interface OnLaunchCameraListener {

@@ -13,17 +13,16 @@
     <RelativeLayout
         android:id="@+id/relative_layout_share_dish_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foreground="@drawable/gradient">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/share_dish_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/white_translucent"
             android:padding="4dp"
-            android:textColor="@color/colorAccent"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="22sp"
             android:textStyle="bold"
             tools:text="Shakshuka" />
@@ -35,48 +34,46 @@
             android:layout_below="@id/share_dish_name"
             android:layout_marginStart="8dp" />
 
-        <TextView
-            android:id="@+id/share_dish_leave_review_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/share_dish_recycler_view"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/white_translucent"
-            android:padding="4dp"
-            android:text="@string/leave_review"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/edit_text_dish_review"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/share_dish_leave_review_label"
-            android:layout_margin="8dp"
-            android:background="@color/white_translucent"
-            android:gravity="top|start"
-            android:hint="@string/review_hint"
-            android:inputType="textMultiLine"
-            android:minLines="4"
-            android:padding="4dp"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+        <!--<TextView-->
+            <!--android:id="@+id/share_dish_leave_review_label"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/share_dish_recycler_view"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:padding="4dp"-->
+            <!--android:text="@string/leave_review"-->
+            <!--android:textColor="@color/colorAccent"-->
+            <!--android:textSize="18sp" />-->
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
             android:id="@+id/share_dish_rating_bar"
             style="@style/Widget.MaterialRatingBar.RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/edit_text_dish_review"
-            android:layout_alignBottom="@id/share_dish_leave_review_label"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="4dp"
+            android:layout_below="@id/share_dish_recycler_view"
+            android:layout_marginTop="12dp"
             android:background="@drawable/button_shape"
             android:numStars="5"
             android:rating="5"
+            android:layout_centerHorizontal="true"
             app:mrb_progressTint="@color/colorAccent"
             app:mrb_secondaryProgressTint="@color/colorAccent" />
+
+
+        <EditText
+            android:id="@+id/edit_text_dish_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/share_dish_rating_bar"
+            android:layout_margin="8dp"
+            android:gravity="top|start"
+            android:hint="@string/review_hint"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:padding="4dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/colorSecondaryText"/>
 
         <TextView
             android:id="@+id/text_view_post_review"
@@ -85,7 +82,6 @@
             android:layout_below="@id/edit_text_dish_review"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            android:background="@color/white_translucent"
             android:drawableStart="@drawable/ic_post_review"
             android:gravity="center_vertical"
             android:padding="8dp"
@@ -100,10 +96,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/text_view_post_review"
             android:layout_alignParentEnd="true"
+            android:layout_marginRight="12dp"
             android:layout_alignTop="@id/text_view_post_review"
             android:layout_below="@id/edit_text_dish_review"
             android:src="@drawable/ic_share" />
-
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

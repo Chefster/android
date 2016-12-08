@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:background="@color/white_translucent"
         android:padding="4dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_take_photo"
         />
 
