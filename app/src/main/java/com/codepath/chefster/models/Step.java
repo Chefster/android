@@ -35,6 +35,7 @@ public class Step implements Comparable {
     private Status status;
     private int preRequisite;
     private Integer durationTime;
+    boolean isBusyStep;
     @Nullable private String imageUrl;
 
     public Step() {
