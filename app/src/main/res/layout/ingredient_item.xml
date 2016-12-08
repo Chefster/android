@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView android:id="@+id/cardlist_item"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardlist_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical"
     card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="@dimen/cardview_default_elevation"
-    xmlns:app="http://schemas.android.com/tools">
+    card_view:cardElevation="@dimen/cardview_default_elevation">
 
     <RelativeLayout
 
-        android:background="#e6e6e6"
         android:layout_width="match_parent"
         android:layout_height="?attr/listPreferredItemHeight"
+
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingBottom="8dp"
@@ -26,30 +26,30 @@
         <ImageView
             android:id="@+id/ivIngredients"
             android:layout_width="50dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp" />
 
         <TextView
             android:id="@+id/tvIngredientAmount"
-            android:layout_toRightOf="@id/ivIngredients"
-            android:layout_centerVertical="true"
-            app:text="Amount"
-            android:gravity="center_vertical"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:textSize="@dimen/abc_text_size_medium_material" />
+            android:layout_toRightOf="@id/ivIngredients"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/abc_text_size_medium_material"
+            app:text="Amount" />
 
         <TextView
             android:id="@+id/tvIngredient"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            app:text="name"
-            android:layout_marginLeft="30dp"
-            android:gravity="center_vertical"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
             android:layout_toRightOf="@+id/tvIngredientAmount"
-            android:textSize="@dimen/abc_text_size_medium_material" />
+            android:gravity="center_vertical"
+            android:textSize="@dimen/abc_text_size_medium_material"
+            app:text="name" />
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>
