@@ -425,7 +425,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onDishAdded(Dish dish) {
         if (selectedDishes.size() == 3) {
-            Toast.makeText(this, "Can't cook more than 3 dishes with this version", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You're not superman! You can't cook more than 3 dishes together!", Toast.LENGTH_LONG).show();
         } else {
             if (!selectedDishes.contains(dish)) {
                 selectedDishes.add(dish);

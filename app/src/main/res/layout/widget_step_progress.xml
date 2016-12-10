@@ -38,10 +38,10 @@
             android:layout_height="32dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            style="@style/progress_item_text_view"
-            android:textColor="@android:color/white"
             android:padding="2dp"
             android:layout_margin="4dp"
+            style="@style/progress_item_text_view"
+            android:textColor="@android:color/white"
             tools:text="PREP"
             />
 
@@ -109,7 +109,6 @@
             android:layout_height="48dp"
             android:background="@drawable/black_translucent_round"
             android:gravity="center"
-
             android:textSize="34sp"
             android:textColor="@color/white"
             android:layout_alignTop="@+id/pause_step_layout"

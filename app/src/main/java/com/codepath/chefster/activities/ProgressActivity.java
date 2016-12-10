@@ -91,7 +91,6 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
 
         mealProgress = START_COOKING;
         tts = new TextToSpeech(this, this);
-        tts.setSpeechRate((float) 0.9);
 
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
         finished = new boolean[chosenDishes.size()];

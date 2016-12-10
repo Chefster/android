@@ -56,7 +56,7 @@ public class StepProgressView extends CardView {
         this.dish = dish;
         this.tts = tts;
         shouldUseVoiceHelp = true;
-        timeLeftInSeconds = step.getDurationTime() * 60;
+        timeLeftInSeconds = step.getDurationTime();
 
         setViewsText();
     }
@@ -64,7 +64,13 @@ public class StepProgressView extends CardView {
     private void setViewsText() {
         stepDescriptionTextView.setText(step.getDescription());
         stepDescriptionTextView.setMaxLines(4);
-        stepTypeTextView.setText(step.getType());
+        String timeDuration;
+        if (step.getDurationTime() != 0) {
+            timeDuration = step.getDurationTime() + " mins";
+        } else {
+            timeDuration = "";
+        }
+        stepTypeTextView.setText(step.getType() + ": " + timeDuration);
         runningTimerTextView.setText(getTimerFormat(step.getDurationTime() * 60));
     }
 
@@ -81,7 +87,7 @@ public class StepProgressView extends CardView {
             pauseStepLayout.setVisibility(GONE);
             runningTimerTextView.setVisibility(VISIBLE);
             playPauseStepButton.setImageResource(R.drawable.ic_pause);
-            countDownTimer = new CountDownTimer(/*timeLeftInSeconds */ 20 * 1000, 1000) {
+            countDownTimer = new CountDownTimer(timeLeftInSeconds * 1000, 1000) {
                 @Override
                 public void onTick(long l) {
                     timeLeftInSeconds = l / 1000;
@@ -91,7 +97,15 @@ public class StepProgressView extends CardView {
                 @Override
                 public void onFinish() {
                     runningTimerTextView.setText("Done!");
-                    tts.speak(step.getDishName() + " timer is done. I repeat, " + step.getDishName() + " timer is done.", TextToSpeech.QUEUE_FLUSH, null);
+                    int timerDoneSentence = (int) (Math.random() * 3);
+                    if (timerDoneSentence == 0) {
+                        tts.speak("Houston, we have a problem! " + step.getDishName() + " is burning! Do something!", TextToSpeech.QUEUE_FLUSH, null);
+                    } else if (timerDoneSentence == 1) {
+                        tts.speak("Hey, I know you're in the middle of a demo, but hurry up! " + step.getDishName() + " is waiting for you!", TextToSpeech.QUEUE_FLUSH, null);
+                    } else {
+                        tts.speak("You guessed right! " + step.getDishName() + " time is done!", TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    timerDoneSentence++;
                     playPauseStepButton.setImageResource(R.drawable.ic_play);
                 }
             }.start();
@@ -130,7 +144,6 @@ public class StepProgressView extends CardView {
                 mainLayout.setBackgroundResource(R.drawable.round_white_background_primarydark_border);
                 playPauseStepButton.setVisibility(GONE);
                 finishStepButton.setVisibility(GONE);
-                stepTypeTextView.setText("DONE");
                 pauseStepLayout.setImageResource(R.drawable.ic_added_dish);
                 pauseStepLayout.setBackground(null);
                 pauseStepLayout.setVisibility(VISIBLE);
@@ -145,7 +158,7 @@ public class StepProgressView extends CardView {
 
         // We don't want to show the dialog on every step. Only long cooking steps where
         // the user might be able to keep doing things while a long not busy step is happening
-        if (step.getType().equals("Prep") || (step.getType().equals("Cook") && step.getDurationTime() < 8)) {
+        if (step.getType().equals("Prep") || (step.getType().equals("Cook") && step.getDurationTime() <= 10)) {
             setStepStatus(Step.Status.DONE);
             if (countDownTimer != null) {
                 countDownTimer.cancel();
@@ -177,8 +190,12 @@ public class StepProgressView extends CardView {
 
     @OnClick(R.id.button_step_description_audio)
     public void playStepDescription() {
-        String text = "A " + step.getDurationTime() + " minutes step, " + step.getDescription();
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        if (tts.isSpeaking()) {
+            tts.stop();
+        } else {
+            String text = "A " + step.getDurationTime() + " minutes step, " + step.getDescription();
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
 
     @OnClick(R.id.relative_layout_step_item)
