@@ -30,85 +30,9 @@
                     android:gravity="center_horizontal"
                     android:textStyle="bold"
                     android:padding="8dp"
-                    android:text="@string/some_questions"
+                    android:text="@string/a_question"
                     android:background="@android:color/black"
                     />
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            apps:cardElevation="2dp"
-            apps:cardCornerRadius="4dp"
-            android:layout_marginBottom="6dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:padding="6dp"
-                android:orientation="vertical"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="25sp"
-                    android:textColor="@color/orange_super_dark"
-                    android:textStyle="bold"
-                    android:text="@string/what_tools"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center_horizontal"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    >
-
-                    <Spinner
-                        android:id="@+id/pans_spinner"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@color/orange_medium"
-                        />
-
-                    <TextView
-                        android:id="@+id/text_view_pans_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/pans"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/orange_medium"
-                        />
-
-                    <Spinner
-                        android:id="@+id/pots_spinner"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@color/orange_medium"
-                        />
-
-                    <TextView
-                        android:id="@+id/text_view_pots_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pots"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/orange_medium"
-                        />
-
-                </LinearLayout>
-
-            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 

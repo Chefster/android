@@ -1,10 +1,13 @@
 package com.codepath.chefster.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.chefster.ChefsterApplication;
 import com.codepath.chefster.R;
@@ -26,24 +31,43 @@ import com.codepath.chefster.models.Step;
 import com.codepath.chefster.views.StepProgressView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.gson.JsonElement;
 
 import org.parceler.Parcels;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.PriorityQueue;
 
+import ai.api.AIListener;
+import ai.api.android.AIConfiguration;
+import ai.api.android.AIService;
+import ai.api.model.AIError;
+import ai.api.model.AIResponse;
+import ai.api.model.Result;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 
+import static android.provider.Telephony.Mms.Part.FILENAME;
 import static com.codepath.chefster.models.Step.Status.ACTIVE;
 import static com.codepath.chefster.models.Step.Status.READY;
 
-public class ProgressActivity extends ListeningActivity implements StepProgressView.OnStepProgressListener, TextToSpeech.OnInitListener {
+public class ProgressActivity extends ListeningActivity implements
+        StepProgressView.OnStepProgressListener,
+        TextToSpeech.OnInitListener,
+        AIListener
+{
+    private static final String AI_TAG = "*** AI_LISTENER ***";
     private final int START_COOKING = 0;
     private final int MID_COOKING = 1;
     private final int DONE_COOKING = 2;
@@ -60,7 +84,7 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
     Toolbar toolbar;
 
     private TextToSpeech tts;
-    private boolean shouldUseVoiceHelp;
+    private AIService aiService;
     private int mealProgress;
 
     List<HashSet<Integer>> stepIndexHashSetList;
@@ -90,6 +114,14 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
         }
 
         mealProgress = START_COOKING;
+
+        final AIConfiguration config = new AIConfiguration("1a796bb78f7641efa85f4872db56c2f2",
+                AIConfiguration.SupportedLanguages.English,
+                AIConfiguration.RecognitionEngine.System);
+        aiService = AIService.getService(this, config);
+        aiService.setListener(this);
+//        aiService.startListening();
+
         tts = new TextToSpeech(this, this);
 
         chosenDishes = Parcels.unwrap(getIntent().getParcelableExtra(ChefsterApplication.SELECTED_DISHES_KEY));
@@ -266,12 +298,13 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(Locale.US);
-
             if (result == TextToSpeech.LANG_MISSING_DATA
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
             } else {
-                speakOut("Hi, I'm Chefie, your cooking assistant. If you want me to read the steps for you, press on the speaker icon on the top right corner of every step");
+                speakOut("Hi, please talk");
+//                tts.speak("Hi, I'm Chefie, your cooking assistant. If you want me to read the steps for you, press on the speaker icon on the top right corner of every step", TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+
             }
 
         } else {
@@ -281,7 +314,40 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
     }
 
     private void speakOut(String text) {
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        HashMap<String, String> myHashAlarm = new HashMap<>();
+        myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_ALARM));
+        myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+                "end of wakeup message ID");
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String s) {
+                ProgressActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        aiService.stopListening();
+                        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                    }
+                });
+            }
+
+            @Override
+            public void onDone(String s) {
+                ProgressActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                        aiService.startListening();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String s) {
+
+            }
+        });
+
     }
 
     @Override
@@ -291,6 +357,10 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
             speakOut(" ");
             tts.stop();
             tts.shutdown();
+        }
+
+        if (aiService != null) {
+            aiService.cancel();
         }
         super.onPause();
     }
@@ -302,6 +372,10 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
             speakOut(" ");
             tts.stop();
             tts.shutdown();
+        }
+
+        if (aiService != null) {
+            aiService.cancel();
         }
         super.onDestroy();
     }
@@ -318,10 +392,8 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
                 case START_COOKING:
                     if (voiceCommands[0].equals("yes")) {
                         speakOut("Great! Let's cook some amazing things together. Say 'shut the hell up' or 'stop talking' at any given moment to make me stop");
-                        shouldUseVoiceHelp = true;
                     } else if (voiceCommands[0].equals("no")) {
                         speakOut("OK, i'll go find another friend to play with");
-                        shouldUseVoiceHelp = false;
                     }
                     mealProgress = MID_COOKING;
                     break;
@@ -366,5 +438,87 @@ public class ProgressActivity extends ListeningActivity implements StepProgressV
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    // AI listener!!!
+
+    @Override
+    public void onResult(final AIResponse response) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Result result = response.getResult();
+
+                // Get parameters
+                String parameterString = "";
+                if (result.getParameters() != null && !result.getParameters().isEmpty()) {
+                    for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
+                        parameterString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
+                    }
+                }
+
+                // Show results in TextView.
+                Log.d("*** AI_LISTENER ***", "Query:" + result.getResolvedQuery() +
+                        "\nAction: " + result.getAction() +
+                        "\nParameters: " + parameterString +
+                        "\nFulfillment: " + result.getFulfillment().getSpeech());
+
+                if (result.getAction().equals("say_dish_total_time")) {
+                    JsonElement jsonElement = result.getParameters().get("dish");
+                    if (jsonElement != null) {
+                        String dishName = jsonElement.toString().replace("\"", "");
+                        for (Dish dish : chosenDishes) {
+                            if (dish.getTitle().equals(dishName)) {
+                                speakOut(dishName + " takes approximately " + (dish.getCookingTime() + dish.getPrepTime()) + " minutes");
+                            }
+                        }
+                    }
+                } else if (result.getAction().equals("say_dish_prep_time")) {
+                    JsonElement jsonElement = result.getParameters().get("dish");
+                    if (jsonElement != null) {
+                        String dishName = result.getParameters().get("dish").toString().replace("\"", "");
+                        for (Dish dish : chosenDishes) {
+                            if (dish.getTitle().equals(dishName)) {
+                                speakOut(dishName + " takes approximately " + dish.getPrepTime() + "to prepare");
+                            }
+                        }
+                    }
+                } else if (result.getAction().equals("smalltalk.greetings") ||
+                        result.getAction().equals("smalltalk.dialog") ||
+                        result.getAction().equals("smalltalk.emotions") ||
+                        result.getAction().equals("smalltalk.confirmation") ||
+                        result.getAction().equals("smalltalk.topics")) {
+                    speakOut(result.getFulfillment().getSpeech());
+                } else {
+                    speakOut("Not sure I understand. Sorry.");
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onError(AIError error) {
+
+    }
+
+    @Override
+    public void onAudioLevel(float level) {
+
+    }
+
+    @Override
+    public void onListeningStarted() {
+        Log.d("KAKI", "started listening!!!!");
+    }
+
+    @Override
+    public void onListeningCanceled() {
+
+    }
+
+    @Override
+    public void onListeningFinished() {
+        Log.d("KAKI", "finished listening!!!!");
     }
 }

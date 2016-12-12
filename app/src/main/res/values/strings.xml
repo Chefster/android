@@ -62,7 +62,7 @@
     <string name="empty_dishes_list">Add dishes to list!</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say yes to use voice guidance, no to stop.</string>
-    <string name="some_questions">Some questions for you before we start…</string>
+    <string name="a_question">A question for you before we start…</string>
     <string name="ok">OK</string>
     <string name="skip">SKIP</string>
     <string name="shooping_list">Shopping List</string>
@@ -81,6 +81,7 @@
     <string name="moving_on">Next Step</string>
     <string name="home">Go Home</string>
     <string name="share_all">Share All</string>
+    <string name="number_of_people_cooking">Number of people cooking:</string>
 
     <plurals name="people">
         <item quantity="one">person</item>

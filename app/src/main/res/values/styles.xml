@@ -60,7 +60,6 @@
 
     <style name="launch_meal_textview_content" parent="launch_meal_textview">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -112,7 +111,6 @@
     </style>
 
     <style name="ingredient_row">
-        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">20sp</item>
     </style>
 
