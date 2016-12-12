@@ -29,11 +29,11 @@ public class ChefsterApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+/*        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Roboto-Light.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
-        );
+        );*/
 
         // This instantiates DBFlow
         FlowManager.init(new FlowConfig.Builder(this).build());

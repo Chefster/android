@@ -2,28 +2,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:timeline="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <com.alorma.timeline.RoundTimelineView
         android:id="@+id/tlStep"
         android:layout_width="30dp"
         android:layout_height="200dp"
-        timeline:timeline_lineStyle="linear"/>
+        timeline:timeline_lineStyle="linear" />
 
     <TextView
         android:id="@+id/tvStep"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tlStep"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/tlStep"
+        android:fontFamily="sans-serif"
+        android:gravity="center_vertical"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceListItem"
-        tools:ignore="RtlHardcoded" />
+        android:text="check"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        />
 
 </RelativeLayout>
