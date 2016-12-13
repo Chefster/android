@@ -46,11 +46,9 @@ public class MealLaunchActivity extends BaseActivity implements
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_view_chosen_dishes) RecyclerView dishesRecyclerView;
+    @BindView(R.id.text_view_number_of_people_cooking) TextView numberOfPeopleTextView;
     @BindView(R.id.text_view_regular_time_calc) TextView regularTimeTextView;
     @BindView(R.id.text_view_app_time_calc) TextView appTimeTextView;
-    @BindView(R.id.text_view_list_tools_needed) TextView listOfToolsNeededTextView;
-    @BindView(R.id.text_view_list_tools_using) TextView listOfToolsUsingTextView;
-    @BindView(R.id.text_view_tools_warning) TextView toolsWarningTextView;
     @BindView(R.id.linear_layout_shopping_list) LinearLayout shoppingListLinearLayout;
 
     List<Dish> chosenDishes;
@@ -60,8 +58,6 @@ public class MealLaunchActivity extends BaseActivity implements
 
     HashMap<String, Integer> toolsNeededHashMap;
     int numberOfPeople = 1;
-    int numberOfPans = 1;
-    int numberOfPots = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +75,7 @@ public class MealLaunchActivity extends BaseActivity implements
         }
 
         launchSettingsDialog();
-
         setupRecyclerView();
-        countToolsNeeded();
         calculateCookingTime();
         fillShoppingList();
         // Slide in from right
@@ -90,31 +84,8 @@ public class MealLaunchActivity extends BaseActivity implements
 
     private void launchSettingsDialog() {
         FragmentManager fm = getFragmentManager();
-        MealLaunchSettingsFragment mealLaunchSettingsFragment = MealLaunchSettingsFragment.newInstance(numberOfPans, numberOfPots, numberOfPeople);
+        MealLaunchSettingsFragment mealLaunchSettingsFragment = MealLaunchSettingsFragment.newInstance(numberOfPeople);
         mealLaunchSettingsFragment.show(fm, "fragment_meal_launch_settings");
-    }
-
-    private void countToolsNeeded() {
-        toolsNeededHashMap = new HashMap<>();
-        for (Dish dish : chosenDishes) {
-            for (Tool tool : dish.getTools()) {
-                Integer amountOfToolNeeded = toolsNeededHashMap.get(tool.getName());
-                toolsNeededHashMap.put(tool.getName(),
-                        amountOfToolNeeded == null ? tool.getAmount() : amountOfToolNeeded + tool.getAmount());
-            }
-        }
-
-        StringBuilder toolsNeededStr = new StringBuilder();
-        for (String key : toolsNeededHashMap.keySet()) {
-            toolsNeededStr.append(toolsNeededHashMap.get(key)).append(" ").append(key).append(", ");
-        }
-        toolsNeededStr.setLength(toolsNeededStr.length() - 2);
-
-        listOfToolsNeededTextView.setText(toolsNeededStr.toString());
-        String toolsUsingStr = numberOfPeople + " " + getQuant(R.plurals.people, numberOfPeople) +
-                ", using " + numberOfPans + " " + getQuant(R.plurals.pans, numberOfPans) + ", " +
-                numberOfPots + " " + getQuant(R.plurals.pots, numberOfPots) + ".";
-        listOfToolsUsingTextView.setText(toolsUsingStr);
     }
 
     private void setupRecyclerView() {
@@ -136,7 +107,7 @@ public class MealLaunchActivity extends BaseActivity implements
         // Prep time is for steps that demand preparation are defined as "Busy" steps, and Cooking time
         // is for steps that demands only a partial attention, like paste on stove or baking something
         // in the oven
-        int totalPrepTime = 0, totalCookingTime = 0, totalOptimizedTime = 0, totalAggregatedTime = 0;
+        int totalOptimizedTime = 0, totalAggregatedTime = 0;
         for (Dish dish : chosenDishes) {
             totalOptimizedTime += Math.max(dish.getCookingTime(), (dish.getPrepTime() / numberOfPeople));
             // If you cook sequentially, add 10 minutes between dishes to breathe a little :)
@@ -150,14 +121,6 @@ public class MealLaunchActivity extends BaseActivity implements
 
         regularTimeTextView.setText(getBetterFormat(totalAggregatedTime));
         appTimeTextView.setText(getBetterFormat(totalOptimizedTime));
-
-        toolsWarningTextView.setVisibility(View.GONE);
-        for (String key : toolsNeededHashMap.keySet()) {
-            if ((key.equals("Pan") && toolsNeededHashMap.get(key) > numberOfPans)
-                || (key.equals("Pot") && toolsNeededHashMap.get(key) > numberOfPots)) {
-                toolsWarningTextView.setVisibility(View.VISIBLE);
-            }
-        }
     }
 
     private void fillShoppingList() {
@@ -221,8 +184,6 @@ public class MealLaunchActivity extends BaseActivity implements
         Intent intent = new Intent(this, ProgressActivity.class);
         intent.putExtra(ChefsterApplication.SELECTED_DISHES_KEY, Parcels.wrap(chosenDishes));
         intent.putExtra("number_of_people", numberOfPeople);
-        intent.putExtra("number_of_pans", numberOfPans);
-        intent.putExtra("number_of_pots", numberOfPots);
         startActivity(intent);
     }
 
@@ -251,15 +212,9 @@ public class MealLaunchActivity extends BaseActivity implements
     }
 
     @Override
-    public void onToolsSet(int pans, int pots, int people) {
-        numberOfPans = pans;
-        numberOfPots = pots;
-        numberOfPeople = people;
-        countToolsNeeded();
+    public void onNumberOfPeopleSet(int numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+        numberOfPeopleTextView.setText(String.valueOf(numberOfPeople));
         calculateCookingTime();
-    }
-
-    public String getQuant(int id, int quantity) {
-        return getResources().getQuantityString(id, quantity);
     }
 }
