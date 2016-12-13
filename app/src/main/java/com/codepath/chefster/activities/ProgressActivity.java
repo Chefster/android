@@ -113,7 +113,7 @@ public class ProgressActivity extends ListeningActivity implements
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow);
-            getSupportActionBar().setTitle("Cooking Progress");
+            getSupportActionBar().setTitle("Cooking");
         }
 
         mealProgress = START_COOKING;
