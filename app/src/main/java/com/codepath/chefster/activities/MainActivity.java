@@ -107,13 +107,10 @@ public class MainActivity extends BaseActivity implements
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
- /*       mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this *//* FragmentActivity *//*, this /* OnConnectionFailedListener *//*)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build();
-                */
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        }
         handleUserLogIn();
 
 
@@ -439,7 +436,11 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onDishRemoved(Dish dish) {
         selectedDishes.remove(dish);
-        itemsOnListButton.setText("Continue (" + selectedDishes.size() + " dishes)");
+        if (selectedDishes.size() == 0) {
+            itemsOnListButton.setText(R.string.empty_dishes_list);
+        } else {
+            itemsOnListButton.setText("Continue (" + selectedDishes.size() + " dishes)");
+        }
         adapter.replaceFragment(DishesFragment.newInstance(null), 1);
         adapter.notifyDataSetChanged();
     }

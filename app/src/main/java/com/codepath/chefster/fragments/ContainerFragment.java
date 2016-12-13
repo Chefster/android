@@ -33,11 +33,8 @@ public class ContainerFragment extends BaseFragment {
                              Bundle savedInstanceState) {
     /* Inflate the layout for this fragment */
         View view = inflater.inflate(R.layout.fragment_container, container, false);
-
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
         transaction.replace(R.id.frame_container, new MainFragment());
-
         transaction.commit();
 
         return view;

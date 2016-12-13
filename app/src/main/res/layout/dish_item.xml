@@ -1,104 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    apps:cardElevation="2dp"
+    apps:cardCornerRadius="4dp"
+    >
 
-    <ImageView
-        android:id="@+id/ivMealImage"
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:padding="8dp"
-        android:paddingTop="20dp"
-        android:scaleType="centerCrop"
-        tools:src="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ivMealImage"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorTextHeader"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        tools:text="Pasta with white sauce" />
-
-
-    <TextView
-        android:id="@+id/tvSummary"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
-        android:layout_marginStart="8dp"
-        android:ellipsize="end"
-        android:layout_marginEnd="8dp"
-        android:maxLines="2"
-        android:textColor="@color/colorTextDetails"
-        android:textSize="15sp"
-        android:textStyle="normal"
-        tools:text="Pasta, Milk, Floor, Bell Peppers, Butter, Cheese, Salt, Garlic, " />
+        android:background="@color/white">
 
+        <ImageView
+            android:id="@+id/ivMealImage"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_launcher" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvSummary"
-        android:orientation="horizontal"
-        android:paddingBottom="30dp"
-        android:paddingTop="4dp">
+        <com.like.LikeButton
+            android:id="@+id/ivfavorite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="12dp"
+            android:elevation="4dp"
+            app:icon_size="30dp"
+            app:icon_type="heart"/>
 
         <TextView
-            android:id="@+id/tvCookingTime"
-            style="@style/body_text"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="8dp"
-            android:drawableStart="@drawable/ic_cooking_time"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            tools:text="15:00" />
+            android:layout_below="@id/ivMealImage"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/colorTextHeader"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Pasta with white sauce" />
 
-        <Button
-            android:id="@+id/btnAddToMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/ivMealImage"
-            android:layout_alignEnd="@id/ivMealImage"
-            android:background="@drawable/button_shape"
-            android:drawableStart="@drawable/ic_add_dish"
-            style="@style/body_text"
-
-            android:paddingStart="8dp"
-            android:text="@string/add_to_menu"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
-            android:id="@+id/tvMealRating"
-            style="@style/body_text"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvSummary"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableEnd="@drawable/ic_rating"
-            android:drawablePadding="8dp"
-            android:gravity="center_vertical|end"
-            android:paddingEnd="8dp"
-            tools:text="4.5" />
-    </LinearLayout>
+            android:layout_below="@id/tvTitle"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:layout_marginEnd="8dp"
+            android:maxLines="2"
+            android:textColor="@color/colorTextDetails"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            tools:text="Pasta, Milk, Floor, Bell Peppers, Butter, Cheese, Salt, Garlic, " />
 
-    <com.like.LikeButton
-        android:id="@+id/ivfavorite"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_weight="1"
-        app:icon_size="22dp"
-        app:icon_type="heart"
-        android:layout_above="@+id/tvSummary"
-        android:layout_alignParentEnd="true" />
 
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSummary"
+            android:orientation="horizontal"
+            android:paddingTop="4dp">
+
+            <TextView
+                android:id="@+id/tvCookingTime"
+                style="@style/body_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/ic_cooking_time"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                tools:text="15:00" />
+
+            <Button
+                android:id="@+id/btnAddToMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/ivMealImage"
+                android:layout_alignEnd="@id/ivMealImage"
+                android:background="@drawable/button_shape"
+                android:drawableStart="@drawable/ic_add_dish"
+                style="@style/body_text"
+
+                android:paddingStart="8dp"
+                android:text="@string/add_to_menu"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <TextView
+                android:id="@+id/tvMealRating"
+                style="@style/body_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableEnd="@drawable/ic_rating"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical|end"
+                android:paddingEnd="8dp"
+                tools:text="4.5" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
