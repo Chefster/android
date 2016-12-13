@@ -157,7 +157,6 @@ public class ProgressActivity extends ListeningActivity implements
         // The number of active steps is the number of people cooking
         for (int i = 0; i < numberOfPeople; i++) {
             Step thisStep = getNextBestStep();
-            addStepToActiveSteps(thisStep);
             // There might not be a next step so check for null
             if (thisStep != null) {
                 setUIStepStatus(thisStep, ACTIVE);
@@ -166,7 +165,10 @@ public class ProgressActivity extends ListeningActivity implements
     }
 
     private void addStepToActiveSteps(Step step) {
-
+        activeSteps.add(step);
+        if (activeSteps.size() > numberOfPeople) {
+            activeSteps.remove(0);
+        }
     }
 
     private Step getNextBestStep() {
@@ -178,6 +180,7 @@ public class ProgressActivity extends ListeningActivity implements
                 Step nextStep = stepsLists.get(i).get(nextStepPerDish.get(i));
                 if (nextStep.getPreRequisite() == -1
                         || !stepIndexHashSetList.isEmpty() && stepIndexHashSetList.get(i).contains(nextStep.getPreRequisite())) {
+                    // A valid step!
                     potentialInitialSteps.add(stepsLists.get(i).get(nextStepPerDish.get(i)));
                 }
             }
@@ -188,10 +191,7 @@ public class ProgressActivity extends ListeningActivity implements
             int index = dishNameToIndexHashMap.get(chosenStep.getDishName());
             nextStepPerDish.set(index, nextStepPerDish.get(index) + 1);
             // Keeping track of active steps
-            activeSteps.add(chosenStep);
-            if (activeSteps.size() > numberOfPeople) {
-                activeSteps.remove(0);
-            }
+            addStepToActiveSteps(chosenStep);
             return chosenStep;
         }
     }
@@ -481,9 +481,25 @@ public class ProgressActivity extends ListeningActivity implements
                         speakOut("You have " + timeLeftForDish.get(dishName) + " minutes to finish cooking " + dishName, true);
                     }
                 } else if (result.getAction().equals("time_left_total")) {
-                    speakOut("Tired already? you have approximately " + timeLeftForMeal + " minutes. Why don't you grab a beer?", true);
+                    speakOut("Tired already? you have approximately " + timeLeftForMeal + " minutes. Why don't you grab a beer and chill?", true);
                 } else if (result.getAction().equals("im_here")) {
                     speakOut("If you need me, click the question mark button on the top toolbar", true);
+                } else if (result.getAction().equals("read_last_step")) {
+                    Step thisStep = activeSteps.get(1);
+                    speakOut("For " + thisStep.getDishName() + ". A " + thisStep.getDurationTime() + " minutes step, " + thisStep.getDescription(), true);
+                } else if (result.getAction().equals("read_first_step")) {
+                    Step thisStep = activeSteps.get(0);
+                    speakOut("For " + thisStep.getDishName() + ". A " + thisStep.getDurationTime() + " minutes step, " + thisStep.getDescription(), true);
+                } else if (result.getAction().equals("find_steps")) {
+                    Step step1 = activeSteps.get(0);
+                    Step step2 = activeSteps.get(1);
+                    scrollToStep(dishNameToIndexHashMap.get(step1.getDishName()), step1.getOrder());
+                    scrollToStep(dishNameToIndexHashMap.get(step2.getDishName()), step2.getOrder());
+                } else if (result.getAction().equals("finish_step")) {
+                    speakOut("No problem dude", false);
+                    Step step1 = activeSteps.get(0);
+                    StepProgressView spv = (StepProgressView) linearLayoutsList.get(dishNameToIndexHashMap.get(step1.getDishName())).getChildAt(step1.getOrder());
+                    spv.onFinishStepClick();
                 } else if (result.getAction().equals("smalltalk.greetings") ||
                         result.getAction().equals("smalltalk.dialog") ||
                         result.getAction().equals("smalltalk.emotions") ||
