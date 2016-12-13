@@ -59,7 +59,7 @@
     <string name="active">Active</string>
     <string name="finish_step_message"> Are you done with this step? or just moving on?</string>
     <string name="whats_cooking">What\'s Cookin\'?</string>
-    <string name="empty_dishes_list">Add dishes to list!</string>
+    <string name="empty_dishes_list">Add dishes to menu!</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say yes to use voice guidance, no to stop.</string>
     <string name="a_question">A question for you before we start…</string>

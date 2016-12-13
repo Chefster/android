@@ -16,14 +16,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
             android:theme="@style/AppTheme.AppBarOverlay">
-
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -72,8 +69,8 @@
             android:id="@+id/main_viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="60dp"
-            android:background="@android:color/white"
+            android:paddingBottom="64dp"
+            android:background="@color/colorBackground"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <RelativeLayout
@@ -82,11 +79,16 @@
 
             <Button
                 android:id="@+id/button_items_on_list"
-                style="@style/start_cooking_sticky_button"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sticky_button_height"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_alignParentBottom="true"
+                android:background="@drawable/list_button"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:fontFamily="sans-serif-condensed"
                 android:text="@string/empty_dishes_list" />
         </RelativeLayout>
 

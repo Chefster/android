@@ -12,6 +12,8 @@
     <color name="colorPrimaryLight">#FFE0B2</color>
     <color name="colorAccent">#FF9800</color>
     <color name="colorPrimaryText">#212121</color>
+    <color name="colorTextHeader">#495361</color>
+    <color name="colorTextDetails">#646d7a</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorBackground">#EAF0F2</color>
