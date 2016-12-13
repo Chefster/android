@@ -88,7 +88,14 @@ public class Step implements Comparable {
         }
 
         if (type.equals(other.getType())) {
-            return durationTime.compareTo(other.getDurationTime());
+            if (type.equals("Prep")) {
+                // Prep steps are usually busy so let's start with the shorter one cause it might
+                // block a longer not busy time that could be started
+                return durationTime.compareTo(other.getDurationTime());
+            } else {
+                // Cooking steps are generally less busy, so let's start with the longer one
+                return other.getDurationTime().compareTo(durationTime);
+            }
         } else if (type.equals("Prep")) {
             // We're going to give priority to a cooking step that's longer, because usually
             // you can still do other things while doing a cooking step whereas with prep

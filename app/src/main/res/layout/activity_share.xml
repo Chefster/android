@@ -37,10 +37,10 @@
                     android:layout_below="@+id/linear_layout_share_dish_frames"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/share"
+                    android:text="@string/share_all"
                     android:background="@color/orange_medium"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textSize="30sp"
+                    android:textAppearance="@style/bold_text" />
             </RelativeLayout>
 
         </ScrollView>

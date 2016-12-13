@@ -80,6 +80,7 @@
     <string name="fb_login">Facebook Login</string>
     <string name="moving_on">Next Step</string>
     <string name="home">Go Home</string>
+    <string name="share_all">Share All</string>
 
     <plurals name="people">
         <item quantity="one">person</item>
