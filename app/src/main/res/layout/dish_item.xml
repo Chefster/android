@@ -22,6 +22,9 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
+        app:anim_scale_factor="2.5"
+        app:like_drawable="@drawable/simple_heart_red"
+        app:unlike_drawable="@drawable/simple_heart_white"
         app:icon_size="22dp"
         app:icon_type="heart" />
 
