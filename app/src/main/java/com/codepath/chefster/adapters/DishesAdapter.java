@@ -65,7 +65,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishViewHolder> {
             Glide.with(context).load(dish.getThumbnails().get(0)).animate(R.anim.image_zoom_in).into(holder.ivMealImage);
         }
 
-        holder.tvMealTitle.setOnClickListener(new View.OnClickListener() {
+/*        holder.tvMealTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDishDetails(holder.getAdapterPosition());
@@ -77,7 +77,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishViewHolder> {
             public void onClick(View view) {
                 openDishDetails(holder.getAdapterPosition());
             }
-        });
+        });*/
 
         // when user Click on ItemImage it Will take Him To Dish Details
         holder.ivMealImage.setOnClickListener(new View.OnClickListener() {
