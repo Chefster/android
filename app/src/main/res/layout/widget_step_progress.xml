@@ -55,22 +55,21 @@
             android:layout_margin="4dp"
             >
 
+            <ImageView
+                android:id="@+id/button_play_pause_step"
+                android:layout_width="32dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_clock_black"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                />
+
             <TextView
                 android:id="@+id/button_finish_step"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 style="@style/progress_item_text_view"
-                android:text="@string/finish"
-                />
-
-            <ImageView
-                android:id="@+id/button_play_pause_step"
-                android:layout_width="32dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_play"
-                android:background="@android:color/black"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
+                android:text="@string/next_step"
                 />
 
         </LinearLayout>

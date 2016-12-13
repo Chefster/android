@@ -27,7 +27,8 @@
         </activity>
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.ProgressActivity" />
+        <activity android:name=".activities.ProgressActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"

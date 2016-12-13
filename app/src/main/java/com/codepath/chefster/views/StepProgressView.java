@@ -66,11 +66,11 @@ public class StepProgressView extends CardView {
         stepDescriptionTextView.setMaxLines(4);
         String timeDuration;
         if (step.getDurationTime() != 0) {
-            timeDuration = step.getDurationTime() + " mins";
+            timeDuration = ": " + step.getDurationTime() + " mins";
         } else {
             timeDuration = "";
         }
-        stepTypeTextView.setText(step.getType() + ": " + timeDuration);
+        stepTypeTextView.setText(step.getType() + timeDuration);
         runningTimerTextView.setText(getTimerFormat(step.getDurationTime() * 60));
     }
 
@@ -80,13 +80,13 @@ public class StepProgressView extends CardView {
             isTimerRunning = false;
             pauseStepLayout.setVisibility(VISIBLE);
             runningTimerTextView.setVisibility(GONE);
-            playPauseStepButton.setImageResource(R.drawable.ic_play);
+            playPauseStepButton.setImageResource(R.drawable.ic_clock_black);
             countDownTimer.cancel();
         } else {
             isTimerRunning = true;
             pauseStepLayout.setVisibility(GONE);
             runningTimerTextView.setVisibility(VISIBLE);
-            playPauseStepButton.setImageResource(R.drawable.ic_pause);
+            playPauseStepButton.setImageResource(R.drawable.ic_pause_black);
             countDownTimer = new CountDownTimer(timeLeftInSeconds * 1000, 1000) {
                 @Override
                 public void onTick(long l) {
@@ -105,7 +105,6 @@ public class StepProgressView extends CardView {
                     } else {
                         tts.speak("You guessed right! " + step.getDishName() + " time is done!", TextToSpeech.QUEUE_FLUSH, null);
                     }
-                    timerDoneSentence++;
                     playPauseStepButton.setImageResource(R.drawable.ic_play);
                 }
             }.start();
@@ -172,6 +171,7 @@ public class StepProgressView extends CardView {
                     .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             setStepStatus(Step.Status.DONE);
+                            countDownTimer.cancel();
                             countDownTimer = null;
                             listener.showNextStep(step.getDishName(), step.getOrder(), true);
                         }

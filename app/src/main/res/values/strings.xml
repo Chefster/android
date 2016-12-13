@@ -82,6 +82,8 @@
     <string name="home">Go Home</string>
     <string name="share_all">Share All</string>
     <string name="number_of_people_cooking">Number of people cooking:</string>
+    <string name="cheffie">Cheffie</string>
+    <string name="next_step">Next Step</string>
 
     <plurals name="people">
         <item quantity="one">person</item>

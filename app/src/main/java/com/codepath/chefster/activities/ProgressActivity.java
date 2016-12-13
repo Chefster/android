@@ -91,12 +91,15 @@ public class ProgressActivity extends ListeningActivity implements
     List<Dish> chosenDishes;
     List<List<Step>> stepsLists;
     List<Integer> nextStepPerDish;
+    List<Step> activeSteps;
     boolean[] finished;
     // A HashMap that points on an index for each dish name
     HashMap<String,Integer> dishNameToIndexHashMap;
 
     List<HashMap<Integer, CountDownTimer>> timersListPerDish;
-    int numberOfPeople, numberOfPans, numberOfPots;
+    int numberOfPeople;
+    HashMap<String, Integer> timeLeftForDish;
+    int timeLeftForMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +123,6 @@ public class ProgressActivity extends ListeningActivity implements
                 AIConfiguration.RecognitionEngine.System);
         aiService = AIService.getService(this, config);
         aiService.setListener(this);
-//        aiService.startListening();
 
         tts = new TextToSpeech(this, this);
 
@@ -128,17 +130,18 @@ public class ProgressActivity extends ListeningActivity implements
         finished = new boolean[chosenDishes.size()];
         stepsLists = new ArrayList<>(chosenDishes.size());
         timersListPerDish = new ArrayList<>();
+        timeLeftForDish = new HashMap<>();
         stepIndexHashSetList = new ArrayList<>(chosenDishes.size());
         for (Dish dish : chosenDishes) {
             stepsLists.add(dish.getSteps());
             stepIndexHashSetList.add(new HashSet<Integer>());
             timersListPerDish.add(new HashMap<Integer, CountDownTimer>());
+            timeLeftForMeal += (dish.getPrepTime() + dish.getCookingTime());
+            timeLeftForDish.put(dish.getTitle(), (dish.getPrepTime() + dish.getCookingTime()));
         }
 
         Intent incomingIntent = getIntent();
         numberOfPeople = incomingIntent.getIntExtra("number_of_people", 1);
-        numberOfPans = incomingIntent.getIntExtra("number_of_pans", 1);
-        numberOfPots = incomingIntent.getIntExtra("number_of_pots", 1);
         dishNameToIndexHashMap = new HashMap<>();
 
         setupLinearLayouts();
@@ -146,6 +149,7 @@ public class ProgressActivity extends ListeningActivity implements
     }
 
     private void markInitialActiveSteps() {
+        activeSteps = new ArrayList<>();
         nextStepPerDish = new ArrayList<>(chosenDishes.size());
         for (int i = 0; i < stepsLists.size(); i++) {
             nextStepPerDish.add(0);
@@ -153,11 +157,16 @@ public class ProgressActivity extends ListeningActivity implements
         // The number of active steps is the number of people cooking
         for (int i = 0; i < numberOfPeople; i++) {
             Step thisStep = getNextBestStep();
+            addStepToActiveSteps(thisStep);
             // There might not be a next step so check for null
             if (thisStep != null) {
                 setUIStepStatus(thisStep, ACTIVE);
             }
         }
+    }
+
+    private void addStepToActiveSteps(Step step) {
+
     }
 
     private Step getNextBestStep() {
@@ -178,7 +187,11 @@ public class ProgressActivity extends ListeningActivity implements
             Step chosenStep = potentialInitialSteps.peek();
             int index = dishNameToIndexHashMap.get(chosenStep.getDishName());
             nextStepPerDish.set(index, nextStepPerDish.get(index) + 1);
-
+            // Keeping track of active steps
+            activeSteps.add(chosenStep);
+            if (activeSteps.size() > numberOfPeople) {
+                activeSteps.remove(0);
+            }
             return chosenStep;
         }
     }
@@ -260,7 +273,9 @@ public class ProgressActivity extends ListeningActivity implements
                 // same list
             }
         }
-
+        // Update time left for dish
+        timeLeftForMeal -= currentStepsList.get(step).getDurationTime();
+        timeLeftForDish.put(dishName, (timeLeftForDish.get(dishName) - currentStepsList.get(step).getDurationTime()));
         Step chosenStep = getNextBestStep();
         if (chosenStep == null) {
             return;
@@ -269,8 +284,6 @@ public class ProgressActivity extends ListeningActivity implements
         int newStepListIndex = dishNameToIndexHashMap.get(chosenStep.getDishName());
         int order = chosenStep.getOrder();
         scrollToStep(newStepListIndex, order);
-
-
     }
 
     @Override
@@ -302,9 +315,7 @@ public class ProgressActivity extends ListeningActivity implements
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
             } else {
-                speakOut("Hi, please talk");
-//                tts.speak("Hi, I'm Chefie, your cooking assistant. If you want me to read the steps for you, press on the speaker icon on the top right corner of every step", TextToSpeech.QUEUE_FLUSH, myHashAlarm);
-
+                speakOut("Hi, I’m Cheffie, your cooking assistant. The steps you should follow have an orange background. Click on any step to make the text larger. If you want me to read a step, press the speaker icon on the top right corner of that step. Any questions?", true);
             }
 
         } else {
@@ -313,7 +324,7 @@ public class ProgressActivity extends ListeningActivity implements
 
     }
 
-    private void speakOut(String text) {
+    private void speakOut(String text, final boolean keepGoing) {
         HashMap<String, String> myHashAlarm = new HashMap<>();
         myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_ALARM));
         myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
@@ -337,7 +348,9 @@ public class ProgressActivity extends ListeningActivity implements
                     public void run() {
                         AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
                         audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
-                        aiService.startListening();
+                        if (keepGoing) {
+                            aiService.startListening();
+                        }
                     }
                 });
             }
@@ -354,7 +367,7 @@ public class ProgressActivity extends ListeningActivity implements
     protected void onPause() {
         // Don't forget to shutdown tts!
         if (tts != null) {
-            speakOut(" ");
+            speakOut(" ", false);
             tts.stop();
             tts.shutdown();
         }
@@ -369,7 +382,7 @@ public class ProgressActivity extends ListeningActivity implements
     protected void onDestroy() {
         // Don't forget to shutdown tts!
         if (tts != null) {
-            speakOut(" ");
+            speakOut(" ", false);
             tts.stop();
             tts.shutdown();
         }
@@ -382,32 +395,6 @@ public class ProgressActivity extends ListeningActivity implements
 
     @Override
     public void processVoiceCommands(String... voiceCommands) {
-        if (voiceCommands[0].equals("shut the hell up") || voiceCommands[0].equals("stop talking")) {
-            tts.speak("OK, I love you bye bye", TextToSpeech.QUEUE_FLUSH, null);
-            return;
-        } else if (voiceCommands[0].equals("finish cooking")) {
-            finishCooking();
-        } else {
-            switch (mealProgress) {
-                case START_COOKING:
-                    if (voiceCommands[0].equals("yes")) {
-                        speakOut("Great! Let's cook some amazing things together. Say 'shut the hell up' or 'stop talking' at any given moment to make me stop");
-                    } else if (voiceCommands[0].equals("no")) {
-                        speakOut("OK, i'll go find another friend to play with");
-                    }
-                    mealProgress = MID_COOKING;
-                    break;
-
-                case MID_COOKING:
-                    if (voiceCommands[0].equals("next step") || voiceCommands[0].equals("finish")) {
-                        speakOut("Showing next step");
-                    }
-                    break;
-
-                case DONE_COOKING:
-                    break;
-            }
-        }
     }
 
     @Override
@@ -423,6 +410,10 @@ public class ProgressActivity extends ListeningActivity implements
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
+
+            case R.id.action_cheffie:
+                speakOut("Hey, how can I help?", true);
                 return true;
 
             case R.id.action_home:
@@ -469,7 +460,7 @@ public class ProgressActivity extends ListeningActivity implements
                         String dishName = jsonElement.toString().replace("\"", "");
                         for (Dish dish : chosenDishes) {
                             if (dish.getTitle().equals(dishName)) {
-                                speakOut(dishName + " takes approximately " + (dish.getCookingTime() + dish.getPrepTime()) + " minutes");
+                                speakOut(dishName + " takes approximately " + (dish.getCookingTime() + dish.getPrepTime()) + " minutes, if you're not on facebook while cooking", true);
                             }
                         }
                     }
@@ -479,18 +470,36 @@ public class ProgressActivity extends ListeningActivity implements
                         String dishName = result.getParameters().get("dish").toString().replace("\"", "");
                         for (Dish dish : chosenDishes) {
                             if (dish.getTitle().equals(dishName)) {
-                                speakOut(dishName + " takes approximately " + dish.getPrepTime() + "to prepare");
+                                speakOut(dishName + " takes approximately " + dish.getPrepTime() + "minutes to prepare", true);
                             }
                         }
                     }
+                } else if (result.getAction().equals("time_left_dish")) {
+                    JsonElement jsonElement = result.getParameters().get("dish");
+                    if (jsonElement != null) {
+                        String dishName = result.getParameters().get("dish").toString().replace("\"", "");
+                        speakOut("You have " + timeLeftForDish.get(dishName) + " minutes to finish cooking " + dishName, true);
+                    }
+                } else if (result.getAction().equals("time_left_total")) {
+                    speakOut("Tired already? you have approximately " + timeLeftForMeal + " minutes. Why don't you grab a beer?", true);
+                } else if (result.getAction().equals("im_here")) {
+                    speakOut("If you need me, click the question mark button on the top toolbar", true);
                 } else if (result.getAction().equals("smalltalk.greetings") ||
                         result.getAction().equals("smalltalk.dialog") ||
                         result.getAction().equals("smalltalk.emotions") ||
                         result.getAction().equals("smalltalk.confirmation") ||
-                        result.getAction().equals("smalltalk.topics")) {
-                    speakOut(result.getFulfillment().getSpeech());
+                        result.getAction().equals("smalltalk.topics") ||
+                        result.getAction().equals("smalltalk.agent") ||
+                        result.getAction().equals("smalltalk.person")) {
+                    speakOut(result.getFulfillment().getSpeech(), true);
+                } else if (result.getAction().equals("smalltalk.appraisal")) {
+                    speakOut(result.getFulfillment().getSpeech(), false);
                 } else {
-                    speakOut("Not sure I understand. Sorry.");
+                    if (result.getFulfillment().getSpeech() != null) {
+                        speakOut(result.getFulfillment().getSpeech(), true);
+                    } else {
+                        speakOut("Not sure I understand. Sorry.", true);
+                    }
                 }
             }
         });
@@ -509,7 +518,7 @@ public class ProgressActivity extends ListeningActivity implements
 
     @Override
     public void onListeningStarted() {
-        Log.d("KAKI", "started listening!!!!");
+        Log.d(AI_TAG, "started listening!!!!");
     }
 
     @Override
@@ -519,6 +528,6 @@ public class ProgressActivity extends ListeningActivity implements
 
     @Override
     public void onListeningFinished() {
-        Log.d("KAKI", "finished listening!!!!");
+        Log.d(AI_TAG, "finished listening!!!!");
     }
 }
